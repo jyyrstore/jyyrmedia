@@ -1,0 +1,1843 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap");
+
+/* ==================================================
+   GLOBAL
+===================================================== */
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    margin:0;
+    padding:0;
+
+    font-family:"Poppins",sans-serif;
+    font-size:14px;
+    color:#fff;
+
+    overflow-x:hidden;
+    overflow-y:auto;
+
+    -webkit-overflow-scrolling:touch;
+    -webkit-text-size-adjust:100%;
+}
+
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+/* ==================================================
+   FUTURISTIC BACKGROUND
+===================================================== */
+
+.future-bg{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+
+    pointer-events:none;
+    z-index:-10;
+
+    will-change:transform;
+    transform:translateZ(0);
+    backface-visibility:hidden;
+}
+
+/* Base */
+
+.future-bg::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #163f73 0%,
+            #0b2444 18%,
+            #071526 38%,
+            #03070d 62%,
+            #010204 100%
+        );
+
+    transform:translateZ(0);
+}
+
+/* Vignette */
+
+.future-bg::after{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+        radial-gradient(
+            circle,
+            transparent 35%,
+            rgba(0,0,0,.18) 65%,
+            rgba(0,0,0,.82) 100%
+        );
+}
+
+/* ==================================================
+   LIGHTWEIGHT BACKGROUND
+   Polos hitam + satu glow biru di tengah.
+===================================================== */
+
+.hex-layer,
+#particles,
+.blue-fog{
+    display:none !important;
+}
+
+.future-bg::before{
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            rgba(0, 140, 255, .34) 5%,
+            rgba(0, 105, 220, .18) 25%,
+            rgba(0, 55, 130, .08) 50%,
+            transparent 58%
+        ),
+        #000;
+}
+
+.future-bg::after{
+    background:radial-gradient(
+        circle at center,
+        transparent 35%,
+        rgba(0,0,0,.42) 72%,
+        rgba(0,0,0,.82) 100%
+    );
+}
+
+/* ==================================================
+   ANIMATION
+===================================================== */
+
+@keyframes particleFloat{
+
+    0%{
+        transform:
+            translate3d(0,40px,0)
+            scale(.65);
+
+        opacity:0;
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    50%{
+        opacity:.9;
+    }
+
+    100%{
+        transform:
+            translate3d(0,-180px,0)
+            scale(1.2);
+
+        opacity:0;
+    }
+}
+
+@keyframes fogMove{
+
+    0%,
+    100%{
+        transform:translate3d(0,0,0);
+    }
+
+    50%{
+        transform:translate3d(0,-20px,0);
+    }
+}
+
+@keyframes hexMove{
+
+    from{
+        transform:
+            translate3d(0,0,0)
+            scale(1.04);
+    }
+
+    to{
+        transform:
+            translate3d(0,-70px,0)
+            scale(1.04);
+    }
+}
+
+/* ==================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width:768px){
+
+    .hex-layer{opacity:.06;}
+
+    .particle{
+        width:2.5px;
+        height:2.5px;
+
+        box-shadow:0 0 5px rgba(79,216,255,.45);
+    }
+
+    .blue-fog{
+        filter:blur(8px);
+    }
+}
+
+@media (max-width:480px){
+
+    .hex-layer{opacity:.04;}
+
+    .particle{
+        width:2px;
+        height:2px;
+    }
+
+    .blue-fog{
+        opacity:.45;
+    }
+}
+
+/* ==================================================
+   CONTAINER
+===================================================== */
+
+.container{
+    position:relative;
+    z-index:1;
+
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+}
+
+/* ==================================================
+   BANNER
+===================================================== */
+
+.banner{
+    position:relative;
+
+    width:100%;
+    border-radius:35px;
+    overflow:visible;
+
+    /* GLOW SEDANG */
+    filter:
+        drop-shadow(0 0 7px rgba(36,75,255,.45))
+        drop-shadow(0 0 16px rgba(0,255,255,.12));
+
+    animation:bannerGlow 4s ease-in-out infinite;
+}
+
+.banner video{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+    object-position:center;
+
+    border-radius:35px;
+
+    user-select:none;
+}
+
+.video-lock{
+    position:absolute;
+    inset:0;
+
+    z-index:10;
+    background:transparent;
+}
+
+
+/* ==================================================
+   BANNER GLOW — SEDANG
+===================================================== */
+
+@keyframes bannerGlow{
+
+    0%{
+        filter:
+            drop-shadow(0 0 6px rgba(36,75,255,.35))
+            drop-shadow(0 0 14px rgba(0,255,255,.08));
+    }
+
+    50%{
+        filter:
+            drop-shadow(0 0 9px rgba(36,75,255,.55))
+            drop-shadow(0 0 20px rgba(0,255,255,.14));
+    }
+
+    100%{
+        filter:
+            drop-shadow(0 0 6px rgba(36,75,255,.35))
+            drop-shadow(0 0 14px rgba(0,255,255,.08));
+    }
+}
+
+/* ==================================================
+   PROFILE
+===================================================== */
+
+.profile{
+    position:absolute;
+
+    left:50%;
+    bottom:-45px;
+
+    width:130px;
+    height:130px;
+
+    padding:3px;
+
+    border-radius:50%;
+    transform:translateX(-50%);
+
+    background:
+        linear-gradient(
+            135deg,
+            #00f0ff,
+            #004cff,
+            #7d00ff,
+            #ff00c8
+        );
+
+    box-shadow:
+        0 0 5px #003cff,
+        0 0 12px rgba(36,75,255,.45),
+        0 0 22px rgba(36,75,255,.3);
+
+
+}
+
+.profile img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+
+    border:1px solid #000;
+    border-radius:50%;
+
+    background:#000;
+}
+
+@keyframes profileGlow{
+
+    0%{
+        box-shadow:
+            0 0 8px #003cff,
+            0 0 18px rgba(36,75,255,.7),
+            0 0 35px rgba(0,225,255,.18);
+    }
+
+    50%{
+        box-shadow:
+            0 0 12px #00e1ff,
+            0 0 24px rgba(36,75,255,.7),
+            0 0 45px rgba(0,225,255,.25);
+    }
+
+    100%{
+        box-shadow:
+            0 0 8px #003cff,
+            0 0 18px rgba(36,75,255,.7),
+            0 0 35px rgba(0,225,255,.18);
+    }
+}
+
+/* ==================================================
+   MARQUEE
+===================================================== */
+
+.marquee{
+    display:flex;
+
+    overflow:hidden;
+    white-space:nowrap;
+
+    mask-image:
+        linear-gradient(
+            to right,
+            transparent,
+            white 10%,
+            white 90%,
+            transparent
+        );
+}
+
+.marquee span{
+    display:inline-block;
+
+    padding-right:50px;
+
+    will-change:transform;
+}
+
+.speed-1 span{
+    animation:jalan 19s linear infinite;
+}
+
+@keyframes jalan{
+
+    0%{
+        transform:translateX(4%);
+    }
+
+    100%{
+        transform:translateX(-70%);
+    }
+}
+
+/* ==================================================
+   GRID
+===================================================== */
+
+.grid{
+    display:flex;
+    justify-content:center;
+}
+
+/* ==================================================
+   CARD
+===================================================== */
+
+.card{
+    width:100%;
+    max-width:380px;
+
+    padding:20px;
+    border-radius:18px;
+
+    background:rgba(0,0,0,.35);
+
+    border:1px solid rgba(147,51,234,.5);;
+
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+
+    box-shadow:0 8px 30px rgba(0,0,0,.35);
+
+    transition:.25s ease;
+}
+
+.card:hover{
+    transform:scale(1.02);
+    box-shadow:none;
+}
+
+.card h3{
+    display:flex;
+    justify-content:center;
+
+    margin-top:-6px;
+
+    font-weight:900;
+    letter-spacing:1px;
+
+    color:#f5d0fe;
+
+    text-align:center;
+
+    position:relative;
+    z-index:999;
+}
+
+/* ==================================================
+   FORM
+===================================================== */
+
+.form{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+
+    position:relative;
+    z-index:11;
+}
+
+.label{
+    font-size:12px;
+    color:#aaa;
+}
+
+/* ==================================================
+   INPUT
+===================================================== */
+
+.input{
+    width:100%;
+
+    padding:14px;
+
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.10);
+
+    background:rgba(255,255,255,.06);
+
+    color:#fff;
+    font-size:14px;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.input:focus{
+    outline:none;
+
+    border-color:#d946ef;
+
+    box-shadow:
+        0 0 12px rgba(217,70,239,.6);
+}
+
+/* ==================================================
+   TOTAL
+===================================================== */
+
+#total{
+    padding:14px;
+
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.10);
+
+    background:rgba(0,0,0,.40);
+
+    text-align:center;
+    font-weight:700;
+
+    color:#e879f9;
+}
+
+/* ==================================================
+   BUTTON
+===================================================== */
+
+button{
+    position:relative;
+    z-index:12;
+
+    width:100%;
+    height:48px;
+
+    border:none;
+    border-radius:12px;
+
+    cursor:pointer;
+
+    color:#fff;
+    font-size:15px;
+    font-weight:700;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2e1065 0%,
+            #4c1d95 50%,
+            #5b21b6 100%
+        );
+
+    box-shadow:
+        0 6px 18px rgba(76,29,149,.35);
+
+    transition:
+        background .3s ease,
+        transform .2s ease,
+        box-shadow .3s ease;
+}
+
+button:hover{
+    transform:translateY(-2px);
+
+    background:
+        linear-gradient(
+            135deg,
+            #3b0764,
+            #5b21b6,
+            #6d28d9
+        );
+
+    box-shadow:
+        0 8px 24px rgba(91,33,182,.45);
+}
+
+button:active{
+    transform:scale(.97);
+
+    box-shadow:
+        0 3px 10px rgba(76,29,149,.35);
+}
+
+/* ==================================================
+   DROPDOWN
+===================================================== */
+
+.dropdown{
+    position:relative;
+    z-index:20;
+}
+
+/* Selected */
+
+.dropdown-selected{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:14px;
+
+    overflow-x:auto;
+    white-space:nowrap;
+
+    cursor:pointer;
+
+    border-radius:15px;
+
+    background:rgba(147,51,234,.15);
+    border:1px solid rgba(147,51,234,.5);
+}
+
+.dropdown-selected::-webkit-scrollbar{
+    display:none;
+}
+
+/* Arrow */
+
+.arrow{
+    transition:transform .3s ease;
+}
+
+.dropdown.active .arrow{
+    transform:rotate(180deg);
+}
+
+/* List */
+
+.dropdown-list{
+    position:absolute;
+
+    top:110%;
+    left:0;
+
+    width:100%;
+    max-height:0;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    background:rgba(20,0,40,.95);
+
+    backdrop-filter:none;
+
+    box-shadow:
+        0 0 20px rgba(147,51,234,.5);
+
+    transition:max-height .3s ease;
+
+    z-index:999;
+}
+
+.dropdown.active .dropdown-list{
+    max-height:210px;
+    overflow-y:auto;
+}
+
+/* Item */
+
+.dropdown-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:10px 12px;
+
+    cursor:pointer;
+
+    transition:
+        background .2s ease;
+}
+
+.dropdown-item:hover{
+    background:rgba(217,70,239,.20);
+}
+
+.dropdown-item.active{
+    background:
+        linear-gradient(
+            45deg,
+            #9333ea,
+            #d946ef
+        );
+}
+
+/* ==================================================
+   RIPPLE
+===================================================== */
+
+.ripple{
+    position:absolute;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,.4);
+
+    transform:scale(0);
+
+    animation:rippleAnim .6s linear;
+}
+
+@keyframes rippleAnim{
+
+    to{
+        transform:scale(4);
+        opacity:0;
+    }
+}
+
+/* ==================================================
+   ERROR
+===================================================== */
+
+.error{
+    color:#f87171;
+    text-shadow:0 0 8px #f87171;
+}
+
+.input-error{
+    border:1px solid #f87171 !important;
+
+    box-shadow:none;
+
+    animation:shake .3s;
+}
+
+@keyframes shake{
+
+    0%{
+        transform:translateX(0);
+    }
+
+    25%{
+        transform:translateX(-4px);
+    }
+
+    50%{
+        transform:translateX(4px);
+    }
+
+    75%{
+        transform:translateX(-4px);
+    }
+
+    100%{
+        transform:translateX(0);
+    }
+}
+
+/* ==================================================
+   POPUP
+===================================================== */
+
+.popup{
+    position:fixed !important;
+    inset:0 !important;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:rgba(0,0,0,.55);
+    backdrop-filter:none;
+
+    opacity:0;
+    pointer-events:none;
+
+    transition:.3s ease;
+
+    z-index:2147483647 !important;
+}
+
+.popup.show{
+    opacity:1;
+    pointer-events:auto;
+}
+
+/* ==================================================
+   POPUP BOX
+===================================================== */
+
+.popup-box{
+    position:relative;
+
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+
+    width:100%;
+    max-width:420px;
+    max-height:85vh;
+
+    overflow-y:auto;
+
+    padding:20px;
+
+    text-align:center;
+
+    border-radius:24px;
+
+    /* Border semua popup */
+    border:1.5px solid rgba(168,85,247,.65);
+
+    background:rgba(20,0,40,.95);
+
+    box-sizing:border-box;
+
+    box-shadow:
+        0 10px 40px rgba(217,70,239,.35);
+
+    animation:popupAnim .25s ease;
+}
+
+@keyframes popupAnim{
+
+    from{
+        transform:scale(.8);
+        opacity:0;
+    }
+
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* ==================================================
+   POPUP BUTTON
+===================================================== */
+
+.popup-actions{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
+.popup-actions button{
+    width:auto !important;
+    flex:none;
+    padding:10px 16px;
+}
+
+.btn-hapus{
+    background:
+        linear-gradient(
+            45deg,
+            #ef4444,
+            #f87171
+        );
+}
+
+/* ==================================================
+   CLOSE BUTTON
+===================================================== */
+
+.btn-close{
+    position:absolute;
+
+    top:12px;
+    right:12px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    width:36px;
+    height:36px;
+
+    border:none;
+    border-radius:50%;
+
+    cursor:pointer;
+
+    color:#fff;
+    font-size:18px;
+    font-weight:700;
+
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.2);
+
+    transition:.2s ease;
+
+    box-shadow:none;
+}
+
+.btn-close:hover{
+    background:rgba(217,70,239,.3);
+    transform:scale(1.1);
+}
+
+/* ==================================================
+   LOADING
+===================================================== */
+
+#loading .popup-box{
+    animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+
+    0%{
+        transform:scale(1);
+        opacity:.45;
+    }
+
+    50%{
+        transform:scale(1.05);
+        opacity:1;
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:.45;
+    }
+}
+
+/* ==================================================
+   PAYMENT
+===================================================== */
+
+.payment{
+    display:flex;
+    gap:50px;
+}
+
+.pay-item{
+    flex:1;
+
+    padding:12px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    border-radius:10px;
+
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.1);
+
+    transition:.25s ease;
+}
+
+.pay-item:hover{
+    background:rgba(147,51,234,.15);
+}
+
+.pay-item.active{
+    background:
+        linear-gradient(
+            45deg,
+            #9333ea,
+            #d946ef
+        );
+}
+
+/* ==================================================
+   UPLOAD
+===================================================== */
+
+.upload-box{
+    display:block;
+
+    margin-bottom:10px;
+    padding:14px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    color:#fff;
+
+    border-radius:12px;
+
+    background:#1f2937;
+    border:1px solid rgba(255,255,255,.08);
+
+    transition:.25s ease;
+}
+
+.upload-box:hover{
+    border-color:#d946ef;
+
+    box-shadow:
+        0 0 10px rgba(217,70,239,.3);
+}
+
+.upload-box input{
+    display:none;
+}
+
+#uploadText{
+    font-size:13px;
+    opacity:.8;
+}
+
+.preview-container{
+    margin-bottom:15px;
+}
+
+#previewImg{
+    display:none;
+
+    width:100%;
+    max-height:200px;
+
+    margin-top:10px;
+
+    object-fit:cover;
+
+    border-radius:10px;
+}
+
+.btn-bayar{
+    width:100%;
+    margin-top:10px;
+
+    position:relative;
+    z-index:2;
+}
+
+/* ==================================================
+   FLOAT BUTTON
+===================================================== */
+
+.wa-float{
+    position:fixed;
+
+    right:20px;
+    bottom:20px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    width:50px;
+    height:50px;
+
+    border-radius:50%;
+
+    background:#25D366;
+
+    box-shadow:
+        0 0 20px #25D366;
+
+    z-index:9999;
+}
+
+.wa-float img{
+    width:32px;
+}
+
+.btn-riwayat{
+    position:fixed;
+
+    left:20px;
+    bottom:20px;
+
+    width:50px;
+    height:50px;
+
+    border:none;
+    border-radius:50%;
+
+    cursor:pointer;
+
+    color:#fff;
+    font-size:20px;
+
+    background:
+        linear-gradient(
+            45deg,
+            #9333ea,
+            #d946ef
+        );
+
+    box-shadow:
+        0 0 15px #9333ea;
+
+    z-index:9999;
+}
+
+/* ==================================================
+   FOOTER
+===================================================== */
+
+.footer{
+    width:100%;
+    max-width:600px;
+
+    margin:15px auto;
+    padding:20px 25px;
+
+    border-radius:16px;
+
+    background:rgba(0,0,0,.35);
+
+    border:1px solid rgba(170,90,255,.4);
+
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+}
+
+.footer-title{
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    margin-bottom:12px;
+}
+
+.footer-logo{
+    width:36px;
+    height:36px;
+
+    border-radius:8px;
+
+    object-fit:contain;
+}
+
+.footer-title h2{
+    margin:0;
+
+    font-size:24px;
+    font-weight:700;
+
+    color:#b86cff;
+}
+
+.footer h2,
+.footer h3{
+    color:#b86cff;
+}
+
+.footer p{
+    color:#fff;
+}
+
+.footer a{
+    color:#fff;
+    text-decoration:none;
+
+    transition:.25s ease;
+}
+
+.footer a:hover{
+    color:#b86cff;
+}
+
+/* ==================================================
+   SOCIAL
+===================================================== */
+
+.social{
+    display:flex;
+    gap:12px;
+
+    margin-top:15px;
+}
+
+.social a{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(184,108,255,.35);
+
+    transition:.25s ease;
+}
+
+.social a:hover{
+    transform:translateY(-4px) scale(1.08);
+
+    background:#b86cff;
+
+    box-shadow:
+        0 0 15px rgba(184,108,255,.45);
+}
+
+.social img{
+    width:22px;
+    height:22px;
+
+    object-fit:contain;
+}
+
+/* ==================================================
+   COPYRIGHT
+===================================================== */
+
+.footer-bottom{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    margin-top:20px;
+    padding-top:15px;
+
+    text-align:center;
+
+    color:#fff;
+
+    border-top:1px solid rgba(255,255,255,.15);
+}
+
+/* ==========================================================
+   ACCOUNT + DASHBOARD + ADMIN PANEL
+========================================================== */
+.hidden{display:none!important}
+.account-bar{position:relative;z-index:30;display:flex;flex-direction:column;align-items:center;gap:8px;max-width:1100px;margin:12px auto 0;padding:10px 12px;border:1px solid rgba(147,51,234,.45);border-radius:16px;background:rgba(10,5,25,.72);backdrop-filter:none}.account-status{font-weight:700;color:#f5d0fe;font-size:13px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.account-actions{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}.mini-btn{border:1px solid rgba(244,114,182,.4);background:rgba(20,0,40,.8);color:#fff;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700;font-size:11px;display:flex;align-items:center;justify-content:center;text-align:center;gap:4px;line-height:1.2}.mini-btn:hover{border-color:#f472b6}.logout-mini{border-color:rgba(239,68,68,.45);color:#fecaca}.admin-mini{border-color:rgba(34,211,238,.5);color:#a5f3fc}.auth-box{max-width:390px}.auth-box .input{margin:7px 0}.auth-switch{background:none;border:0;color:#f0abfc;margin-top:10px;cursor:pointer}.dashboard-box,.admin-box{width:min(100%,980px);max-width:980px;max-height:88vh;overflow:auto;text-align:left}.dashboard-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}.stat-card{padding:14px;border:1px solid rgba(147,51,234,.4);border-radius:14px;background:rgba(20,0,40,.65)}.stat-card span{display:block;font-size:11px;color:#c4b5fd}.stat-card b{display:block;margin-top:5px;font-size:17px;color:#fff}.dashboard-section{margin-top:12px;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:rgba(255,255,255,.03)}.dashboard-section h4{margin:0 0 8px;color:#f0abfc}.admin-head{display:flex;justify-content:space-between;align-items:center}.admin-head .btn-close{position:static}.admin-tabs{display:flex;gap:6px;overflow:auto;margin:12px 0;padding-bottom:4px}.admin-tab{white-space:nowrap;border:1px solid rgba(147,51,234,.35);background:rgba(20,0,40,.7);color:#ddd;padding:9px 11px;border-radius:10px;cursor:pointer}.admin-tab.active{background:linear-gradient(135deg,#7e22ce,#db2777);color:#fff}.admin-content-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.admin-table{width:100%;border-collapse:collapse;font-size:12px}.admin-table th,.admin-table td{padding:8px;border-bottom:1px solid rgba(255,255,255,.08);vertical-align:top}.admin-table th{color:#f0abfc;text-align:left}.admin-form{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin:10px 0}.admin-form .full{grid-column:1/-1}.admin-actions{display:flex;gap:6px;flex-wrap:wrap}.admin-actions button,.danger-btn,.success-btn{border:0;border-radius:9px;padding:7px 9px;cursor:pointer;color:#fff}.success-btn{background:#059669}.danger-btn{background:#dc2626}.admin-actions button{background:#7c3aed}.admin-note{padding:10px;border-radius:10px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);font-size:11px;color:#fde68a}.badge{display:inline-block;padding:3px 7px;border-radius:999px;font-size:10px;background:rgba(34,211,238,.12);color:#a5f3fc}.broadcast-list{display:grid;gap:8px}.broadcast-item{padding:10px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+.broadcast-item{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.broadcast-content{min-width:0;flex:1}.broadcast-delete-btn{flex:0 0 auto;padding:7px 10px;font-size:11px}.broadcast-delete-btn:hover{filter:brightness(1.08)}
+@media(max-width:480px){.broadcast-item{flex-direction:column}.broadcast-delete-btn{width:100%}}
+@media(max-width:700px){.account-bar{margin-left:10px;margin-right:10px;align-items:flex-start}.account-actions{max-width:210px}.dashboard-grid,.admin-content-grid{grid-template-columns:repeat(2,1fr)}.admin-form{grid-template-columns:1fr}.dashboard-box,.admin-box{max-height:90vh}}
+@media(max-width:430px){.account-bar{flex-direction:column}.account-actions{max-width:none;justify-content:flex-start}.dashboard-grid{grid-template-columns:1fr 1fr}.mini-btn{padding:7px 8px}}
+
+
+/* ==================================================
+   PERFORMANCE MODE
+   Ringan untuk HP / perangkat low-end
+===================================================== */
+@media (max-width:768px){
+  html{scroll-behavior:auto;}
+  .banner{filter:none;}
+  .profile{box-shadow:0 0 12px rgba(36,75,255,.35);}
+  .blue-fog{filter:none;opacity:.35;}
+  .hex-layer::before{animation:none;}
+  .particle{box-shadow:0 0 4px rgba(79,216,255,.4);}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}
+}
+
+/* ==========================================================
+   ADMIN PRODUCT EDITOR
+========================================================== */
+.admin-product-list{display:grid;gap:8px}.admin-product-row{display:grid;grid-template-columns:minmax(180px,1fr) auto auto;align-items:center;gap:10px;padding:10px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.025)}.admin-product-main{display:flex;align-items:center;gap:9px;min-width:0}.admin-product-main div{min-width:0}.admin-product-main b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.admin-product-main small{display:block;color:#a5a5b5;margin-top:3px;font-size:10px}.admin-product-price{font-weight:800;color:#67e8f9;white-space:nowrap}.admin-product-row .admin-actions{justify-content:flex-end}
+@media(max-width:700px){.admin-product-row{grid-template-columns:1fr}.admin-product-price{font-size:13px}.admin-product-row .admin-actions{justify-content:flex-start}}
+
+/* LOGIN PAGE */
+.login-page{min-height:100vh;display:grid;place-items:center;padding:20px;background:#000;}
+.login-shell{width:min(100%,430px);}
+.login-card{position:relative;padding:28px 22px;border:1px solid rgba(0,140,255,.35);border-radius:24px;background:rgba(5,8,18,.94);box-shadow:0 0 45px rgba(0,110,255,.16);}
+.login-brand{text-align:center;margin-bottom:24px;}
+.login-brand h1{margin:0;font-size:30px;letter-spacing:3px;color:#fff;}
+.login-brand p{margin:8px 0 0;color:#7dd3fc;font-size:12px;}
+.login-card .input{width:100%;box-sizing:border-box;margin:7px 0;padding:13px 14px;border-radius:12px;}
+.login-submit{width:100%;margin-top:10px;padding:13px;border:0;border-radius:12px;background:linear-gradient(135deg,#0077ff,#00aaff);color:#fff;font-weight:800;cursor:pointer;}
+.login-switch{width:100%;margin-top:14px;border:0;background:none;color:#7dd3fc;cursor:pointer;font-size:12px;}
+.login-error{min-height:18px;margin:8px 0;text-align:center;color:#f87171;font-size:12px;}
+.login-hint{margin-top:16px;text-align:center;color:#64748b;font-size:10px;}
+@media(max-width:430px){.login-page{padding:14px}.login-card{padding:24px 16px;border-radius:20px}}
+
+
+@media (max-width:480px){
+  .account-bar{margin-left:10px;margin-right:10px;padding:9px 10px}
+  .account-actions{width:100%}
+  .mini-btn{flex:1;min-width:120px}
+}
+
+/* Admin shortcut - hanya terlihat untuk akun admin */
+.admin-mini{
+  border-color:rgba(0,170,255,.45);
+  color:#dff6ff;
+}
+.admin-mini:hover{
+  border-color:rgba(0,170,255,.8);
+  background:rgba(0,120,255,.12);
+}
+@media (max-width:520px){
+  .account-actions{flex-wrap:wrap;justify-content:flex-end;gap:6px}
+  .account-actions .mini-btn{font-size:11px;padding:7px 9px;display:flex;align-items:center;justify-content:center;text-align:center}
+}
+
+/* ==================================================
+   ERROR POPUP - GLOBAL TOP LAYER
+   Must stay above QRIS/DANA/loading/success popups.
+===================================================== */
+#popupError{
+    z-index:2147483647 !important;
+}
+
+#popupError .popup-box{
+    position:relative;
+    z-index:2147483647 !important;
+}
+
+
+/* ==================================================
+   FOOTER VISIBILITY FIX
+===================================================== */
+.footer{
+    display:block !important;
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:600px;
+    margin:28px auto 0;
+    padding:22px 20px;
+    min-height:120px;
+    color:#fff;
+    background:rgba(5,5,12,.82);
+    border:1px solid rgba(147,51,234,.5);
+    border-radius:18px;
+}
+.footer-top,.footer-brand,.footer-grid{
+    display:block;
+}
+.footer-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:18px;
+}
+.footer-grid > div{display:flex;flex-direction:column;gap:7px;}
+.footer-grid h3{margin:0 0 5px;font-size:13px;}
+.footer-bottom{display:flex;justify-content:center;align-items:center;margin-top:20px;padding-top:15px;text-align:center;color:#fff;border-top:1px solid rgba(255,255,255,.15);}
+@media(max-width:600px){
+    .footer{margin-top:24px;padding:20px 16px;margin-bottom:30px;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:380px){
+    .footer-grid{grid-template-columns:1fr;}
+}
+
+
+/* ==========================================================
+   QRIS / DANA CONFIRM BUTTON FIX
+   Keep confirmation buttons full-width and visually consistent.
+========================================================== */
+.popup-box .btn-bayar,
+.popup-box button[onclick="confirmBayar()"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 52px !important;
+    flex: 0 0 auto !important;
+    margin: 6px 0 0 !important;
+    padding: 0 18px !important;
+    border: 0 !important;
+    border-radius: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+.popup-box .btn-bayar {
+    background: linear-gradient(135deg,#4c1d95,#6d28d9) !important;
+    box-shadow: 0 6px 18px rgba(109,40,217,.28) !important;
+}
+
+.popup-box .btn-bayar:active,
+.popup-box button[onclick="confirmBayar()"]:active {
+    transform: scale(.985) !important;
+}
+
+@media (max-width:480px){
+    .popup-box .btn-bayar,
+    .popup-box button[onclick="confirmBayar()"] {
+        height: 50px !important;
+        border-radius: 13px !important;
+        font-size: 14px !important;
+    }
+}
+
+/* ==========================================================
+   ADMIN PANEL / TAMBAH PRODUK - SOLID & MOBILE STABLE
+   Mencegah halaman utama terlihat menembus popup admin.
+========================================================== */
+.popup.show{
+    background:rgba(0,0,0,.84) !important;
+}
+
+.popup-box.admin-box{
+    position:relative !important;
+    z-index:2 !important;
+    isolation:isolate !important;
+    background:#100019 !important;
+    background-image:none !important;
+    opacity:1 !important;
+    border:1.5px solid rgba(168,85,247,.72) !important;
+    box-shadow:0 18px 50px rgba(0,0,0,.65), 0 0 24px rgba(168,85,247,.16) !important;
+}
+
+.popup-box.admin-box #adminContent{
+    position:relative;
+    z-index:1;
+    background:#100019;
+    border-radius:14px;
+}
+
+.popup-box.admin-box .admin-form{
+    position:relative;
+    z-index:2;
+    padding:2px 0 4px;
+}
+
+.popup-box.admin-box .admin-form .input{
+    width:100%;
+    min-width:0;
+    box-sizing:border-box;
+    background:#180b25 !important;
+    color:#fff !important;
+    border:1px solid rgba(168,85,247,.30) !important;
+}
+
+.popup-box.admin-box .admin-form .input:focus{
+    border-color:rgba(192,132,252,.8) !important;
+    outline:none;
+    box-shadow:0 0 0 2px rgba(168,85,247,.10);
+}
+
+.popup-box.admin-box .success-btn.full{
+    width:100%;
+    min-height:50px;
+    font-size:14px;
+    font-weight:800;
+    background:linear-gradient(135deg,#059669,#10b981) !important;
+}
+
+.popup-box.admin-box .dashboard-section{
+    background:#14091f !important;
+    border:1px solid rgba(168,85,247,.24) !important;
+}
+
+.popup-box.admin-box .admin-product-row{
+    background:#180c24 !important;
+    border-color:rgba(168,85,247,.20) !important;
+}
+
+@media(max-width:700px){
+    .popup-box.admin-box{
+        width:calc(100% - 20px) !important;
+        max-width:none !important;
+        max-height:calc(100vh - 24px) !important;
+        padding:16px !important;
+        border-radius:20px !important;
+    }
+
+    .popup-box.admin-box .admin-head h3{
+        font-size:18px;
+    }
+
+    .popup-box.admin-box .admin-tabs{
+        margin:10px 0 14px;
+    }
+
+    .popup-box.admin-box .admin-form{
+        gap:9px;
+    }
+
+    .popup-box.admin-box .admin-form .input{
+        min-height:48px;
+    }
+}
+
+/* ==========================================================
+   ADMIN TABS / CONTENT FIX
+   Header + tabs tetap terlihat, hanya isi tab yang discroll.
+========================================================== */
+.popup-box.admin-box{
+    overflow:hidden !important;
+    display:flex !important;
+    flex-direction:column !important;
+}
+
+.popup-box.admin-box .admin-head{
+    flex:0 0 auto !important;
+}
+
+.popup-box.admin-box .admin-tabs{
+    flex:0 0 auto !important;
+    display:flex !important;
+    flex-wrap:wrap !important;
+    align-items:center !important;
+    overflow:visible !important;
+    padding:4px 0 8px !important;
+    margin:10px 0 12px !important;
+    border-bottom:1px solid rgba(168,85,247,.22) !important;
+    background:#100019 !important;
+    position:relative !important;
+    z-index:10 !important;
+}
+
+.popup-box.admin-box .admin-tab{
+    flex:0 0 auto !important;
+    position:relative !important;
+    z-index:11 !important;
+}
+
+.popup-box.admin-box #adminContent{
+    flex:1 1 auto !important;
+    min-height:0 !important;
+    overflow-y:auto !important;
+    overflow-x:hidden !important;
+    overscroll-behavior:contain !important;
+    -webkit-overflow-scrolling:touch !important;
+    padding:2px 2px 14px !important;
+}
+
+@media(max-width:700px){
+    .popup-box.admin-box{
+        max-height:calc(100vh - 24px) !important;
+    }
+
+    .popup-box.admin-box .admin-tabs{
+        gap:6px !important;
+        margin:8px 0 10px !important;
+        padding-bottom:9px !important;
+    }
+
+    .popup-box.admin-box .admin-tab{
+        padding:9px 10px !important;
+        font-size:12px !important;
+    }
+
+    .popup-box.admin-box #adminContent{
+        padding-bottom:20px !important;
+    }
+}
+
+
+/* ==========================================================
+   ADMIN PANEL HEADER + EDIT PRODUCT POPUP
+   ========================================================== */
+.popup-box.admin-box .admin-head{
+    position:relative !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
+    min-height:58px !important;
+    text-align:center !important;
+}
+
+.popup-box.admin-box .admin-head > div{
+    width:100% !important;
+    text-align:center !important;
+    padding:0 48px !important;
+    box-sizing:border-box !important;
+}
+
+.popup-box.admin-box .admin-head h3{
+    width:100% !important;
+    margin:0 !important;
+    text-align:center !important;
+}
+
+.popup-box.admin-box .admin-head #adminWelcome{
+    display:block !important;
+    margin-top:5px !important;
+    text-align:center !important;
+}
+
+.popup-box.admin-box .admin-head .btn-close{
+    position:absolute !important;
+    right:0 !important;
+    top:50% !important;
+    transform:translateY(-50%) !important;
+    margin:0 !important;
+}
+
+/* Edit Produk harus berada DI DEPAN popup Admin Panel */
+#popupEditProduct{
+    /* Sama dengan layer popup global; karena diletakkan setelah #popupAdmin,
+       popup edit otomatis tampil di atas Admin Panel tanpa menutupnya. */
+    z-index:2147483647 !important;
+}
+
+#popupEditProduct .popup-box{
+    position:relative !important;
+    z-index:2147483647 !important;
+}
+
+.edit-product-box{
+    width:min(100% - 24px, 430px) !important;
+    max-width:430px !important;
+    max-height:calc(100vh - 32px) !important;
+    padding:20px !important;
+    background:#100019 !important;
+    border:1.5px solid rgba(168,85,247,.78) !important;
+    box-shadow:0 18px 60px rgba(0,0,0,.8),0 0 35px rgba(168,85,247,.28) !important;
+}
+
+.edit-product-head{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:52px;
+    text-align:center;
+}
+
+.edit-product-head > div{
+    width:100%;
+    padding:0 44px;
+    box-sizing:border-box;
+}
+
+.edit-product-head h3{
+    margin:0;
+    text-align:center;
+    color:#f5d0fe;
+}
+
+.edit-product-head small{
+    display:block;
+    margin-top:5px;
+    color:#c4b5fd;
+    text-align:center;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.edit-product-head .btn-close{
+    position:absolute;
+    right:0;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+.edit-product-form{
+    display:grid;
+    gap:7px;
+    text-align:left;
+}
+
+.edit-product-form label{
+    margin-top:4px;
+    color:#ddd6fe;
+    font-size:13px;
+    font-weight:700;
+}
+
+.edit-product-form .input{
+    width:100%;
+    min-height:48px;
+    box-sizing:border-box;
+    margin:0 0 4px;
+    background:#180b25 !important;
+    color:#fff !important;
+    border:1px solid rgba(168,85,247,.35) !important;
+}
+
+.edit-product-form .input:focus{
+    outline:none;
+    border-color:rgba(192,132,252,.85) !important;
+    box-shadow:0 0 0 2px rgba(168,85,247,.10);
+}
+
+.edit-product-actions{
+    display:grid;
+    grid-template-columns:1fr 1.35fr;
+    gap:8px;
+    margin-top:4px;
+}
+
+.edit-product-actions button{
+    min-height:48px;
+    border:0;
+    border-radius:12px;
+    color:#fff;
+    font-weight:800;
+    cursor:pointer;
+}
+
+.cancel-edit-btn{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12) !important;
+}
+
+.save-edit-btn{
+    width:100%;
+    background:linear-gradient(135deg,#7e22ce,#db2777) !important;
+}
+
+@media(max-width:480px){
+    .popup-box.admin-box .admin-head > div{
+        padding:0 42px !important;
+    }
+
+    .popup-box.admin-box .admin-head h3{
+        font-size:18px !important;
+    }
+
+    .edit-product-box{
+        width:calc(100% - 20px) !important;
+        padding:17px !important;
+        border-radius:20px !important;
+    }
+
+    .edit-product-actions{
+        grid-template-columns:1fr;
+    }
+}
+
+
+/* ==========================================================
+   BROADCAST DELETE CONFIRMATION POPUP
+   Selalu tampil di depan Admin Panel.
+========================================================== */
+#popupBroadcastConfirm{
+    z-index:2147483647 !important;
+}
+
+#popupBroadcastConfirm .popup-box.broadcast-confirm-box{
+    width:min(92vw,420px);
+    max-width:420px;
+    max-height:none;
+    overflow:hidden;
+    align-items:center;
+    text-align:center;
+    gap:10px;
+    padding:26px 22px 22px;
+    background:#100019 !important;
+    border:1.5px solid rgba(168,85,247,.78) !important;
+    box-shadow:0 20px 60px rgba(0,0,0,.8),0 0 30px rgba(168,85,247,.22) !important;
+}
+
+.broadcast-confirm-icon{
+    width:58px;
+    height:58px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:rgba(220,38,38,.12);
+    border:1px solid rgba(248,113,113,.35);
+    font-size:28px;
+    margin-bottom:2px;
+}
+
+.broadcast-confirm-box h3{
+    margin:0;
+    color:#fff;
+    font-size:20px;
+}
+
+.broadcast-confirm-text{
+    margin:0;
+    color:#d8cce0;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.broadcast-confirm-name{
+    width:100%;
+    box-sizing:border-box;
+    margin-top:2px;
+    padding:12px 14px;
+    border-radius:12px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(168,85,247,.25);
+    color:#f0abfc;
+    font-weight:700;
+    font-size:14px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.broadcast-confirm-actions{
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr 1.35fr;
+    gap:9px;
+    margin-top:8px;
+}
+
+.broadcast-confirm-actions button{
+    min-height:46px;
+    border:0;
+    border-radius:12px;
+    color:#fff;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 12px;
+}
+
+.broadcast-cancel-btn{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.14) !important;
+}
+
+.broadcast-cancel-btn:hover{
+    background:rgba(255,255,255,.13);
+}
+
+.broadcast-confirm-delete-btn{
+    background:linear-gradient(135deg,#b91c1c,#ef4444);
+    box-shadow:0 7px 20px rgba(239,68,68,.22);
+}
+
+.broadcast-confirm-delete-btn:hover{
+    filter:brightness(1.08);
+}
+
+.broadcast-confirm-actions button:active{
+    transform:scale(.985);
+}
+
+@media(max-width:480px){
+    #popupBroadcastConfirm .popup-box.broadcast-confirm-box{
+        width:calc(100vw - 32px);
+        padding:23px 17px 18px;
+        border-radius:20px;
+    }
+    .broadcast-confirm-actions{
+        grid-template-columns:1fr;
+    }
+    .broadcast-confirm-actions button{
+        min-height:48px;
+    }
+}
+
+
+/* ==========================================================
+   ADMIN PAYMENT VERIFICATION — FINAL
+========================================================== */
+.payment-admin-list{display:grid;gap:10px;margin-top:10px}
+.payment-admin-card{padding:12px;border:1px solid rgba(168,85,247,.22);border-radius:14px;background:rgba(255,255,255,.035);display:grid;gap:9px}
+.payment-admin-main{display:grid;gap:3px}
+.payment-admin-main b{font-size:13px;color:#fff}
+.payment-admin-main strong{color:#67e8f9;font-size:14px}
+.payment-admin-main small{font-size:11px;color:#b9acc3;overflow-wrap:anywhere}
+.payment-admin-proof{display:flex;align-items:center;gap:7px}
+.admin-actions-btn{border:1px solid rgba(34,211,238,.35);background:rgba(34,211,238,.08);color:#a5f3fc;border-radius:9px;padding:8px 10px;font-weight:700;cursor:pointer}
+.payment-status-verified{background:rgba(16,185,129,.13);color:#6ee7b7}
+.payment-status-rejected{background:rgba(239,68,68,.13);color:#fca5a5}
+.payment-admin-card .admin-actions{margin-top:2px}
