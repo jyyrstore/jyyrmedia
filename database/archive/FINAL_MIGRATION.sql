@@ -1,3 +1,8 @@
+-- ARCHIVED / DO NOT EXECUTE
+-- Historical migration retained for reference only.
+-- Use ../00_schema.sql, ../01_security.sql, ../02_admin_setup.sql, ../03_production_hardening.sql instead.
+
+/*
 -- ==========================================================
 -- JYYR STORE — FINAL PRODUCTION MIGRATION
 -- Run AFTER schema.sql + INTEGRATION_PATCH.sql
@@ -213,3 +218,5 @@ on public.orders(status, created_at desc);
 --   a) the real Auth email (recommended for the current admin), or
 --   b) username@jyyr.store for accounts registered by the website.
 -- Never put a Supabase service_role key in browser files.
+
+*/

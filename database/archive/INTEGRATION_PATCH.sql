@@ -1,3 +1,8 @@
+-- ARCHIVED / DO NOT EXECUTE
+-- Historical migration retained for reference only.
+-- Use ../00_schema.sql, ../01_security.sql, ../02_admin_setup.sql, ../03_production_hardening.sql instead.
+
+/*
 -- JYYR STORE — run this AFTER schema.sql
 -- 1) Secure profile updates: normal users must never be able to change role/saldo/point.
 drop policy if exists profiles_update_own_or_admin on public.profiles;
@@ -48,3 +53,5 @@ using (
   bucket_id = 'payment-proofs'
   and ((storage.foldername(name))[1] = (select auth.uid())::text or (select public.is_admin()))
 );
+
+*/
