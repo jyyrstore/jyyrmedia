@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JYYR ADMIN PANEL</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-page">
+  <div class="future-bg" aria-hidden="true"><div class="blue-fog"></div><div id="particles"></div></div>
+  <div class="admin-page-shell">
+    <header class="admin-page-head">
+      <div class="admin-page-title">
+        <h1>👤 ADMIN PANEL</h1>
+        <p id="adminPageWelcome">Memuat akun admin...</p>
+      </div>
+      <div class="admin-page-actions">
+        <button onclick="location.href='index.html'">🏠 Store</button>
+        <button class="admin-back" onclick="logoutUser()">↪️ Log Out</button>
+      </div>
+    </header>
+
+    <main class="admin-page-main">
+      <div class="admin-head">
+        <div><h3>🧑‍💼 JYYR ADMIN PANEL</h3><small id="adminWelcome"></small></div>
+      </div>
+      <div class="admin-tabs">
+        <button onclick="adminTab('overview')" class="admin-tab active">📊 Statistik</button>
+        <button onclick="adminTab('products')" class="admin-tab">📦 Produk</button>
+        <button onclick="adminTab('users')" class="admin-tab">👥 User</button>
+        <button onclick="adminTab('orders')" class="admin-tab">🧾 Transaksi</button>
+        <button onclick="adminTab('payments')" class="admin-tab">💳 Pembayaran</button>
+        <button onclick="adminTab('levels')" class="admin-tab">🏆 Level</button>
+        <button onclick="adminTab('broadcast')" class="admin-tab">📢 Broadcast</button>
+      </div>
+      <div id="adminContent"></div>
+    </main>
+  </div>
+
+  <!-- EDIT PRODUK -->
+  <div class="popup" id="popupEditProduct">
+    <div class="popup-box edit-product-box">
+      <div class="edit-product-head"><div><h3>✏️ Edit Produk</h3><small id="editProductName">-</small></div><button type="button" class="btn-close" onclick="closeEditProduct()">×</button></div>
+      <div class="edit-product-form">
+        <label for="editProductPrice">Harga per 1</label><input class="input" id="editProductPrice" type="number" min="0.01" step="0.01">
+        <label for="editProductMin">Minimal Pesanan (Min)</label><input class="input" id="editProductMin" type="number" min="1" step="1">
+        <label for="editProductMax">Maksimal Pesanan (Max)</label><input class="input" id="editProductMax" type="number" min="1" step="1">
+      </div>
+      <div class="edit-product-actions"><button type="button" class="cancel-edit-btn" onclick="closeEditProduct()">Batal</button><button type="button" class="success-btn save-edit-btn" onclick="saveEditProduct()">💾 Simpan Perubahan</button></div>
+    </div>
+  </div>
+
+  <!-- KONFIRMASI ADMIN: PEMBAYARAN / HAPUS PRODUK / HAPUS USER -->
+  <div class="popup" id="popupAdminConfirm">
+    <div class="popup-box admin-confirm-box">
+      <div class="admin-confirm-icon" id="adminConfirmIcon">❔</div>
+      <h3 id="adminConfirmTitle">Konfirmasi</h3>
+      <p id="adminConfirmMessage">-</p>
+      <div class="admin-confirm-target" id="adminConfirmTarget">-</div>
+      <div class="admin-confirm-actions"><button class="admin-confirm-cancel" onclick="closeAdminConfirm()">Batal</button><button class="admin-confirm-ok" id="adminConfirmOk" onclick="confirmAdminAction()">Konfirmasi</button></div>
+    </div>
+  </div>
+
+  <!-- BROADCAST DELETE -->
+  <div class="popup" id="popupBroadcastConfirm">
+    <div class="popup-box broadcast-confirm-box">
+      <div class="broadcast-confirm-icon">🗑️</div><h3>Hapus Broadcast?</h3>
+      <p class="broadcast-confirm-text">Kamu yakin ingin menghapus broadcast ini?</p>
+      <div class="broadcast-confirm-name" id="broadcastConfirmName">-</div>
+      <div class="broadcast-confirm-actions"><button type="button" class="broadcast-cancel-btn" onclick="closeBroadcastConfirm()">Batal</button><button type="button" class="broadcast-confirm-delete-btn" onclick="confirmDeleteBroadcast()">🗑️ Konfirmasi Hapus</button></div>
+    </div>
+  </div>
+
+  <div class="popup" id="popupSuccess"><div class="popup-box"><h3>✅ Berhasil</h3><p id="successText">Berhasil.</p><button class="btn-close" onclick="closeSuccess()">×</button></div></div>
+  <div class="popup" id="popupError"><div class="popup-box"><h3>⚠️ Peringatan</h3><p id="popupText">Terjadi kesalahan.</p><button onclick="closePopup()">Oke</button></div></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0"></script>
+  <script src="js/supabase-config.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded',()=>{
+      const timer=setInterval(()=>{
+        const u=window.currentAccount?.();
+        if(u){
+          if(u.role!=='admin'){ location.replace('index.html'); return; }
+          const text='Login sebagai '+u.username;
+          document.getElementById('adminPageWelcome').textContent=text;
+          document.getElementById('adminWelcome').textContent=text;
+          clearInterval(timer);
+        }
+      },100);
+      setTimeout(()=>clearInterval(timer),10000);
+    });
+  </script>
+</body>
+</html>

@@ -32,9 +32,13 @@ create table if not exists public.products (
   max_quantity integer not null check (max_quantity >= min_quantity),
   icon text not null default '',
   active boolean not null default true,
+  sort_order integer not null default 0,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- Keep existing projects compatible when this schema is re-run.
+alter table public.products add column if not exists sort_order integer not null default 0;
 
 create table if not exists public.broadcasts (
   id uuid primary key default gen_random_uuid(),
@@ -200,9 +204,10 @@ using ((select public.is_admin()) or exists (select 1 from public.orders o where
 drop policy if exists payments_insert_own on public.payments;
 create policy payments_insert_own on public.payments for insert to authenticated
 with check (exists (select 1 from public.orders o where o.id = order_id and o.user_id = (select auth.uid())));
+-- Payment status/reviewer fields must only be changed by admin_review_payment().
 drop policy if exists payments_admin_update on public.payments;
-create policy payments_admin_update on public.payments for update to authenticated
-using ((select public.is_admin())) with check ((select public.is_admin()));
+-- Intentionally no UPDATE policy is granted to browser clients.
+-- The SECURITY DEFINER review RPC performs the controlled state transition.
 
 -- Point ledger: users see their own history; admins see/manage.
 drop policy if exists points_select_own_or_admin on public.point_ledger;
@@ -216,18 +221,18 @@ insert into public.levels (name, min_point, reward) values
 ('Basic',0,0),('VIP',1000,10000),('VVIP',5000,50000)
 on conflict (name) do update set min_point=excluded.min_point,reward=excluded.reward;
 
-insert into public.products (name,category,price,max_quantity,min_quantity,icon,active) values
-('TikTok Followers 🇮🇩','TikTok',75,99999,50,'https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png',true),
-('TikTok Likes 🇮🇩','TikTok',39,99999,50,'https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png',true),
-('TikTok Views 🇮🇩','TikTok',2.2,99999,1000,'https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png',true),
-('TikTok Komen 🇮🇩','TikTok',300,99999,10,'https://i.ibb.co.com/67sjz4nf/KOMENTAR-Jyy-R.png',true),
-('TikTok Shares 🇮🇩','TikTok',1.7,99999,1000,'https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png',true),
-('TikTok Saves 🇮🇩','TikTok',2.7,99999,1000,'https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png',true),
-('Instagram Followers 🇮🇩','Instagram',60,99999,50,'https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png',true),
-('Instagram Likes 🇮🇩','Instagram',30,99999,100,'https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png',true),
-('Instagram Views 🇮🇩','Instagram',0.75,99999,1000,'https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png',true),
-('Instagram Shares 🇮🇩','Instagram',1.1,99999,1000,'https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png',true),
-('Instagram Saves 🇮🇩','Instagram',7.5,99999,100,'https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png',true)
+insert into public.products (name,category,price,max_quantity,min_quantity,icon,active,sort_order) values
+('TikTok Followers 🇮🇩','TikTok',75,99999,50,'https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png',true,0),
+('TikTok Likes 🇮🇩','TikTok',39,99999,50,'https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png',true,1),
+('TikTok Views 🇮🇩','TikTok',2.2,99999,1000,'https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png',true,2),
+('TikTok Komen 🇮🇩','TikTok',300,99999,10,'https://i.ibb.co.com/67sjz4nf/KOMENTAR-Jyy-R.png',true,3),
+('TikTok Shares 🇮🇩','TikTok',1.7,99999,1000,'https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png',true,4),
+('TikTok Saves 🇮🇩','TikTok',2.7,99999,1000,'https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png',true,5),
+('Instagram Followers 🇮🇩','Instagram',60,99999,50,'https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png',true,0),
+('Instagram Likes 🇮🇩','Instagram',30,99999,100,'https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png',true,1),
+('Instagram Views 🇮🇩','Instagram',0.75,99999,1000,'https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png',true,2),
+('Instagram Shares 🇮🇩','Instagram',1.1,99999,1000,'https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png',true,3),
+('Instagram Saves 🇮🇩','Instagram',7.5,99999,100,'https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png',true,4)
 on conflict (name) do update set
   category=excluded.category,
   price=excluded.price,

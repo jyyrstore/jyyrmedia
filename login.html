@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Login — JYYR STORE</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body class="login-page">
 <main class="login-shell">
@@ -17,7 +17,12 @@
       <div id="nameWrap" class="hidden"><input class="input" id="regName" placeholder="Nama lengkap" type="text" autocomplete="name"></div>
       <input class="input hidden" id="regEmail" placeholder="Email" type="email" autocomplete="email">
       <input class="input" id="authUsername" placeholder="Email atau Username" type="text" autocomplete="username" required>
-      <input class="input" id="authPassword" placeholder="Password" type="password" autocomplete="current-password" required>
+      <div class="password-field">
+        <input class="input" id="authPassword" placeholder="Password" type="password" autocomplete="current-password" required>
+        <button type="button" class="password-toggle" id="passwordToggle" aria-label="Tampilkan password" title="Tampilkan password">
+          <svg class="eye-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.4-5.5 9.5-5.5 9.5 5.5 9.5 5.5-3.4 5.5-9.5 5.5S2.5 12 2.5 12Z"/><circle cx="12" cy="12" r="2.8"/></svg>
+        </button>
+      </div>
       <div id="authError" class="login-error"></div>
       <button class="login-submit" id="authSubmit" type="submit">Masuk</button>
       <button class="login-switch" id="authSwitch" type="button">Belum punya akun? Daftar</button>
@@ -25,8 +30,8 @@
     <div class="login-hint">Akses toko hanya tersedia setelah login.</div>
   </section>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0"></script>
+<script src="js/supabase-config.js"></script>
 <script>
 (function(){
   const { createClient } = window.supabase;
@@ -43,6 +48,15 @@
   const sw=document.getElementById('authSwitch');
   const sub=document.getElementById('loginSubtitle');
   const err=document.getElementById('authError');
+  const passwordToggle=document.getElementById('passwordToggle');
+
+  passwordToggle.onclick=()=>{
+    const visible=pass.type==='text';
+    pass.type=visible?'password':'text';
+    passwordToggle.classList.toggle('is-visible',!visible);
+    passwordToggle.setAttribute('aria-label',visible?'Tampilkan password':'Sembunyikan password');
+    passwordToggle.title=visible?'Tampilkan password':'Sembunyikan password';
+  };
 
   function sync(){
     const reg=mode==='register';
@@ -85,13 +99,9 @@
           throw new Error('Masukkan email yang valid, misalnya nama@gmail.com.');
         }
 
-        const {data:existing,error:profileCheckError}=await client
-          .from('profiles')
-          .select('id')
-          .eq('username',username)
-          .maybeSingle();
+        const {data:existingEmail,error:profileCheckError}=await client.rpc('get_auth_email_by_username',{p_username:username});
         if(profileCheckError) throw profileCheckError;
-        if(existing) throw new Error('Username sudah digunakan.');
+        if(Array.isArray(existingEmail) && existingEmail.length) throw new Error('Username sudah digunakan.');
 
         const {data,error}=await client.auth.signUp({
           email,
@@ -119,29 +129,12 @@
         // Login menerima email langsung atau username.
         let email=username;
         if(!username.includes('@')){
-          const {data:profile,error:profileError}=await client
-            .from('profiles')
-            .select('id')
-            .eq('username',username)
-            .maybeSingle();
-          if(profileError) throw profileError;
-          if(!profile) throw new Error('Username tidak ditemukan.');
-
-          const {data:authUser,error:authError}=await client
-            .from('profiles')
-            .select('id')
-            .eq('id',profile.id)
-            .maybeSingle();
-          if(authError) throw authError;
-          // Supabase Auth signInWithPassword memerlukan email.
-          // Ambil email dari auth.users melalui RPC/view jika tersedia; fallback ke pola lama hanya untuk kompatibilitas.
-          const {data:emailRow,error:emailError}=await client.rpc('get_auth_email_by_profile_id',{profile_id:profile.id});
-          if(!emailError && emailRow){
-            email=Array.isArray(emailRow)?emailRow[0]?.email:emailRow.email;
-          }else{
-            // Username lama @jyyr.store tetap dicoba sebagai fallback.
-            email=`${username}@jyyr.store`;
-          }
+          // Supabase Auth memerlukan email untuk signInWithPassword.
+          // RPC SECURITY DEFINER mengambil email Auth berdasarkan username.
+          const {data:emailRow,error:emailError}=await client.rpc('get_auth_email_by_username',{p_username:username});
+          if(emailError) throw emailError;
+          email=Array.isArray(emailRow)?emailRow[0]?.email:emailRow?.email;
+          if(!email) throw new Error('Username tidak ditemukan.');
         }
 
         const {error}=await client.auth.signInWithPassword({email:email.toLowerCase(),password});
