@@ -51,110 +51,147 @@ function previewBukti(event) {
 }
 
 /* ========================================
-   RIWAYAT
+   RIWAYAT — SUPABASE SOURCE OF TRUTH
 ======================================== */
 
-let historyData = JSON.parse(localStorage.getItem("history") || "[]");
+let historyData = [];
 
-function lihatRiwayat() {
+function buildHistoryItem(order, products = []) {
+    const product = products.find(p => p.id === order.productId);
+    return {
+        waktu: order.time ? new Date(order.time).toLocaleString("id-ID") : "-",
+        user: order.target || "-",
+        layanan: order.layanan || "-",
+        jumlah: Number(order.jumlah || 0),
+        total: Number(order.total || 0),
+        id: order.id,
+        value: {
+            layanan: product ? `${product.price}|${product.max}|${product.min}` : "",
+            metode: order.metode,
+            productId: order.productId || null
+        },
+        status: order.status,
+        buyer: order.buyer,
+        userId: order.userId
+    };
+}
+
+async function refreshRiwayat() {
     const box = document.getElementById("listRiwayat");
+    const u = typeof currentAccount === "function" ? currentAccount() : null;
+    if (!box || !u || !window.jyyrSupabase) return;
 
-    if (historyData.length === 0) {
+    box.innerHTML = "Memuat riwayat...";
+
+    try {
+        const { data, error } = await window.jyyrSupabase
+            .from("orders")
+            .select("*")
+            .eq("user_id", u.id)
+            .order("created_at", { ascending: false });
+        if (error) throw error;
+
+        const products = getProductsCache();
+        const orders = (data || []).map(mapOrderPublic);
+        historyData = orders.map(o => buildHistoryItem(o, products));
+        renderRiwayatList();
+    } catch (e) {
+        console.error(e);
+        box.innerHTML = "Gagal memuat riwayat pesanan.";
+        showError(e?.message || "Gagal memuat riwayat.");
+    }
+}
+
+function getProductsCache() {
+    try { return JSON.parse(localStorage.getItem("jyyr_products") || "[]"); }
+    catch (_) { return []; }
+}
+
+function mapOrderPublic(o) {
+    return {
+        id: o.id,
+        userId: o.user_id,
+        buyer: "",
+        layanan: o.product_name,
+        jumlah: Number(o.quantity),
+        total: Number(o.total),
+        metode: o.payment_method,
+        status: o.status,
+        time: o.created_at,
+        productId: o.product_id,
+        target: o.target
+    };
+}
+
+function renderRiwayatList() {
+    const box = document.getElementById("listRiwayat");
+    if (!box) return;
+
+    if (!historyData.length) {
         box.innerHTML = "Belum ada pesanan";
-    } else {
-        let html = "";
-
-        historyData
-            .slice()
-            .reverse()
-            .forEach((item, index) => {
-                html += `
-<div style="border-bottom:1px solid rgba(255,255,255,.1);padding:10px 0">
-    <b>ID: ${item.id || "-"}</b><br>
-    <b>${item.user}</b><br>
-    ${item.layanan}<br>
-    Jumlah: ${item.jumlah}<br>
-    ${item.total}<br>
-    <small>${item.waktu}</small><br><br>
-
-    <button onclick="orderLagi(${historyData.length - 1 - index})">
-        🔄 Order Lagi
-    </button>
-</div>
-`;
-            });
-
-        box.innerHTML = html;
+        return;
     }
 
-    document.getElementById("popupRiwayat").classList.add("show");
+    box.innerHTML = historyData.map((item, index) => `
+<div style="border-bottom:1px solid rgba(255,255,255,.1);padding:10px 0">
+    <b>ID: ${escapeHtml(item.id || "-")}</b><br>
+    <b>${escapeHtml(item.user || "-")}</b><br>
+    ${escapeHtml(item.layanan || "-")}<br>
+    Jumlah: ${Number(item.jumlah || 0).toLocaleString("id-ID")}<br>
+    Rp ${Number(item.total || 0).toLocaleString("id-ID")}<br>
+    Status: <b>${escapeHtml(item.status || "pending")}</b><br>
+    <small>${escapeHtml(item.waktu || "-")}</small><br><br>
+    <button onclick="orderLagi(${index})">🔄 Order Lagi</button>
+</div>`).join("");
+}
+
+async function lihatRiwayat() {
+    const popup = document.getElementById("popupRiwayat");
+    if (popup) popup.classList.add("show");
+    await refreshRiwayat();
 }
 
 function orderLagi(index) {
     const item = historyData[index];
+    if (!item) return;
 
-    document.getElementById("username").value = item.user;
-    document.getElementById("jumlah").value = item.jumlah;
+    document.getElementById("username").value = item.user || "";
+    document.getElementById("jumlah").value = item.jumlah || "";
 
-    // Kembalikan layanan
-    document.getElementById("layanan").value =
-        item.value && item.value.layanan
-            ? item.value.layanan
-            : "75|99999|50";
+    const productId = item.value?.productId || null;
+    let itemLayanan = productId
+        ? [...document.querySelectorAll(".dropdown-item[data-id]")].find(el => el.dataset.id === productId)
+        : null;
 
+    if (!itemLayanan && item.value?.layanan) {
+        itemLayanan = [...document.querySelectorAll(".dropdown-item[data-value]")]
+            .find(el => el.dataset.value === item.value.layanan);
+    }
+
+    if (!itemLayanan) {
+        showError("Produk pada pesanan lama sudah tidak tersedia/aktif.");
+        return;
+    }
+
+    selectItem(itemLayanan);
+
+    const payItems = document.querySelectorAll(".pay-item");
+    const qris = item.value?.metode === "qris";
+    payItems.forEach(i => i.classList.remove("active"));
+    if (payItems[qris ? 1 : 0]) payItems[qris ? 1 : 0].classList.add("active");
+    document.getElementById("metode").value = qris ? "qris" : "dana";
     updateHarga();
-
-    const itemLayanan = document.querySelector(
-        `.dropdown-item[data-value="${item.value.layanan}"]`
-    );
-
-    if (itemLayanan) {
-        document.getElementById("layanan").value =
-            itemLayanan.dataset.value;
-
-        document.getElementById("selectedText").innerHTML = `
-<img src="${itemLayanan.dataset.icon}"
-     width="18"
-     style="vertical-align:middle;margin-right:6px;">
-${itemLayanan.dataset.text}
-`;
-    }
-
-    if (item.value.metode === "qris") {
-        document
-            .querySelectorAll(".pay-item")
-            .forEach((i) => i.classList.remove("active"));
-
-        document
-            .querySelectorAll(".pay-item")[1]
-            .classList.add("active");
-
-        document.getElementById("metode").value = "qris";
-    } else {
-        document
-            .querySelectorAll(".pay-item")
-            .forEach((i) => i.classList.remove("active"));
-
-        document
-            .querySelectorAll(".pay-item")[0]
-            .classList.add("active");
-
-        document.getElementById("metode").value = "dana";
-    }
-
     closeRiwayat();
 }
 
+/* Riwayat sekarang adalah data database. Tombol lama "Hapus Riwayat"
+   tidak boleh menghapus order asli, sehingga fungsinya menjadi refresh. */
 function hapusRiwayat() {
-    historyData = [];
-    localStorage.removeItem("history");
-    lihatRiwayat();
+    return refreshRiwayat();
 }
 
 function closeRiwayat() {
-    document
-        .getElementById("popupRiwayat")
-        .classList.remove("show");
+    document.getElementById("popupRiwayat")?.classList.remove("show");
 }
 
 /* ========================================
@@ -414,6 +451,12 @@ function confirmBayar() {
     const max = Number(data[1]);
     const min = Number(data[2]);
 
+    // Dipakai oleh semua jalur validasi agar tombol selalu kembali aktif.
+    const resetButton = () => {
+        btn.disabled = false;
+        btn.innerText = "Bayar Sekarang";
+    };
+
     if (!Number.isFinite(hargaTampilan) || hargaTampilan <= 0 || !Number.isInteger(min) || min <= 0 || !Number.isInteger(max) || max < min) {
         resetButton();
         showError("Data layanan tidak valid. Silakan pilih layanan lagi.");
@@ -424,11 +467,6 @@ function confirmBayar() {
     input.classList.remove("input-error");
 
     /* ================= VALIDASI ================= */
-
-    const resetButton = () => {
-        btn.disabled = false;
-        btn.innerText = "Bayar Sekarang";
-    };
 
     if (!user) {
         resetButton();
@@ -565,16 +603,8 @@ MY ORDER PROCESS
             document.getElementById("total").innerText =
                 "Total: Rp 0";
 
-            // Reset dropdown
-            document.getElementById("selectedText").innerHTML = `
-<img src="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png"
-     width="18"
-     style="vertical-align:middle;margin-right:6px;">
-TikTok Followers — Rp75 / 1 (Min 50)
-`;
-
-            document.getElementById("layanan").value =
-                "75|99999|50";
+            // Reset dropdown dari produk aktif di Supabase — tidak ada fallback hardcoded.
+            renderServiceDropdown();
 
             // Reset metode pembayaran
             document.getElementById("metode").value = "dana";
@@ -784,8 +814,9 @@ document.querySelectorAll(".popup").forEach((popup) => {
     set(KEYS.products,products); set(KEYS.levels,levels); set(KEYS.broadcasts,broadcasts); set(KEYS.orders,visibleOrders);
     if(window._jyyrAccount.role==='admin') set(KEYS.payments,(paymentRes.data||[]).map(mapPayment));
     if(window._jyyrAccount.role==='admin') set('jyyr_users',users);
-    historyData=visibleOrders.filter(o=>o.userId===uid).map(o=>{const pp=products.find(p=>p.id===o.productId);return {waktu:new Date(o.time).toLocaleString('id-ID'),user:o.target,layanan:o.layanan,jumlah:o.jumlah,total:o.total,id:o.id,value:{layanan:pp?`${pp.price}|${pp.max}|${pp.min}`:'',metode:o.metode},status:o.status,buyer:o.buyer,userId:o.userId};});
+    historyData=visibleOrders.filter(o=>o.userId===uid).map(o=>buildHistoryItem(o,products));
     localStorage.removeItem('jyyr_session');
+    localStorage.removeItem('history');
     window.jyyrDBReady=true;
     return true;
   }
@@ -828,7 +859,7 @@ document.querySelectorAll(".popup").forEach((popup) => {
 
   function renderOverview(){
     const ps=get(KEYS.products,[]),us=get('jyyr_users',[]),os=get(KEYS.orders,[]),revenue=os.filter(o=>o.status==='success').reduce((s,o)=>s+Number(o.total||0),0),pendingPayments=get(KEYS.payments,[]).filter(p=>p.status==='pending').length;
-    document.getElementById('adminContent').innerHTML=`<div class="admin-note">🟢 Database Supabase aktif. Data utama sekarang tersimpan online.</div><div class="admin-content-grid" style="margin-top:10px"><div class="stat-card"><span>Produk aktif</span><b>${ps.filter(p=>p.active).length}</b></div><div class="stat-card"><span>Total user</span><b>${us.filter(u=>u.role==='user').length}</b></div><div class="stat-card"><span>Total transaksi</span><b>${os.length}</b></div><div class="stat-card"><span>Omzet sukses</span><b>Rp ${revenue.toLocaleString('id-ID')}</b></div><div class="stat-card"><span>Pembayaran pending</span><b>${pendingPayments}</b></div></div><div class="dashboard-section"><h4>⚡ Sistem</h4><p style="font-size:12px">Auth, produk, user, transaksi, level, point, dan broadcast terhubung ke Supabase.</p></div>`;
+    document.getElementById('adminContent').innerHTML=`<div class="admin-note">🟢 Database Supabase aktif. Data utama sekarang tersimpan online.</div><div class="admin-content-grid" style="margin-top:10px"><div class="stat-card"><span>Produk aktif</span><b>${ps.filter(p=>p.active).length}</b></div><div class="stat-card"><span>Total user</span><b>${us.filter(u=>u.role==='user').length}</b></div><div class="stat-card"><span>Total transaksi</span><b>${os.length}</b></div><div class="stat-card"><span>Omzet sukses</span><b>Rp ${revenue.toLocaleString('id-ID')}</b></div><div class="stat-card"><span>Pembayaran pending</span><b>${pendingPayments}</b></div></div><div class="dashboard-section"><h4>⚡ Sistem</h4><p style="font-size:12px">Auth, produk, user, transaksi, level, point, dan broadcast terhubung ke Supabase. Fulfillment saat ini MANUAL: admin mengubah Processing → Sukses setelah layanan benar-benar selesai.</p></div>`;
   }
   function renderProducts(){const ps=get(KEYS.products,[]).slice().sort((a,b)=>{const c=String(a.category||'').localeCompare(String(b.category||''));return c||((a.sortOrder??0)-(b.sortOrder??0))});const renderRows=arr=>arr.map((p,i)=>`<div class="admin-product-row"><button class="product-move-up" title="Naikkan posisi" aria-label="Naikkan posisi ${escapeHtml(p.name)}" onclick="moveProductUp('${p.id}')" ${i===0?'disabled':''}>↑</button><div class="admin-product-main"><img src="${escapeHtml(safeImageUrl(p.icon))}" width="30" height="30" style="object-fit:contain"><div><b>${escapeHtml(p.name)}</b><small>${escapeHtml(p.category)} • Min ${p.min} • Max ${p.max}</small></div></div><div class="admin-product-price">Rp ${Number(p.price).toLocaleString('id-ID')} / 1</div><div class="admin-actions"><button onclick="openEditProduct('${p.id}')">✏️ Edit</button><button onclick="toggleProduct('${p.id}')">${p.active?'Nonaktifkan':'Aktifkan'}</button><button class="danger-btn" onclick="deleteProduct('${p.id}')">Hapus</button></div></div>`).join('');const groups={TikTok:[],Instagram:[],Lainnya:[]};ps.forEach(p=>{const c=String(p.category||'').trim().toLowerCase();if(c==='tiktok')groups.TikTok.push(p);else if(c==='instagram'||c==='ig')groups.Instagram.push(p);else groups.Lainnya.push(p);});const section=(title,icon,arr)=>arr.length?`<div class="dashboard-section" style="margin-top:10px"><h4>${icon} ${title}</h4><div class="admin-product-list">${renderRows(arr)}</div></div>`:'';document.getElementById('adminContent').innerHTML=`<h4>➕ Tambah Produk</h4><div class="admin-form"><input class="input" id="pName" placeholder="Nama produk"><div class="admin-custom-select" id="pCategorySelect"><input type="hidden" id="pCategory" value="TikTok"><button type="button" class="admin-select-trigger" onclick="toggleAdminSelect('pCategorySelect')"><span class="admin-select-value">TikTok</span><span class="admin-select-arrow">⌄</span></button><div class="admin-select-options"><button type="button" class="admin-select-option active" data-value="TikTok" onclick="chooseAdminSelect('pCategorySelect','TikTok','TikTok')">TikTok</button><button type="button" class="admin-select-option" data-value="Instagram" onclick="chooseAdminSelect('pCategorySelect','Instagram','Instagram')">Instagram</button></div></div><input class="input" id="pPrice" type="number" step="0.01" placeholder="Harga / 1"><input class="input" id="pMin" type="number" placeholder="Min"><input class="input" id="pMax" type="number" placeholder="Max"><div class="admin-custom-select" id="pIconSelect"><input type="hidden" id="pIcon" value="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png"><button type="button" class="admin-select-trigger admin-icon-trigger" onclick="toggleAdminSelect('pIconSelect')"><span class="admin-select-icon"><img src="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png" alt=""><span>👥 Followers</span></span><span class="admin-select-arrow">⌄</span></button><div class="admin-select-options"><button type="button" class="admin-select-option admin-icon-option active" data-value="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png" onclick="chooseAdminIcon('Followers','https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png','👥')"><img src="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png" alt=""> <span>Followers</span></button><button type="button" class="admin-select-option admin-icon-option" data-value="https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png" onclick="chooseAdminIcon('Like','https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png','❤️')"><img src="https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png" alt=""> <span>Like</span></button><button type="button" class="admin-select-option admin-icon-option" data-value="https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png" onclick="chooseAdminIcon('View','https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png','👁️')"><img src="https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png" alt=""> <span>View</span></button><button type="button" class="admin-select-option admin-icon-option" data-value="https://i.ibb.co.com/67sjz4nf/KOMENTAR-Jyy-R.png" onclick="chooseAdminIcon('Komentar','https://i.ibb.co.com/67sjz4nf/KOMENTAR-Jyy-R.png','💬')"><img src="https://i.ibb.co.com/67sjz4nf/KOMENTAR-Jyy-R.png" alt=""> <span>Komentar</span></button><button type="button" class="admin-select-option admin-icon-option" data-value="https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png" onclick="chooseAdminIcon('Share','https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png','🔗')"><img src="https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png" alt=""> <span>Share</span></button><button type="button" class="admin-select-option admin-icon-option" data-value="https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png" onclick="chooseAdminIcon('Save','https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png','🔖')"><img src="https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png" alt=""> <span>Save</span></button></div></div><button class="success-btn full" onclick="addProduct()">Tambah Produk</button></div><div class="dashboard-section"><h4>📦 Daftar Produk</h4></div>${section('TikTok','🎵',groups.TikTok)}${section('Instagram','📸',groups.Instagram)}${section('Lainnya','📦',groups.Lainnya)}`;}
   window.moveProductUp=async id=>{try{const p=get(KEYS.products,[]).find(x=>x.id===id);if(!p)return;const {error}=await supabaseClient.rpc('move_product_up',{p_product_id:id});if(error)throw error;const {data,error:reloadError}=await supabaseClient.from('products').select('*').order('category',{ascending:true}).order('sort_order',{ascending:true}).order('created_at',{ascending:true});if(reloadError)throw reloadError;set(KEYS.products,(data||[]).map(mapProduct));renderServiceDropdown();renderProducts();showSuccess('Posisi produk dinaikkan.');}catch(e){dbError(e);}};
@@ -848,8 +879,8 @@ document.querySelectorAll(".popup").forEach((popup) => {
   function renderUsers(){const us=get('jyyr_users',[]);document.getElementById('adminContent').innerHTML=`<div class="dashboard-section"><h4>👥 Kelola User</h4><div class="admin-table-wrap"><table class="admin-table"><tr><th>User</th><th>Saldo</th><th>Point</th><th>Level</th><th>Aksi</th></tr>${us.map(u=>{const l=get(KEYS.levels,[]).slice().reverse().find(x=>u.point>=x.minPoint)||{name:'Basic'};return `<tr><td><b>${escapeHtml(u.name)}</b><br>@${escapeHtml(u.username)} ${u.role==='admin'?'<span class="badge">ADMIN</span>':''}</td><td>Rp ${Number(u.saldo||0).toLocaleString('id-ID')}</td><td>${u.point||0}</td><td>${escapeHtml(l.name)}</td><td>${u.role==='user'?`<div class="admin-actions"><button onclick="addUserPoint('${u.id}')">+ Point</button><button onclick="addUserSaldo('${u.id}')">+ Saldo</button><button class="danger-btn" onclick="deleteUser('${u.id}')">🗑️ Hapus</button></div>`:'<span class="badge">Admin dilindungi</span>'}</td></tr>`}).join('')}</table></div></div>`;}
   window.deleteUser=id=>{const u=get('jyyr_users',[]).find(x=>x.id===id);if(!u||u.role==='admin')return showError('Akun admin tidak dapat dihapus dari panel ini.');if(u.id===currentAccount()?.id)return showError('Akun admin yang sedang login tidak dapat dihapus.');openAdminConfirm('deleteUser',id,'👤','Hapus Akun User?','Akun user dan sesi Auth-nya akan dihapus secara permanen.','@'+u.username,'🗑️ Hapus Akun','danger');};
   async function executeDeleteUser(id){try{const {error}=await supabaseClient.rpc('admin_delete_user',{p_user_id:id});if(error)throw error;set('jyyr_users',get('jyyr_users',[]).filter(x=>x.id!==id));showSuccess('Akun user berhasil dihapus.');renderUsers();}catch(e){dbError(e);}};
-  window.addUserPoint=async id=>{const n=Number(prompt('Tambah point:',100));if(!Number.isInteger(n)||n<=0)return;const u=get('jyyr_users',[]).find(x=>x.id===id);if(!u)return;try{await dbUpdate('profiles',{point:Number(u.point||0)+n},{id});u.point+=n;set('jyyr_users',get('jyyr_users',[]));renderUsers();}catch(e){dbError(e);}};
-  window.addUserSaldo=async id=>{const n=Number(prompt('Tambah saldo:',1000));if(!Number.isFinite(n)||n<=0)return;const u=get('jyyr_users',[]).find(x=>x.id===id);if(!u)return;try{await dbUpdate('profiles',{saldo:Number(u.saldo||0)+n},{id});u.saldo+=n;set('jyyr_users',get('jyyr_users',[]));if(currentAccount()?.id===id)window._jyyrAccount.saldo=u.saldo;renderUsers();}catch(e){dbError(e);}};
+  window.addUserPoint=async id=>{const n=Number(prompt('Tambah point:',100));if(!Number.isInteger(n)||n<=0)return;try{const {data,error}=await supabaseClient.rpc('admin_adjust_point',{p_user_id:id,p_delta:n,p_reason:'Manual admin adjustment'});if(error)throw error;const u=get('jyyr_users',[]).find(x=>x.id===id);if(u){u.point=Number(data?.new_point??u.point+n);set('jyyr_users',get('jyyr_users',[]));}renderUsers();showSuccess('Point berhasil ditambahkan dan dicatat ke ledger.');}catch(e){dbError(e);}};
+  window.addUserSaldo=async id=>{const n=Number(prompt('Tambah saldo:',1000));if(!Number.isFinite(n)||n<=0)return;try{const {data,error}=await supabaseClient.rpc('admin_adjust_balance',{p_user_id:id,p_delta:n,p_reason:'Manual admin balance adjustment'});if(error)throw error;const u=get('jyyr_users',[]).find(x=>x.id===id);if(u){u.saldo=Number(data?.new_saldo??u.saldo+n);set('jyyr_users',get('jyyr_users',[]));}if(currentAccount()?.id===id)window._jyyrAccount.saldo=Number(data?.new_saldo??window._jyyrAccount.saldo+n);renderUsers();showSuccess('Saldo berhasil ditambahkan dan dicatat ke ledger.');}catch(e){dbError(e);}};
 
   async function renderPayments(){
     const box=document.getElementById('adminContent');
@@ -892,9 +923,14 @@ document.querySelectorAll(".popup").forEach((popup) => {
   };
 
   function renderOrders(){const os=get(KEYS.orders,[]).slice().reverse();document.getElementById('adminContent').innerHTML=`<div class="dashboard-section"><h4>🧾 Semua Transaksi</h4><div class="admin-order-list">${os.length?os.map(o=>`<div class="admin-order-card"><div class="admin-order-grid"><div class="admin-order-field"><small>ID Pesanan</small><b>${escapeHtml(o.id)}</b></div><div class="admin-order-field"><small>User</small><b>${escapeHtml(o.buyer||o.user||'-')}</b></div><div class="admin-order-field"><small>Produk</small><b>${escapeHtml(o.layanan)}</b></div><div class="admin-order-field"><small>Jumlah</small><b>${Number(o.jumlah||0).toLocaleString('id-ID')}</b></div><div class="admin-order-field"><small>Total</small><b>Rp ${Number(o.total||0).toLocaleString('id-ID')}</b></div><div class="admin-order-field"><small>Status</small><b><span class="badge">${escapeHtml(o.status||'pending')}</span></b></div></div><div class="admin-actions"><button onclick="setOrderStatus('${o.id}','processing')">⚙️ Proses</button><button class="success-btn" onclick="setOrderStatus('${o.id}','success')">✅ Sukses</button><button class="danger-btn" onclick="setOrderStatus('${o.id}','cancelled')">❌ Batal</button></div></div>`).join(''):'<div class="dashboard-section">Belum ada transaksi.</div>'}</div></div>`;}
-  window.setOrderStatus=async(id,status)=>{try{const payment=get(KEYS.payments,[]).find(p=>p.orderId===id);if((status==='processing'||status==='success')&&payment?.status!=='verified')return showError('Verifikasi pembayaran terlebih dahulu.');await dbUpdate('orders',{status,updated_at:new Date().toISOString()},{id});const os=get(KEYS.orders,[]),o=os.find(x=>x.id===id);if(o)o.status=status;set(KEYS.orders,os);renderOrders();}catch(e){dbError(e);}};
+  window.setOrderStatus=async(id,status)=>{try{const os=get(KEYS.orders,[]),o=os.find(x=>x.id===id);if(!o)return showError('Order tidak ditemukan.');const payment=get(KEYS.payments,[]).find(p=>p.orderId===id);if((status==='processing'||status==='success')&&payment?.status!=='verified')return showError('Verifikasi pembayaran terlebih dahulu.');if(status==='success'&&o.status!=='processing')return showError('Order harus berstatus Processing sebelum dinyatakan Sukses.');if(status==='processing'&&o.status!=='pending'&&o.status!=='processing')return showError('Order hanya dapat masuk Processing dari status Pending.');await dbUpdate('orders',{status,updated_at:new Date().toISOString()},{id});o.status=status;set(KEYS.orders,os);renderOrders();showSuccess(status==='success'?'Order ditandai Sukses.':'Order masuk Processing.');}catch(e){dbError(e);}};
 
-  function renderLevels(){const ls=get(KEYS.levels,[]);document.getElementById('adminContent').innerHTML=`<h4>➕ Tambah Level</h4><div class="admin-form"><input class="input" id="lName" placeholder="Nama level"><input class="input" id="lPoint" type="number" placeholder="Minimal point"><input class="input" id="lReward" type="number" placeholder="Reward saldo"><button class="success-btn full" onclick="addLevel()">Tambah Level</button></div><div class="level-admin-list">${ls.length?ls.map(l=>`<div class="level-admin-card"><div><small>Level</small><b>${escapeHtml(l.name)}</b></div><div><small>Minimal Point</small><b>${Number(l.minPoint||0).toLocaleString('id-ID')}</b></div><div><small>Reward</small><b>Rp ${Number(l.reward||0).toLocaleString('id-ID')}</b></div><button class="danger-btn" onclick="deleteLevel('${escapeHtml(l.name)}')">🗑️ Hapus</button></div>`).join(''):'<div class="dashboard-section">Belum ada level.</div>'}</div>`;}
+  function renderLevels(){const ls=get(KEYS.levels,[]);document.getElementById('adminContent').innerHTML=`<h4>➕ Tambah Level</h4><div class="admin-form"><input class="input" id="lName" placeholder="Nama level"><input class="input" id="lPoint" type="number" placeholder="Minimal point"><input class="input" id="lReward" type="number" placeholder="Reward saldo"><button class="success-btn full" onclick="addLevel()">Tambah Level</button></div><div class="level-admin-list">${ls.length?ls.map(l=>`<div class="level-admin-card">
+  <div class="level-info level-name"><small>Level</small><b>${escapeHtml(l.name)}</b></div>
+  <div class="level-info level-point"><small>Minimal Point</small><b>${Number(l.minPoint||0).toLocaleString('id-ID')}</b></div>
+  <div class="level-info level-reward"><small>Reward</small><b>Rp ${Number(l.reward||0).toLocaleString('id-ID')}</b></div>
+  <button type="button" class="danger-btn level-delete-btn" aria-label="Hapus level ${escapeHtml(l.name)}" title="Hapus level" onclick="deleteLevel('${escapeHtml(l.name)}')">🗑️ Hapus</button>
+</div>`).join(''):'<div class="dashboard-section">Belum ada level.</div>'}</div>`;}
   window.addLevel=async()=>{const l={name:document.getElementById('lName').value.trim(),minPoint:+document.getElementById('lPoint').value,reward:+document.getElementById('lReward').value||0};if(!l.name)return showError('Nama level wajib diisi.');if(l.minPoint<0)return showError('Minimal point tidak boleh negatif.');try{const {data,error}=await supabaseClient.from('levels').insert({name:l.name,min_point:l.minPoint,reward:l.reward}).select().single();if(error)throw error;const ls=get(KEYS.levels,[]);ls.push(mapLevel(data));ls.sort((a,b)=>a.minPoint-b.minPoint);set(KEYS.levels,ls);renderLevels();}catch(e){dbError(e);}};
   window.deleteLevel=async name=>{try{const {error}=await supabaseClient.from('levels').delete().eq('name',name);if(error)throw error;set(KEYS.levels,get(KEYS.levels,[]).filter(x=>x.name!==name));renderLevels();}catch(e){dbError(e);}};
 
@@ -983,19 +1019,8 @@ document.querySelectorAll(".popup").forEach((popup) => {
       os.unshift(mappedOrder);
       set(KEYS.orders,os);
 
-      historyData.unshift({
-        waktu:new Date().toLocaleString('id-ID'),
-        user:target,
-        layanan:order.product_name,
-        jumlah:Number(order.quantity),
-        total:Number(order.total),
-        id:order.id,
-        value:{...value,productId:order.product_id,metode:order.payment_method},
-        status:order.status,
-        buyer:u.username,
-        userId:u.id
-      });
-      localStorage.setItem('history',JSON.stringify(historyData));
+      // Supabase adalah source of truth. Hanya cache order utama yang diperbarui;
+      // riwayat ditarik ulang dari tabel orders saat dibuka.
       window._jyyrAccount=u;
       return {order,payment};
     }catch(e){

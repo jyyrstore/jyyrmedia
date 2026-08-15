@@ -30,6 +30,15 @@ begin
       raise exception 'Payment must be verified before order can be processing/success';
     end if;
   end if;
+
+  if new.status = 'processing' and old.status not in ('pending','processing') then
+    raise exception 'Order hanya boleh masuk Processing dari Pending';
+  end if;
+
+  if new.status = 'success' and old.status <> 'processing' then
+    raise exception 'Order harus Processing sebelum menjadi Sukses';
+  end if;
+
   return new;
 end;
 $$;
@@ -560,3 +569,101 @@ $$;
 
 revoke all on function public.move_product_up(uuid) from public;
 grant execute on function public.move_product_up(uuid) to authenticated;
+
+-- ==========================================================
+-- AUDIT LEDGER + ATOMIC ADMIN ADJUSTMENTS
+-- Manual balance/point changes must go through these functions.
+-- ==========================================================
+alter table public.point_ledger enable row level security;
+alter table public.balance_ledger enable row level security;
+
+drop policy if exists point_ledger_select_own_or_admin on public.point_ledger;
+create policy point_ledger_select_own_or_admin on public.point_ledger
+for select to authenticated
+using (user_id = (select auth.uid()) or (select public.is_admin()));
+
+drop policy if exists balance_ledger_select_own_or_admin on public.balance_ledger;
+create policy balance_ledger_select_own_or_admin on public.balance_ledger
+for select to authenticated
+using (user_id = (select auth.uid()) or (select public.is_admin()));
+
+drop policy if exists point_ledger_insert_blocked on public.point_ledger;
+create policy point_ledger_insert_blocked on public.point_ledger
+for insert to authenticated
+with check (false);
+
+drop policy if exists balance_ledger_insert_blocked on public.balance_ledger;
+create policy balance_ledger_insert_blocked on public.balance_ledger
+for insert to authenticated
+with check (false);
+
+create or replace function public.admin_adjust_point(
+  p_user_id uuid,
+  p_delta bigint,
+  p_reason text default 'Manual admin adjustment'
+)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_new bigint;
+  v_reason text := nullif(trim(coalesce(p_reason,'')), '');
+begin
+  if not public.is_admin() then raise exception 'Admin access required'; end if;
+  if p_user_id is null then raise exception 'User ID wajib diisi'; end if;
+  if p_delta is null or p_delta = 0 then raise exception 'Perubahan point tidak boleh nol'; end if;
+  if v_reason is null then raise exception 'Alasan perubahan wajib diisi'; end if;
+
+  update public.profiles
+  set point = point + p_delta, updated_at = now()
+  where id = p_user_id and point + p_delta >= 0
+  returning point into v_new;
+
+  if not found then raise exception 'User tidak ditemukan atau point tidak boleh negatif'; end if;
+
+  insert into public.point_ledger(user_id, order_id, delta, reason)
+  values(p_user_id, null, p_delta, v_reason || ' by admin ' || auth.uid()::text);
+
+  return jsonb_build_object('user_id',p_user_id,'delta',p_delta,'new_point',v_new);
+end;
+$$;
+
+create or replace function public.admin_adjust_balance(
+  p_user_id uuid,
+  p_delta numeric,
+  p_reason text default 'Manual admin balance adjustment'
+)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_new numeric(14,2);
+  v_reason text := nullif(trim(coalesce(p_reason,'')), '');
+begin
+  if not public.is_admin() then raise exception 'Admin access required'; end if;
+  if p_user_id is null then raise exception 'User ID wajib diisi'; end if;
+  if p_delta is null or p_delta = 0 then raise exception 'Perubahan saldo tidak boleh nol'; end if;
+  if v_reason is null then raise exception 'Alasan perubahan wajib diisi'; end if;
+
+  update public.profiles
+  set saldo = saldo + p_delta, updated_at = now()
+  where id = p_user_id and saldo + p_delta >= 0
+  returning saldo into v_new;
+
+  if not found then raise exception 'User tidak ditemukan atau saldo tidak boleh negatif'; end if;
+
+  insert into public.balance_ledger(user_id, delta, balance_after, reason, created_by)
+  values(p_user_id, p_delta, v_new, v_reason, auth.uid());
+
+  return jsonb_build_object('user_id',p_user_id,'delta',p_delta,'new_saldo',v_new);
+end;
+$$;
+
+revoke all on function public.admin_adjust_point(uuid,bigint,text) from public;
+grant execute on function public.admin_adjust_point(uuid,bigint,text) to authenticated;
+revoke all on function public.admin_adjust_balance(uuid,numeric,text) from public;
+grant execute on function public.admin_adjust_balance(uuid,numeric,text) to authenticated;

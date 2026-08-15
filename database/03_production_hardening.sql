@@ -36,6 +36,12 @@ begin
   ) then
     raise exception 'Payment must be verified before order can be processing/success';
   end if;
+  if new.status = 'processing' and old.status not in ('pending','processing') then
+    raise exception 'Order hanya boleh masuk Processing dari Pending';
+  end if;
+  if new.status = 'success' and old.status <> 'processing' then
+    raise exception 'Order harus Processing sebelum menjadi Sukses';
+  end if;
   return new;
 end;
 $$;

@@ -6,7 +6,8 @@
   <title>
    JYYR STORE
   </title>
-  <link href="css/style.css" rel="stylesheet"/>
+  <link href="css/shared.css" rel="stylesheet"/>
+  <link href="css/index.css" rel="stylesheet"/>
  </head>
  <body>
   <div class="glow-effect">
@@ -110,8 +111,8 @@
     <div id="listRiwayat">
      Belum ada pesanan
     </div>
-    <button onclick="hapusRiwayat()">
-     🗑 Hapus Riwayat
+    <button onclick="refreshRiwayat()">
+     🔄 Refresh Riwayat
     </button>
     <button class="btn-close" onclick="closeRiwayat()">
      ×
@@ -171,7 +172,7 @@
     <h3>
      ✅ Berhasil
     </h3>
-    <p>
+    <p id="successText">
      Order berhasil dikirim ke WhatsApp 🚀
      <br/>
      Silakan lanjut chat admin
@@ -326,72 +327,14 @@
       </label>
       <div class="dropdown">
        <div class="dropdown-selected" onclick="toggleDropdown()">
-        <span id="selectedText">
-         <img src="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18" alt="">
-          TikTok Followers 🇮🇩 : Rp75 : 1 (Min 50)
-        </span>
-        <span class="arrow">
-         ⌄
-        </span>
+        <span id="selectedText">Memuat layanan...</span>
+        <span class="arrow">⌄</span>
        </div>
        <div class="dropdown-list" id="serviceList">
-        <!-- 🔥 TIKTOK -->
-        <div class="dropdown-item" style="pointer-events:none;opacity:0.6;">
-         <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" style="height:25px;"/ alt=""/>
-         TikTok
-        </div>
-        <div class="dropdown-item active" data-icon="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png" data-text="TikTok Followers 🇮🇩 — Rp75 / 1 (Min 50)" data-value="75|99999|50" onclick="selectItem(this, event)">
-         <img src="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18"/ alt=""/>
-         TikTok Followers 🇮🇩 : Rp75
-        </div>
-        <div class="dropdown-item" data-icon="https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png" data-text="TikTok Likes 🇮🇩 — Rp39 : 1 (Min 50)" data-value="39|99999|50" onclick="selectItem(this, event)">
-         <img src="https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18"/ alt=""/>
-         TikTok Likes 🇮🇩 : Rp39
-        </div>
-        <div class="dropdown-item" data-icon="https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png" data-text="TikTok Views 🇮🇩 — Rp2.2 : 1 (Min 1000)" data-value="2.2|99999|1000" onclick="selectItem(this, event)">
-         <img src="https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18"/ alt=""/>
-         TikTok Views 🇮🇩 : Rp2.2
-        </div>
-        <div class="dropdown-item" data-icon="https://i.ibb.co.com/67sjz4nf/KOMENTAR-Jyy-R.png" data-text="TikTok Komen 🇮🇩 — Rp300 : 1 (Min 10)" data-value="300|99999|10" onclick="selectItem(this, event)">
-         <img src="https://i.ibb.co.com/67sjz4nf/KOMENTAR-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18"/ alt=""/>
-         TikTok Komen 🇮🇩 : Rp300
-        </div>
-        <div class="dropdown-item" data-icon="https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png" data-text="TikTok Shares 🇮🇩 — Rp1.7 : 1 (Min 1000)" data-value="1.7|99999|1000" onclick="selectItem(this, event)">
-         <img src="https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18"/ alt=""/>
-         TikTok Shares 🇮🇩 : Rp1.7
-        </div>
-        <div class="dropdown-item" data-icon="https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png" data-text="TikTok Saves 🇮🇩 — Rp2.7 : 1 (Min 1000)" data-value="2.7|99999|1000" onclick="selectItem(this, event)">
-         <img src="https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18"/ alt=""/>
-         TikTok Saves 🇮🇩 : Rp2.7
-        </div>
-        <!-- 🔥 INSTAGRAM -->
-        <div class="dropdown-item" style="pointer-events:none;opacity:0.6;">
-         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" style="height:25px;"/ alt=""/>
-         Instagram
-        </div>
-        <div class="dropdown-item" data-icon="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png" data-text="Instagram Followers 🇮🇩 — Rp60 : 1 (Min 50)" data-value="60|99999|50" onclick="selectItem(this, event)">
-         <img src="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18"/ alt=""/>
-         Instagram Followers 🇮🇩 : Rp60
-        </div>
-        <div class="dropdown-item" data-icon="https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png" data-text="Instagram Likes 🇮🇩 : Rp30 : 1 (Min 100)" data-value="30|99999|100" onclick="selectItem(this, event)">
-         <img src="https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18"/ alt=""/>
-         Instagram Likes 🇮🇩 : Rp30
-        </div>
-        <div class="dropdown-item" data-icon="https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png" data-text="Instagram Views 🇮🇩 — Rp0.75 : 1 (Min 1000)" data-value="0.75|99999|1000" onclick="selectItem(this, event)">
-         <img src="https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18"/ alt=""/>
-         Instagram Views 🇮🇩 : Rp0.75
-        </div>
-        <div class="dropdown-item" data-icon="https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png" data-text="Instagram Shares 🇮🇩 — Rp1.1 : 1 (Min 1000)" data-value="1.1|99999|1000" onclick="selectItem(this, event)">
-         <img src="https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18"/ alt=""/>
-         Instagram Shares 🇮🇩 : Rp1.1
-        </div>
-        <div class="dropdown-item" data-icon="https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png" data-text="Instagram Saves 🇮🇩 — Rp7.5 : 1 (Min 100)" data-value="7.5|99999|100" onclick="selectItem(this, event)">
-         <img src="https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png" style="vertical-align:middle; margin-right:6px;" width="18"/ alt=""/>
-         Instagram Saves 🇮🇩 : Rp7.5
-        </div>
+        <div class="dropdown-item">Memuat layanan...</div>
        </div>
       </div>
-      <input id="layanan" type="hidden" value="75|99999|50"/>
+      <input id="layanan" type="hidden" value=""/>
       <button class="btn-deskripsi" onclick="openDeskripsi()">
        Lihat Deskripsi ⚠
       </button>
