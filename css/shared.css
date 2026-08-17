@@ -874,6 +874,7 @@ button:active{
 
 /* Admin shortcut - hanya terlihat untuk akun admin */
 .admin-mini{
+  display:none;
   border-color:rgba(0,170,255,.45);
   color:#dff6ff;
 }
@@ -1118,263 +1119,6 @@ button:active{
     margin:0 !important;
 }
 
-/* Edit Produk harus berada DI DEPAN popup Admin Panel */
-#popupEditProduct{
-    /* Sama dengan layer popup global; karena diletakkan setelah #popupAdmin,
-       popup edit otomatis tampil di atas Admin Panel tanpa menutupnya. */
-    z-index:2147483647 !important;
-}
-
-#popupEditProduct .popup-box{
-    position:relative !important;
-    z-index:2147483647 !important;
-}
-
-.edit-product-box{
-    width:min(100% - 24px, 430px) !important;
-    max-width:430px !important;
-    max-height:calc(100vh - 32px) !important;
-    padding:20px !important;
-    background:#100019 !important;
-    border:1.5px solid rgba(168,85,247,.78) !important;
-    box-shadow:0 18px 60px rgba(0,0,0,.8),0 0 35px rgba(168,85,247,.28) !important;
-}
-
-.edit-product-head{
-    position:relative;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height:52px;
-    text-align:center;
-}
-
-.edit-product-head > div{
-    width:100%;
-    padding:0 44px;
-    box-sizing:border-box;
-}
-
-.edit-product-head h3{
-    margin:0;
-    text-align:center;
-    color:#f5d0fe;
-}
-
-.edit-product-head small{
-    display:block;
-    margin-top:5px;
-    color:#c4b5fd;
-    text-align:center;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.edit-product-head .btn-close{
-    position:absolute;
-    right:0;
-    top:50%;
-    transform:translateY(-50%);
-}
-
-.edit-product-form{
-    display:grid;
-    gap:7px;
-    text-align:left;
-}
-
-.edit-product-form label{
-    margin-top:4px;
-    color:#ddd6fe;
-    font-size:13px;
-    font-weight:700;
-}
-
-.edit-product-form .input{
-    width:100%;
-    min-height:48px;
-    box-sizing:border-box;
-    margin:0 0 4px;
-    background:#180b25 !important;
-    color:#fff !important;
-    border:1px solid rgba(168,85,247,.35) !important;
-}
-
-.edit-product-form .input:focus{
-    outline:none;
-    border-color:rgba(192,132,252,.85) !important;
-    box-shadow:0 0 0 2px rgba(168,85,247,.10);
-}
-
-.edit-product-actions{
-    display:grid;
-    grid-template-columns:1fr 1.35fr;
-    gap:8px;
-    margin-top:4px;
-}
-
-.edit-product-actions button{
-    min-height:48px;
-    border:0;
-    border-radius:12px;
-    color:#fff;
-    font-weight:800;
-    cursor:pointer;
-}
-
-.cancel-edit-btn{
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.12) !important;
-}
-
-.save-edit-btn{
-    width:100%;
-    background:linear-gradient(135deg,#7e22ce,#db2777) !important;
-}
-
-@media(max-width:480px){
-    .popup-box.admin-box .admin-head > div{
-        padding:0 42px !important;
-    }
-
-    .popup-box.admin-box .admin-head h3{
-        font-size:18px !important;
-    }
-
-    .edit-product-box{
-        width:calc(100% - 20px) !important;
-        padding:17px !important;
-        border-radius:20px !important;
-    }
-
-    .edit-product-actions{
-        grid-template-columns:1fr;
-    }
-}
-
-
-/* ==========================================================
-   BROADCAST DELETE CONFIRMATION POPUP
-   Selalu tampil di depan Admin Panel.
-========================================================== */
-#popupBroadcastConfirm{
-    z-index:2147483647 !important;
-}
-
-#popupBroadcastConfirm .popup-box.broadcast-confirm-box{
-    width:min(92vw,420px);
-    max-width:420px;
-    max-height:none;
-    overflow:hidden;
-    align-items:center;
-    text-align:center;
-    gap:10px;
-    padding:26px 22px 22px;
-    background:#100019 !important;
-    border:1.5px solid rgba(168,85,247,.78) !important;
-    box-shadow:0 20px 60px rgba(0,0,0,.8),0 0 30px rgba(168,85,247,.22) !important;
-}
-
-.broadcast-confirm-icon{
-    width:58px;
-    height:58px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:50%;
-    background:rgba(220,38,38,.12);
-    border:1px solid rgba(248,113,113,.35);
-    font-size:28px;
-    margin-bottom:2px;
-}
-
-.broadcast-confirm-box h3{
-    margin:0;
-    color:#fff;
-    font-size:20px;
-}
-
-.broadcast-confirm-text{
-    margin:0;
-    color:#d8cce0;
-    font-size:13px;
-    line-height:1.5;
-}
-
-.broadcast-confirm-name{
-    width:100%;
-    box-sizing:border-box;
-    margin-top:2px;
-    padding:12px 14px;
-    border-radius:12px;
-    background:rgba(255,255,255,.045);
-    border:1px solid rgba(168,85,247,.25);
-    color:#f0abfc;
-    font-weight:700;
-    font-size:14px;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.broadcast-confirm-actions{
-    width:100%;
-    display:grid;
-    grid-template-columns:1fr 1.35fr;
-    gap:9px;
-    margin-top:8px;
-}
-
-.broadcast-confirm-actions button{
-    min-height:46px;
-    border:0;
-    border-radius:12px;
-    color:#fff;
-    font-size:13px;
-    font-weight:700;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:0 12px;
-}
-
-.broadcast-cancel-btn{
-    background:rgba(255,255,255,.08);
-    border:1px solid rgba(255,255,255,.14) !important;
-}
-
-.broadcast-cancel-btn:hover{
-    background:rgba(255,255,255,.13);
-}
-
-.broadcast-confirm-delete-btn{
-    background:linear-gradient(135deg,#b91c1c,#ef4444);
-    box-shadow:0 7px 20px rgba(239,68,68,.22);
-}
-
-.broadcast-confirm-delete-btn:hover{
-    filter:brightness(1.08);
-}
-
-.broadcast-confirm-actions button:active{
-    transform:scale(.985);
-}
-
-@media(max-width:480px){
-    #popupBroadcastConfirm .popup-box.broadcast-confirm-box{
-        width:calc(100vw - 32px);
-        padding:23px 17px 18px;
-        border-radius:20px;
-    }
-    .broadcast-confirm-actions{
-        grid-template-columns:1fr;
-    }
-    .broadcast-confirm-actions button{
-        min-height:48px;
-    }
-}
 
 
 /* ==========================================================
@@ -1457,8 +1201,6 @@ button:active{
 
 /* Final popup transparency override for every popup variant */
 #popupAdmin .popup-box,
-#popupEditProduct .popup-box,
-#popupBroadcastConfirm .popup-box,
 #popupDashboard .popup-box,
 #popupRiwayat .popup-box,
 #popupQRIS .popup-box,
@@ -1934,8 +1676,6 @@ button:active{
 ========================================================== */
 .popup-box,
 #popupAdmin .popup-box,
-#popupEditProduct .popup-box,
-#popupBroadcastConfirm .popup-box,
 #popupDashboard .popup-box,
 #popupRiwayat .popup-box,
 #popupQRIS .popup-box,
@@ -1977,10 +1717,7 @@ button:active{
 ========================================================== */
 .popup-box,
 .popup-box.admin-box,
-.popup-box.admin-box #adminContent,
-.edit-product-box,
-#popupBroadcastConfirm .popup-box.broadcast-confirm-box,
-#popupEditProduct .popup-box {
+.popup-box.admin-box #adminContent {
     background:#1f1e2c !important;
     background-image:none !important;
     border:1px solid #3f3e4d !important;
@@ -2014,8 +1751,7 @@ button:active{
 /* Semua popup jangan memakai glow ungu pada border */
 .popup-box:not(.admin-box),
 .popup-box.admin-box,
-.edit-product-box,
-#popupBroadcastConfirm .popup-box.broadcast-confirm-box {
+.popup-box.admin-box {
     border-color:#3f3e4d !important;
 }
 
@@ -2132,7 +1868,6 @@ html,body{
 
 /* Inputs */
 .input,
-.edit-product-form .input,
 .popup-box.admin-box .admin-form .input{
     background:var(--theme-input) !important;
     border-color:var(--theme-border) !important;
@@ -2144,7 +1879,6 @@ html,body{
 }
 
 .input:focus,
-.edit-product-form .input:focus,
 .popup-box.admin-box .admin-form .input:focus{
     border-color:var(--theme-purple-2) !important;
     box-shadow:0 0 0 2px rgba(139,92,246,.10) !important;
@@ -2261,19 +1995,12 @@ button:hover,
 
 /* Admin panel */
 .popup-box.admin-box,
-.edit-product-box{
-    background:#1d1c29 !important;
-    border-color:rgba(255,255,255,.12) !important;
-    box-shadow:0 20px 60px rgba(0,0,0,.60),0 0 28px rgba(124,58,237,.10) !important;
-}
-
 .popup-box.admin-box #adminContent,
 .popup-box.admin-box .admin-tabs{
     background:#1d1c29 !important;
 }
 
-.popup-box.admin-box .admin-form .input,
-.edit-product-form .input{
+.popup-box.admin-box .admin-form .input{
     background:#2b2a3a !important;
 }
 
@@ -2524,3 +2251,60 @@ button:hover,
 
 
 /* Tetap ringan di HP: tidak ada animasi/filter tambahan */
+
+
+/* ==========================================================
+   V4.5 GLOBAL VIEWPORT / TOUCH SAFETY
+========================================================== */
+
+.popup{
+    padding:12px;
+    overflow:auto;
+    overscroll-behavior:contain;
+}
+
+.popup-box{
+    width:min(100%,420px);
+    min-width:0;
+}
+
+.popup-box > *{
+    max-width:100%;
+}
+
+.btn-close,
+.admin-tab,
+.mini-btn,
+.admin-actions button,
+.success-btn,
+.danger-btn{
+    touch-action:manipulation;
+}
+
+@media (min-width:769px) and (max-width:1199px){
+    .popup-box.dashboard-box,
+    .popup-box.admin-box{
+        width:min(100%,980px);
+    }
+}
+
+@media (max-width:430px){
+    .popup{
+        padding:8px;
+        align-items:center;
+    }
+
+    .popup-box{
+        max-height:calc(100dvh - 16px);
+        border-radius:20px;
+        padding:16px;
+    }
+}
+
+
+/* JYYR UI ICONS — single shared sizing/alignment authority */
+.ui-icon{display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.2em;stroke:currentColor;fill:none;pointer-events:none;}
+button .ui-icon,.mini-btn .ui-icon,.admin-tab .ui-icon,.feature-btn .ui-icon{width:18px;height:18px;vertical-align:middle;}
+.btn-close .ui-icon{width:20px;height:20px;vertical-align:middle;}
+
+.ui-icon-wrap{display:inline-flex;align-items:center;justify-content:center;line-height:1;vertical-align:middle;}

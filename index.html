@@ -2,12 +2,15 @@
 <html lang="id">
  <head>
   <meta charset="utf-8"/>
+  <meta content="4.9.4" name="jyyr-version"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <title>
    JYYR STORE
   </title>
   <link href="css/shared.css" rel="stylesheet"/>
   <link href="css/index.css" rel="stylesheet"/>
+  <link href="css/features.css" rel="stylesheet"/>
+  <link href="manifest.json" rel="manifest"/>
  </head>
  <body>
   <div class="glow-effect">
@@ -15,104 +18,61 @@
 
   <!-- ================= ACCOUNT ================= -->
   <div class="account-bar">
-    <div id="accountStatus" class="account-status">👤 User</div>
+    <div id="accountStatus" class="account-status" aria-live="polite"><span class="ui-icon-wrap"><span data-icon="user"></span></span> User • user</div>
     <div class="account-actions">
-      <button class="mini-btn" onclick="openDashboard()">📊 Dashboard</button>
-      <button class="mini-btn admin-mini" id="adminPanelBtn" onclick="openAdminPanel()" style="display:none">🧑‍💼 Admin Panel</button>
-      <button class="mini-btn logout-mini" onclick="logoutUser()">↪️ Log Out</button>
+      <button class="mini-btn" onclick="openDashboard()"><span class="ui-icon-wrap"><span data-icon="dashboard"></span></span> Dashboard</button>
+      <button class="mini-btn admin-mini" id="adminPanelBtn" onclick="openAdminPanel()"><span class="ui-icon-wrap"><span data-icon="shield"></span></span> Admin Panel</button>
+      <button class="mini-btn logout-mini" onclick="logoutUser()"><span class="ui-icon-wrap"><span data-icon="logout"></span></span> Log Out</button>
     </div>
   </div>
 
   <!-- USER DASHBOARD -->
   <div class="popup" id="popupDashboard">
     <div class="popup-box dashboard-box">
-      <h3>👤 Dashboard User</h3>
+      <h3><span class="ui-icon-wrap"><span data-icon="user"></span></span> Dashboard User</h3>
       <div class="dashboard-grid">
         <div class="stat-card"><span>Saldo</span><b id="dashSaldo">Rp 0</b></div>
         <div class="stat-card"><span>Point</span><b id="dashPoint">0</b></div>
         <div class="stat-card"><span>Level</span><b id="dashLevel">Basic</b></div>
         <div class="stat-card"><span>Pesanan</span><b id="dashOrders">0</b></div>
       </div>
-      <div class="dashboard-section"><h4>🔔 Notifikasi</h4><div id="userNotifications">Belum ada notifikasi.</div></div>
-      <div class="dashboard-section"><h4>📜 Pesanan Saya</h4><div id="userOrders">Belum ada pesanan.</div></div>
-      <button class="btn-close" onclick="closeDashboard()">×</button>
+      <div class="dashboard-section"><h4><span class="ui-icon-wrap"><span data-icon="bell"></span></span> Notifikasi</h4><div id="userNotifications">Belum ada notifikasi.</div></div>
+      <div class="dashboard-section"><h4><span class="ui-icon-wrap"><span data-icon="receipt"></span></span> Pesanan Saya</h4><div id="userOrders">Belum ada pesanan.</div></div>
+      <button class="btn-close" onclick="closeDashboard()"><span data-icon="close"></span></button>
     </div>
   </div>
 
   <!-- ADMIN PANEL -->
   <div class="popup" id="popupAdmin">
     <div class="popup-box admin-box">
-      <div class="admin-head"><div><h3>🧑‍💼 JYYR ADMIN PANEL</h3><small id="adminWelcome"></small></div><button onclick="closeAdminPanel()" class="btn-close">×</button></div>
+      <div class="admin-head"><div><h3><span class="ui-icon-wrap"><span data-icon="shield"></span></span> JYYR ADMIN PANEL</h3><small id="adminWelcome"></small></div><button onclick="closeAdminPanel()" class="btn-close"><span data-icon="close"></span></button></div>
       <div class="admin-tabs">
-        <button onclick="adminTab('overview')" class="admin-tab active">📊 Statistik</button>
-        <button onclick="adminTab('products')" class="admin-tab">📦 Produk</button>
-        <button onclick="adminTab('users')" class="admin-tab">👥 User</button>
-        <button onclick="adminTab('orders')" class="admin-tab">🧾 Transaksi</button>
-        <button onclick="adminTab('payments')" class="admin-tab">💳 Pembayaran</button>
-        <button onclick="adminTab('levels')" class="admin-tab">🏆 Level</button>
-        <button onclick="adminTab('broadcast')" class="admin-tab">📢 Broadcast</button>
+        <button onclick="adminTab('overview')" class="admin-tab active"><span class="ui-icon-wrap"><span data-icon="chart"></span></span> Statistik</button>
+        <button onclick="adminTab('products')" class="admin-tab"><span class="ui-icon-wrap"><span data-icon="package"></span></span> Produk</button>
+        <button onclick="adminTab('users')" class="admin-tab"><span class="ui-icon-wrap"><span data-icon="users"></span></span> User</button>
+        <button onclick="adminTab('orders')" class="admin-tab"><span class="ui-icon-wrap"><span data-icon="receipt"></span></span> Transaksi</button>
+        <button onclick="adminTab('payments')" class="admin-tab"><span class="ui-icon-wrap"><span data-icon="card"></span></span> Pembayaran</button>
+        <button onclick="adminTab('levels')" class="admin-tab"><span class="ui-icon-wrap"><span data-icon="trophy"></span></span> Level</button>
+        <button onclick="adminTab('broadcast')" class="admin-tab"><span class="ui-icon-wrap"><span data-icon="broadcast"></span></span> Broadcast</button>
       </div>
       <div id="adminContent"></div>
     </div>
   </div>
 
-  <!-- EDIT PRODUK POPUP - SELALU DI ATAS ADMIN PANEL -->
-  <div class="popup" id="popupEditProduct">
-    <div class="popup-box edit-product-box">
-      <div class="edit-product-head">
-        <div>
-          <h3>✏️ Edit Produk</h3>
-          <small id="editProductName">-</small>
-        </div>
-        <button type="button" class="btn-close" onclick="closeEditProduct()">×</button>
-      </div>
-
-      <div class="edit-product-form">
-        <label for="editProductPrice">Harga per 1</label>
-        <input class="input" id="editProductPrice" type="number" min="0.01" step="0.01" inputmode="decimal" placeholder="Contoh: 75">
-
-        <label for="editProductMin">Minimal Pesanan (Min)</label>
-        <input class="input" id="editProductMin" type="number" min="1" step="1" inputmode="numeric" placeholder="Contoh: 50">
-
-        <label for="editProductMax">Maksimal Pesanan (Max)</label>
-        <input class="input" id="editProductMax" type="number" min="1" step="1" inputmode="numeric" placeholder="Contoh: 99999">
-      </div>
-
-      <div class="edit-product-actions">
-        <button type="button" class="cancel-edit-btn" onclick="closeEditProduct()">Batal</button>
-        <button type="button" class="success-btn save-edit-btn" onclick="saveEditProduct()">💾 Simpan Perubahan</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- BROADCAST DELETE CONFIRMATION POPUP - SELALU DI ATAS ADMIN PANEL -->
-  <div class="popup broadcast-confirm-popup" id="popupBroadcastConfirm">
-   <div class="popup-box broadcast-confirm-box">
-    <div class="broadcast-confirm-icon">🗑️</div>
-    <h3>Hapus Broadcast?</h3>
-    <p class="broadcast-confirm-text">Kamu yakin ingin menghapus broadcast ini?</p>
-    <div class="broadcast-confirm-name" id="broadcastConfirmName">-</div>
-    <div class="broadcast-confirm-actions">
-      <button type="button" class="broadcast-cancel-btn" onclick="closeBroadcastConfirm()">Batal</button>
-      <button type="button" class="broadcast-confirm-delete-btn" onclick="confirmDeleteBroadcast()">🗑️ Konfirmasi Hapus</button>
-    </div>
-   </div>
-  </div>
-
   <!-- 🔥 RIWAYAT -->
   <button class="btn-riwayat" onclick="lihatRiwayat()">
-   📜
+   <span class="ui-icon-wrap"><span data-icon="receipt"></span></span>
   </button>
   <div class="popup" id="popupRiwayat">
-   <div class="popup-box" style="max-height:80vh;overflow:auto;text-align:left">
+   <div class="popup-box history-box">
     <h3>
-     📜 Riwayat Pesanan
+     <span class="ui-icon-wrap"><span data-icon="receipt"></span></span> Riwayat Pesanan
     </h3>
     <div id="listRiwayat">
      Belum ada pesanan
     </div>
     <button onclick="refreshRiwayat()">
-     🔄 Refresh Riwayat
+     <span class="ui-icon-wrap"><span data-icon="refresh"></span></span> Refresh Riwayat
     </button>
     <button class="btn-close" onclick="closeRiwayat()">
      ×
@@ -125,7 +85,7 @@
     <h3>
      Scan QRIS
     </h3>
-    <img src="https://i.ibb.co.com/TxXvM88Y/qrisjyyr.png" style="width:100%;border-radius:12px;margin:10px 0;"/ alt=""/>
+    <img class="qris-image" src="https://i.ibb.co.com/TxXvM88Y/qrisjyyr.png" alt="QRIS JYYR STORE"/>
     <p>
      Scan untuk melakukan pembayaran
     </p>
@@ -133,13 +93,13 @@
      <label class="upload-box">
       <input accept="image/*" id="bukti" onchange="previewBukti(event)" type="file"/>
       <span id="uploadText">
-       📸 Upload Bukti Pembayaran
+       <span class="ui-icon-wrap"><span data-icon="photoPlus"></span></span> Upload Bukti Pembayaran
       </span>
      </label>
-     <img id="previewImg"/ alt=""/>
+     <img id="previewImg" alt="Pratinjau bukti pembayaran"/>
     </div>
     <button class="btn-bayar" onclick="confirmBayar()">
-     ✅ Konfirmasi Pembayaran
+     <span class="ui-icon-wrap"><span data-icon="check"></span></span> Konfirmasi Pembayaran
     </button>
     <button class="btn-close" onclick="closeQRIS()">
      ×
@@ -152,14 +112,14 @@
     <h3>
      Transfer DANA
     </h3>
-    <p id="nomorDana" style="font-size:18px;color:#f472b6;">
+    <p id="nomorDana" class="dana-number">
      083836898632
     </p>
     <button onclick="copyDana()">
-     📋 Copy Nomor
+     <span class="ui-icon-wrap"><span data-icon="file"></span></span> Copy Nomor
     </button>
     <button class="btn-bayar" onclick="confirmBayar()">
-     ✅ Konfirmasi Pembayaran
+     <span class="ui-icon-wrap"><span data-icon="check"></span></span> Konfirmasi Pembayaran
     </button>
     <button class="btn-close" onclick="closeDANA()">
      ×
@@ -170,10 +130,10 @@
   <div class="popup" id="popupSuccess">
    <div class="popup-box">
     <h3>
-     ✅ Berhasil
+     <span class="ui-icon-wrap"><span data-icon="check"></span></span> Berhasil
     </h3>
     <p id="successText">
-     Order berhasil dikirim ke WhatsApp 🚀
+     Order berhasil dikirim ke WhatsApp <span class="ui-icon-wrap"><span data-icon="arrowUp"></span></span>
      <br/>
      Silakan lanjut chat admin
     </p>
@@ -184,8 +144,8 @@
   </div>
   <!-- 🔥 DESKRIPSI -->
   <div class="popup" id="popupDeskripsi">
-   <div class="popup-box" style="max-height:80vh;overflow:auto;text-align:left">
-    <pre style="white-space:pre-wrap;font-family:inherit;">
+   <div class="popup-box description-box">
+    <pre class="description-text">
 
 ╭┈┈┈┈┈┈┈𓊈𝗗𝗲𝘀𝗸𝗿𝗶𝗽𝘀𝗶 𝙎𝙪𝙣𝙩𝙞𝙠 𝙄𝙂𓊉 ᯓ
 │➭𝙵𝚕𝚊𝚐 𝙵𝚘𝚛 𝚁𝚎𝚟𝚒𝚎𝚠𝚜 𝙾𝙵𝙵 / 𓊆𝙿𝚎𝚗𝚌𝚎𝚝 𝙶𝚊𝚛𝚒𝚜 𝚃𝚒𝚐𝚊 &gt;
@@ -240,7 +200,7 @@
       <div class="popup" id="popupError">
        <div class="popup-box">
         <h3>
-         ⚠️ Peringatan
+         <span class="ui-icon-wrap"><span data-icon="alert"></span></span> Peringatan
         </h3>
         <p id="popupText">
          Minimal order adalah 50
@@ -277,38 +237,9 @@
      <img alt="Profile" src="https://i.ibb.co.com/YFKtw7Pk/LOGO-PROFIL.png"/>
     </div>
    </div>
-   <div style="
-  background: rgba(20,0,40,0.7);
-  border: 1px solid #9333ea;
-  padding: 10px;
-  border-radius: 14px;
-  margin: 55px auto 20px auto;
-  text-align: center;
-  color: #f0abfc;
-  font-weight: bold;
-  box-shadow: none;
-  max-width: 350px;
-  overflow: hidden;
-">
-    <div style="
-  display: block;
-  width: 100%;
-  padding-bottom: 5px;
-  border-bottom: 2px solid #f472b6;
-  margin-bottom: 5px;
-  font-family: 'Poppins', sans-serif;
-  font-weight: 900;
-  letter-spacing: 1px;
-  color: #ef4444;
-  text-shadow: none;
-">
-     ⚠PENTING!
-    </div>
-    <div style="
-    white-space: nowrap;
-    display: inline-block;
-    animation: jalan 17s linear infinite;
-  ">
+   <div class="important-notice">
+    <div class="important-notice-title"><span class="ui-icon-wrap"><span data-icon="alert"></span></span> PENTING!</div>
+    <div class="important-notice-track">
      Sebelum membuat pesanan disarankan untuk membaca DESKRIPSI • Sebelum membuat pesanan disarankan untuk membaca DESKRIPSI • Sebelum membuat pesanan disarankan untuk membaca DESKRIPSI
     </div>
    </div>
@@ -336,7 +267,7 @@
       </div>
       <input id="layanan" type="hidden" value=""/>
       <button class="btn-deskripsi" onclick="openDeskripsi()">
-       Lihat Deskripsi ⚠
+       <span class="ui-icon-wrap"><span data-icon="alert"></span></span> Lihat Deskripsi
       </button>
       <label class="label">
        Jumlah Pesanan
@@ -350,10 +281,10 @@
       </div>
       <div class="payment">
        <div class="pay-item active" onclick="selectPay(this,'dana')">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" style="height:20px; vertical-align:middle; margin-right:5px;"/ alt=""/>
+        <img class="payment-logo" src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA"/>
        </div>
        <div class="pay-item" onclick="selectPay(this,'qris')">
-        <img src="https://i.ibb.co.com/wZmkrj6z/QRIS-Quick-Response-Code-Indonesia-Standard-Logo-PNG2160p-Vector69-Com.png" style="height:20px; vertical-align:middle; margin-right:5px;"/ alt=""/>
+        <img class="payment-logo" src="https://i.ibb.co.com/wZmkrj6z/QRIS-Quick-Response-Code-Indonesia-Standard-Logo-PNG2160p-Vector69-Com.png" alt="QRIS"/>
        </div>
       </div>
       <input id="metode" type="hidden" value="dana"/>
@@ -376,7 +307,7 @@
       </div>
       <p>
        <strong>
-        Jasa Suntik Sosmed Murah, Aman &amp; Cepat 🚀
+        Jasa Suntik Sosmed Murah, Aman &amp; Cepat <span class="ui-icon-wrap"><span data-icon="arrowUp"></span></span>
        </strong>
       </p>
       <p>
@@ -388,27 +319,27 @@
 dengan harga super hemat!
       </p>
       <p>
-       ⚡ Proses cepat
+       <span class="ui-icon-wrap"><span data-icon="refresh"></span></span> Proses cepat
       </p>
       <p>
-       💰 Costum Harga Sesui Kebutuhan
+       <span class="ui-icon-wrap"><span data-icon="coin"></span></span> Costum Harga Sesui Kebutuhan
       </p>
       <p>
-       🕐 Support 24 jam
+       <span class="ui-icon-wrap"><span data-icon="bell"></span></span> Support 24 jam
       </p>
       <p>
-       🔒 Aman &amp; terpercaya
+       <span class="ui-icon-wrap"><span data-icon="lock"></span></span> Aman &amp; terpercaya
       </p>
       <p>
        <strong>
-        📱 Cocok untuk berbagai platform:
+        <span class="ui-icon-wrap"><span data-icon="category"></span></span> Cocok untuk berbagai platform:
        </strong>
       </p>
       <p>
-       📸 Instagram (Followers, Likes, Views, Komentar)
+       <span class="ui-icon-wrap"><span data-icon="photoPlus"></span></span> Instagram (Followers, Likes, Views, Komentar)
       </p>
       <p>
-       🎵 TikTok (Followers, Likes, Share, Views)
+       <span class="ui-icon-wrap"><span data-icon="store"></span></span> TikTok (Followers, Likes, Share, Views)
       </p>
       <p>
        <b>
@@ -418,16 +349,16 @@ dengan harga super hemat!
 dengan harga terjangkau, proses cepat, dan terpercaya.
       </p>
       <div class="social">
-       <a href="https://t.me/JyyR_Mentahan" target="_blank">
+       <a href="https://t.me/JyyR_Mentahan" target="_blank" rel="noopener noreferrer">
         <img alt="Telegram" src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png"/>
        </a>
-       <a href="https://whatsapp.com/channel/0029VbCH7C0E50Uid8KYwG1f" target="_blank">
+       <a href="https://whatsapp.com/channel/0029VbCH7C0E50Uid8KYwG1f" target="_blank" rel="noopener noreferrer">
         <img alt="WhatsApp" src="https://cdn-icons-png.flaticon.com/512/733/733585.png"/>
        </a>
-       <a href="https://instagram.com/jyy_rsh" target="_blank">
+       <a href="https://instagram.com/jyy_rsh" target="_blank" rel="noopener noreferrer">
         <img alt="Instagram" src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"/>
        </a>
-       <a href="https://www.tiktok.com/@jyyr26" target="_blank">
+       <a href="https://www.tiktok.com/@jyyr26" target="_blank" rel="noopener noreferrer">
         <img alt="TikTok" src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png"/>
        </a>
       </div>
@@ -489,11 +420,15 @@ dengan harga terjangkau, proses cepat, dan terpercaya.
     </div>
    </footer>
    </div>
-   <a class="wa-float" href="https://whatsapp.com/channel/0029VbCH7C0E50Uid8KYwG1f" target="_blank">
+   <a class="wa-float" href="https://whatsapp.com/channel/0029VbCH7C0E50Uid8KYwG1f" target="_blank" rel="noopener noreferrer">
     <img alt="WA" src="https://cdn-icons-png.flaticon.com/512/733/733585.png"/>
    </a>
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/app.js"></script>
- </body>
+  <script src="js/jyyr-features.js"></script>
+ <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}</script>
+
+<script>document.addEventListener('DOMContentLoaded',()=>{if(!window.jyyrIcon)return;document.querySelectorAll('[data-icon]').forEach(n=>{const name=n.dataset.icon;const holder=document.createElement('span');holder.innerHTML=window.jyyrIcon(name);const el=holder.firstElementChild;if(el)n.replaceWith(el);});});</script>
+</body>
 </html>

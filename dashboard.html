@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="jyyr-version" content="4.9.4">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12111b">
+<title>JYYR — Dashboard Admin</title>
+<link rel="stylesheet" href="css/shared.css">
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/features.css">
+<link rel="stylesheet" href="css/popup.css">
+<link rel="manifest" href="manifest.json">
+</head>
+<body class="dashboard-page">
+<div class="future-bg" aria-hidden="true"></div>
+
+<div class="dashboard-shell">
+    <header class="dashboard-head">
+        <div class="dashboard-brand">
+            <span class="dashboard-kicker">JYYR STORE</span>
+            <h1>Dashboard Admin</h1>
+            <p id="dashboardWelcome">Memuat akun admin...</p>
+        </div>
+        <div class="dashboard-head-actions">
+            <button type="button" onclick="location.href='admin.html'"><span class="ui-icon-wrap"><span data-icon="settings"></span></span> Kelola</button>
+            <button type="button" onclick="location.href='index.html'"><span class="ui-icon-wrap"><span data-icon="home"></span></span> Store</button>
+            <button type="button" class="dashboard-logout" onclick="logoutUser()"><span class="ui-icon-wrap"><span data-icon="logout"></span></span> Keluar</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="dashboard-stats" aria-label="Statistik utama">
+            <article class="dashboard-stat"><span>Produk Aktif</span><strong id="dashProducts">0</strong><small>produk siap dijual</small></article>
+            <article class="dashboard-stat"><span>Total User</span><strong id="dashUsers">0</strong><small>akun pengguna</small></article>
+            <article class="dashboard-stat"><span>Transaksi</span><strong id="dashOrders">0</strong><small>seluruh pesanan</small></article>
+            <article class="dashboard-stat"><span>Omzet Sukses</span><strong id="dashRevenue">Rp 0</strong><small>status sukses</small></article>
+            <article class="dashboard-stat"><span>Bayar Pending</span><strong id="dashPending">0</strong><small>perlu ditinjau</small></article>
+        </section>
+
+        <section class="dashboard-grid">
+            <article class="dashboard-card dashboard-quick">
+                <div class="section-head"><div><h2>Akses Cepat</h2><p>Langsung menuju bagian administrasi.</p></div></div>
+                <div class="quick-grid">
+                    <button onclick="openAdminTab('products')"><span><span data-icon="package"></span></span><b>Produk</b><small>Kelola layanan</small></button>
+                    <button onclick="openAdminTab('users')"><span><span data-icon="users"></span></span><b>User</b><small>Kelola akun</small></button>
+                    <button onclick="openAdminTab('orders')"><span><span data-icon="receipt"></span></span><b>Transaksi</b><small>Proses pesanan</small></button>
+                    <button onclick="openAdminTab('payments')"><span><span data-icon="card"></span></span><b>Pembayaran</b><small>Verifikasi bukti</small></button>
+                    <button onclick="openAdminTab('levels')"><span><span data-icon="trophy"></span></span><b>Level</b><small>Atur reward</small></button>
+                    <button onclick="openAdminTab('reports')"><span><span data-icon="file"></span></span><b>Laporan</b><small>Data & ekspor</small></button>
+                </div>
+            </article>
+
+            <article class="dashboard-card">
+                <div class="section-head"><div><h2>Pesanan Terbaru</h2><p>Ringkasan transaksi terakhir.</p></div><button class="section-link" onclick="openAdminTab('orders')">Lihat semua</button></div>
+                <div id="recentOrders" class="recent-list"><div class="dashboard-empty">Memuat...</div></div>
+            </article>
+        </section>
+
+        <section class="dashboard-card dashboard-system">
+            <div class="section-head"><div><h2>Status Sistem</h2><p>Ringkasan koneksi frontend ke Supabase.</p></div><span id="systemStatus" class="status-ok">● Online</span></div>
+            <div class="system-grid">
+                <div><span>Database</span><b id="dbStatus">Terhubung</b></div>
+                <div><span>Akun</span><b id="accountStatusDash">Admin</b></div>
+                <div><span>Produk</span><b id="productStatus">-</b></div>
+                <div><span>Pesanan</span><b id="orderStatus">-</b></div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0"></script>
+<script src="js/supabase-config.js"></script>
+<script src="js/app.js"></script>
+<script src="js/jyyr-features.js"></script>
+<script>
+(function(){
+    const rup=n=>'Rp '+Number(n||0).toLocaleString('id-ID');
+    const esc=s=>String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+
+    function go(tab){
+        const allowed=['overview','products','users','orders','payments','levels','broadcast','notifications','reports','security','system','support'];
+        if(!allowed.includes(tab)) return;
+        location.assign('admin.html?tab='+encodeURIComponent(tab));
+    }
+    window.openAdminTab=go;
+
+    const setText=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+    const setLoading=()=>{
+        setText('dashProducts','—'); setText('dashUsers','—'); setText('dashOrders','—');
+        setText('dashRevenue','Rp —'); setText('dashPending','—');
+        setText('productStatus','Memuat...'); setText('orderStatus','Memuat...');
+    };
+
+    async function render(){
+        const u=window.currentAccount?.();
+        if(!u) return;
+        if(!['owner','admin','readonly'].includes(window.jyyrRoleLabel?.(u)||'user')){ location.replace('index.html'); return; }
+
+        setText('dashboardWelcome','Login sebagai '+(u.username||'-'));
+        setText('accountStatusDash','Admin • '+(u.username||'-'));
+        setText('dbStatus',window.jyyrDBReady?'Terhubung':'Memuat...');
+        setText('systemStatus',window.jyyrDBReady?'● Online':'● Memuat');
+        if(!window.jyyrSupabase){ setLoading(); return; }
+
+        try{
+            const db=window.jyyrSupabase;
+            const [productsRes,usersRes,ordersRes,paymentsRes,recentRes]=await Promise.all([
+                db.from('products').select('id,active').eq('active',true),
+                db.from('profiles').select('id,role').eq('role','user'),
+                db.from('orders').select('id,total,status,created_at'),
+                db.from('payments').select('id,status'),
+                db.from('orders').select('id,product_name,total,status,created_at,profiles(username)').order('created_at',{ascending:false}).limit(5)
+            ]);
+            for(const r of [productsRes,usersRes,ordersRes,paymentsRes,recentRes]) if(r.error) throw r.error;
+
+            const products=productsRes.data||[];
+            const users=usersRes.data||[];
+            const orders=ordersRes.data||[];
+            const payments=paymentsRes.data||[];
+            const latest=recentRes.data||[];
+            const revenue=orders.filter(o=>['success','completed'].includes(String(o.status||'').toLowerCase())).reduce((n,o)=>n+Number(o.total||0),0);
+            const pending=payments.filter(p=>String(p.status||'').toLowerCase()==='pending').length;
+
+            setText('dashProducts',products.length.toLocaleString('id-ID'));
+            setText('dashUsers',users.length.toLocaleString('id-ID'));
+            setText('dashOrders',orders.length.toLocaleString('id-ID'));
+            setText('dashRevenue',rup(revenue));
+            setText('dashPending',pending.toLocaleString('id-ID'));
+            setText('productStatus',products.length+' aktif');
+            setText('orderStatus',orders.length+' transaksi');
+            setText('dbStatus','Terhubung');
+            setText('systemStatus','● Online');
+
+            const list=document.getElementById('recentOrders');
+            list.innerHTML=latest.length?latest.map(o=>{
+                const username=o.profiles?.username||'-';
+                return `<div class="recent-item">
+                    <div class="recent-main"><b>${esc(o.product_name||'Produk')}</b><small>${esc(o.id||'-')} • ${esc(username)}</small></div>
+                    <div class="recent-side"><strong>${rup(o.total)}</strong><span class="recent-status">${esc(o.status||'pending')}</span></div>
+                </div>`;
+            }).join(''):'<div class="dashboard-empty">Belum ada transaksi.</div>';
+        }catch(e){
+            console.error('[JYYR Dashboard]',e);
+            setText('dbStatus','Error');
+            setText('systemStatus','● Gagal memuat');
+            setText('productStatus','Error');
+            setText('orderStatus','Error');
+            document.getElementById('recentOrders').innerHTML='<div class="dashboard-empty">Gagal memuat data dashboard.</div>';
+        }
+    }
+
+    const timer=setInterval(()=>{
+        if(window.jyyrDBReady){clearInterval(timer);render();}
+    },100);
+    setTimeout(()=>{clearInterval(timer);if(!window.jyyrDBReady){setText('systemStatus','● Gagal memuat');document.getElementById('recentOrders').innerHTML='<div class="dashboard-empty">Koneksi database belum siap.</div>'; }},15000);
+    window.addEventListener('focus',()=>{if(window.jyyrDBReady)render();});
+})();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}</script>
+<script>document.addEventListener('DOMContentLoaded',()=>{if(!window.jyyrIcon)return;document.querySelectorAll('[data-icon]').forEach(n=>{const name=n.dataset.icon;const holder=document.createElement('span');holder.innerHTML=window.jyyrIcon(name);const el=holder.firstElementChild;if(el)n.replaceWith(el);});});</script>
+</body>
+</html>

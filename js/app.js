@@ -1,4 +1,62 @@
 /* ========================================
+   JYYR UI ICONS — TABLER OUTLINE
+   Presentation-only helper. No business logic.
+======================================== */
+(function(){
+  const paths={
+    close:'<path d="M12 21a9 9 0 1 0 0-18a9 9 0 0 0 0 18"/><path d="M9 8l6 8"/><path d="M15 8l-6 8"/>',
+    home:'<path d="M5 12l-2 0l9 -9l9 9l-2 0"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"/><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"/>',
+    trash:'<path d="M4 7l16 0"/><path d="M10 11l0 6"/><path d="M14 11l0 6"/><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>',
+    lock:'<path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6"/><path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"/><path d="M8 11v-4a4 4 0 1 1 8 0v4"/>',
+    unlock:'<path d="M3 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2l0 -6"/><path d="M9 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"/><path d="M13 11v-4a4 4 0 1 1 8 0v4"/>',
+    edit:'<path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415"/><path d="M16 5l3 3"/>',
+    cancel:'<path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M18.364 5.636l-12.728 12.728"/>',
+    back:'<path d="M9 14l-4 -4l4 -4"/><path d="M5 10h11a4 4 0 1 1 0 8h-1"/>',
+    check:'<path d="M9 12l2 2l4 -4"/><path d="M12 3c7.2 0 9 1.8 9 9c0 7.2 -1.8 9 -9 9c-7.2 0 -9 -1.8 -9 -9c0 -7.2 1.8 -9 9 -9"/>',
+    alert:'<path d="M12 9v4"/><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0"/><path d="M12 16h.01"/>',
+    mail:'<path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10"/><path d="M3 7l9 6l9 -6"/>',
+    eye:'<path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/><path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/>',
+    eyeOff:'<path d="M10.585 10.587a2 2 0 0 0 2.829 2.828"/><path d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87"/><path d="M3 3l18 18"/>',
+    settings:'<path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 2.924 0 3.35a1.724 1.724 0 0 0 1.066 2.573c-.94 1.543 .826 3.31 2.37 2.37c1 .608 2.296 .07 2.572 -1.065"/><path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/>',
+    user:'<path d="M12 13a3 3 0 1 0 0 -6a3 3 0 0 0 0 6"/><path d="M12 3c7.2 0 9 1.8 9 9c0 7.2 -1.8 9 -9 9c-7.2 0 -9 -1.8 -9 -9c0 -7.2 1.8 -9 9 -9"/><path d="M6 20.05v-.05a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v.05"/>',
+    users:'<path d="M5 7a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"/><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0 -3 -3.85"/>',
+    bell:'<path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"/><path d="M9 17v1a3 3 0 0 0 6 0v-1"/>',
+    coin:'<path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1 -1.8 -1"/><path d="M12 7v10"/>',
+    cash:'<path d="M7 15h-3a1 1 0 0 1 -1 -1v-8a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v3"/><path d="M7 10a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v8a1 1 0 0 1 -1 1h-12a1 1 0 0 1 -1 -1l0 -8"/><path d="M12 14a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/>',
+    deposit:'<path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/><path d="M12.25 18h-7.25a2 2 0 0 1 -2 -2v-8a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v4.5"/><path d="M18 12h.01"/><path d="M6 12h.01"/><path d="M16 19h6"/><path d="M19 16v6"/>',
+    dashboard:'<path d="M4 18v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2"/><path d="M4 9h16"/><path d="M10 14l2 2l2 -2"/>',
+    store:'<path d="M3 21l18 0"/><path d="M3 7v1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1m0 1a3 3 0 0 0 6 0v-1h-18l2 -4h14l2 4"/><path d="M5 21l0 -10.15"/><path d="M19 21l0 -10.15"/><path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"/>',
+    logout:'<path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"/><path d="M9 12h12l-3 -3"/><path d="M18 15l3 -3"/>',
+    logout2:'<path d="M10 8v-2a2 2 0 0 1 2 -2h7a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-7a2 2 0 0 1 -2 -2v-2"/><path d="M15 12h-12l3 -3"/><path d="M6 15l-3 -3"/>',
+    brandShopee:'<path d="M4 7l.867 12.143a2 2 0 0 0 2 1.857h10.276a2 2 0 0 0 2 -1.857l.867 -12.143h-16l-.01 0"/><path d="M8.5 7c0 -1.653 1.5 -4 3.5 -4s3.5 2.347 3.5 4"/><path d="M9.5 17c.413 .462 1 1 2.5 1s2.5 -.897 2.5 -2s-1 -1.5 -2.5 -2s-2 -1.47 -2 -2c0 -1.104 1 -2 2 -2s1.5 0 2.5 1"/>',
+    wallet:'<path d="M17 8v-3a1 1 0 0 0 -1 -1h-10a2 2 0 0 0 0 4h12a1 1 0 0 1 1 1v3m0 4v3a1 1 0 0 1 -1 1h-12a2 2 0 0 1 -2 -2v-12"/><path d="M20 12v4h-4a2 2 0 0 1 0 -4h4"/>',
+    photoPlus:'<path d="M15 8h.01"/><path d="M12.5 21h-6.5a3 3 0 0 1 -3 -3v-12a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v6.5"/><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l4 4"/><path d="M14 14l1 -1c.67 -.644 1.45 -.824 2.182 -.54"/><path d="M16 19h6"/><path d="M19 16v6"/>',
+    photoCancel:'<path d="M15 8h.01"/><path d="M12.5 21h-6.5a3 3 0 0 1 -3 -3v-12a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v6.5"/><path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l3 3"/><path d="M14 14l1 -1c.616 -.593 1.328 -.792 2.008 -.598"/><path d="M16 19a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/><path d="M17 21l4 -4"/>',
+    card:'<path d="M3 8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-12a3 3 0 0 1 -3 -3l0 -8"/><path d="M3 10l18 0"/><path d="M7 15l.01 0"/><path d="M11 15l2 0"/>',
+    search:'<path d="M3 10a7 7 0 1 0 14 0a7 7 0 0 0 -14 0"/><path d="M21 21l-6 -6"/>',
+    category:'<path d="M4 4h6v6h-6l0 -6"/><path d="M14 4h6v6h-6l0 -6"/><path d="M4 14h6v6h-6l0 -6"/><path d="M14 17a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"/>',
+    package:'<path d="M12 3l8 4.5v9l-8 4.5l-8-4.5v-9z"/><path d="M12 12l8-4.5"/><path d="M12 12v9"/><path d="M4 7.5l8 4.5"/>',
+    receipt:'<path d="M5 21v-16a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v16l-3 -2l-3 2l-3 -2z"/><path d="M9 9h6"/><path d="M9 13h6"/>',
+    trophy:'<path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v6a5 5 0 0 1 -10 0z"/><path d="M7 6h-3v2a4 4 0 0 0 4 4"/><path d="M17 6h3v2a4 4 0 0 1 -4 4"/>',
+    broadcast:'<path d="M15 8a5 5 0 0 1 0 8"/><path d="M17.7 5.3a9 9 0 0 1 0 13.4"/><path d="M9 12h-1a2 2 0 0 0 -2 2v1a2 2 0 0 0 2 2h1l4 3v-14z"/>',
+    chart:'<path d="M4 19v-8"/><path d="M10 19v-14"/><path d="M16 19v-5"/><path d="M22 19v-9"/>',
+    plus:'<path d="M12 5v14"/><path d="M5 12h14"/>',
+    refresh:'<path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4"/><path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4"/>',
+    arrowRight:'<path d="M5 12h14"/><path d="M13 18l6 -6l-6 -6"/>',
+    arrowDown:'<path d="M12 5v14"/><path d="M18 13l-6 6l-6 -6"/>',
+    arrowUp:'<path d="M12 19V5"/><path d="M6 11l6 -6l6 6"/>',
+    file:'<path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M5 3h9l5 5v13h-14z"/><path d="M9 13h6"/><path d="M9 17h6"/>',
+    shield:'<path d="M12 3l7 4v5c0 5 -3.5 8 -7 9c-3.5 -1 -7 -4 -7 -9v-5z"/><path d="M9 12l2 2l4 -4"/>',
+    help:'<circle cx="12" cy="12" r="9"/><path d="M12 17v.01"/><path d="M12 13a2 2 0 1 0 -2 -2"/><path d="M10 9a2 2 0 1 1 2 2"/>',
+    message:'<path d="M4 20l3.5 -3h8.5a4 4 0 0 0 4 -4v-5a4 4 0 0 0 -4 -4h-8a4 4 0 0 0 -4 4z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/>',
+    crown:'<path d="M3 8l4 3l5 -6l5 6l4 -3l-2 10h-14z"/><path d="M5 21h14"/>',
+    star:'<path d="M12 3l2.7 5.5l6.3.9l-4.5 4.4l1.1 6.2l-5.6 -3l-5.6 3l1.1 -6.2l-4.5 -4.4l6.3 -.9z"/>',
+    gift:'<path d="M20 12v8a1 1 0 0 1 -1 1h-14a1 1 0 0 1 -1 -1v-8"/><path d="M2 7h20v5h-20z"/><path d="M12 7v14"/><path d="M12 7H8.5a2.5 2.5 0 1 1 0 -5c3.5 0 3.5 5 3.5 5"/><path d="M12 7h3.5a2.5 2.5 0 1 0 0 -5c-3.5 0 -3.5 5 -3.5 5"/>'
+  };
+  window.jyyrIcon=(name,label='')=>`<svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"${label?` aria-label="${String(label).replace(/"/g,'&quot;')}"`:''} fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/>${paths[name]||paths.file}</svg>`;
+})();
+
+/* ========================================
    LOCK DOWNLOAD
 ======================================== */
 
@@ -103,7 +161,7 @@ async function refreshRiwayat() {
 }
 
 function getProductsCache() {
-    try { return JSON.parse(localStorage.getItem("jyyr_products") || "[]"); }
+    try { return JSON.parse(localStorage.getItem("jyyr_cache_products") || "[]"); }
     catch (_) { return []; }
 }
 
@@ -141,7 +199,7 @@ function renderRiwayatList() {
     Rp ${Number(item.total || 0).toLocaleString("id-ID")}<br>
     Status: <b>${escapeHtml(item.status || "pending")}</b><br>
     <small>${escapeHtml(item.waktu || "-")}</small><br><br>
-    <button onclick="orderLagi(${index})">🔄 Order Lagi</button>
+    <button onclick="orderLagi(${index})">${jyyrIcon('refresh')} Order Lagi</button>
 </div>`).join("");
 }
 
@@ -212,8 +270,9 @@ function selectPay(el, metode) {
 ======================================== */
 
 function bukaPembayaran() {
-    // Pesanan hanya boleh dibuat oleh user yang sudah login.
-    if (typeof currentAccount === "function" && !currentAccount()) {
+    // Satu-satunya entry point pembayaran. Auth + validasi dilakukan di sini.
+    const buyer = typeof currentAccount === "function" ? currentAccount() : null;
+    if (!buyer) {
         openAuth('login');
         showError("Silakan login atau daftar terlebih dahulu untuk memesan.");
         return;
@@ -257,6 +316,20 @@ function bukaPembayaran() {
     }
 
     const metode = document.getElementById("metode").value;
+
+    // Saldo ditangani oleh feature pack melalui helper khusus, tanpa wrapper
+    // yang mengganti window.bukaPembayaran.
+    if (metode === "balance") {
+        if (typeof window.jyyrHandleBalanceCheckout === "function") {
+            Promise.resolve(window.jyyrHandleBalanceCheckout()).catch((error) => {
+                console.error('Balance checkout error:', error);
+                showError(error?.message || 'Gagal memproses pembayaran saldo.');
+            });
+        } else {
+            showError("Fitur pembayaran saldo belum siap. Silakan coba lagi.");
+        }
+        return;
+    }
 
     if (metode === "qris") {
         document
@@ -363,21 +436,21 @@ ${text}
    HITUNG HARGA
 ======================================== */
 
-function updateHarga() {
+async function updateHarga() {
 
     const data = document
-        .getElementById("layanan")
-        .value
-        .split("|");
+        .getElementById("layanan")?.value
+        ?.split("|") || [];
 
     const harga = parseFloat(data[0]);
     const max = parseInt(data[1]);
     const min = parseInt(data[2]);
 
     const input = document.getElementById("jumlah");
-    const jumlah = parseInt(input.value) || 0;
-
+    const jumlah = parseInt(input?.value) || 0;
     const totalBox = document.getElementById("total");
+
+    if (!input || !totalBox) return;
 
     input.classList.remove("input-error");
 
@@ -388,31 +461,56 @@ function updateHarga() {
 
     if (jumlah < min) {
         totalBox.innerHTML =
-            "<span class='error'>⚠️ Minimal " + min + "</span>";
-
+            `<span class="error">${jyyrIcon('alert')} Minimal ${min}</span>`;
         input.classList.add("input-error");
         return;
     }
 
     if (jumlah > max) {
         totalBox.innerHTML =
-            "<span class='error'>⚠️ Maksimal " + max + "</span>";
-
+            `<span class="error">${jyyrIcon('alert')} Maksimal ${max}</span>`;
         input.classList.add("input-error");
         return;
     }
 
-    const total = harga * jumlah;
+    const raw = harga * jumlah;
+    let discount = 0;
+    if (typeof window.jyyrGetCheckoutDiscount === "function") {
+        try {
+            discount = Number(await window.jyyrGetCheckoutDiscount()) || 0;
+        } catch (_) {
+            discount = 0;
+        }
+    }
+
+    discount = Math.max(0, Math.min(100, Number(discount) || 0));
+    const total = Math.round(raw * (1 - discount / 100) * 100) / 100;
+
+    // Keep the last client-side checkout calculation available to the
+    // confirmation flow so the visible total and WhatsApp message stay
+    // consistent. The database remains the final source of truth.
+    window._jyyrCheckoutDiscount = discount;
+    window._jyyrCheckoutTotal = total;
+    window._jyyrCheckoutRawTotal = raw;
 
     totalBox.innerHTML =
-        "Total: Rp " + total.toLocaleString("id-ID");
+        "Total: Rp " + total.toLocaleString("id-ID") +
+        (discount ? " <small style='opacity:.7'>Diskon level " + discount +
+        "% • normal Rp " + raw.toLocaleString("id-ID") + "</small>" : "");
 }
 
 /* ========================================
    CONFIRM BAYAR
 ======================================== */
 
-function confirmBayar() {
+async function confirmBayar() {
+
+    const buyer = typeof currentAccount === "function" ? currentAccount() : null;
+    if (!buyer) {
+        openAuth('login');
+        showError("Silakan login atau daftar terlebih dahulu.");
+        return;
+    }
 
     const btn = document.getElementById("orderBtn");
     if (!btn) return;
@@ -510,7 +608,7 @@ function confirmBayar() {
 
         if (!file) {
             resetButton();
-            showError("⚠ Upload bukti pembayaran dulu!");
+            showError("Upload bukti pembayaran dulu!");
             return;
         }
 
@@ -522,13 +620,13 @@ function confirmBayar() {
 
         if (!allowedTypes.includes(file.type)) {
             resetButton();
-            showError("⚠ Format bukti harus JPG, PNG, atau WEBP!");
+            showError("Format bukti harus JPG, PNG, atau WEBP!");
             return;
         }
 
         if (file.size > 2 * 1024 * 1024) {
             resetButton();
-            showError("⚠ Ukuran file maksimal 2 MB!");
+            showError("Ukuran file maksimal 2 MB!");
             return;
         }
     }
@@ -549,7 +647,20 @@ function confirmBayar() {
 
     const buyerAccount = typeof currentAccount === "function" ? currentAccount() : null;
     const buyerUsername = buyerAccount?.username || "-";
-    const totalAngkaTampilan = Math.round(hargaTampilan * jumlah * 100) / 100;
+
+    // Re-read the checkout discount at confirmation time so the WhatsApp
+    // amount follows the same level pricing shown in the checkout UI.
+    let discount = Number(window._jyyrCheckoutDiscount) || 0;
+    if (typeof window.jyyrGetCheckoutDiscount === "function") {
+        try {
+            discount = Number(await window.jyyrGetCheckoutDiscount()) || 0;
+        } catch (_) {
+            // Keep the already-rendered checkout discount if the helper fails.
+        }
+    }
+    discount = Math.max(0, Math.min(100, discount));
+    const rawTotal = hargaTampilan * jumlah;
+    const totalAngkaTampilan = Math.round(rawTotal * (1 - discount / 100) * 100) / 100;
 
     const text = `HALO ADMIN JYYR STORE
 MY ORDER PROCESS
@@ -570,7 +681,7 @@ MY ORDER PROCESS
 
         hideLoading();
 
-        const totalAngka = Math.round(hargaTampilan * jumlah * 100) / 100;
+        const totalAngka = totalAngkaTampilan;
 
         Promise.resolve(simpanRiwayat(
             user,
@@ -630,8 +741,8 @@ MY ORDER PROCESS
 
                 document.getElementById(
                     "uploadText"
-                ).innerText =
-                    "📸 Upload Bukti Pembayaran";
+                ).innerHTML =
+                    `${jyyrIcon('photoPlus')} Upload Bukti Pembayaran`;
             }
 
             // Aktifkan tombol lagi
@@ -666,17 +777,14 @@ function closeDANA() {
 }
 
 function showError(msg) {
-    document.getElementById("popupText").innerText = msg;
-
-    document
-        .getElementById("popupError")
-        .classList.add("show");
+    const text=document.getElementById("popupText");
+    const popup=document.getElementById("popupError");
+    if(text) text.innerText=String(msg??"Terjadi kesalahan.");
+    if(popup) popup.classList.add("show");
 }
 
 function closePopup() {
-    document
-        .getElementById("popupError")
-        .classList.remove("show");
+    document.getElementById("popupError")?.classList.remove("show");
 }
 
 /* ========================================
@@ -698,15 +806,11 @@ document.addEventListener("click", function (e) {
 ======================================== */
 
 function showLoading() {
-    document
-        .getElementById("loading")
-        .classList.add("show");
+    document.getElementById("loading")?.classList.add("show");
 }
 
 function hideLoading() {
-    document
-        .getElementById("loading")
-        .classList.remove("show");
+    document.getElementById("loading")?.classList.remove("show");
 }
 
 /* ========================================
@@ -715,16 +819,13 @@ function hideLoading() {
 
 function showSuccess(msg) {
     const text=document.getElementById("successText");
-    if(text && msg) text.textContent=msg;
-    document
-        .getElementById("popupSuccess")
-        .classList.add("show");
+    const popup=document.getElementById("popupSuccess");
+    if(text && msg) text.textContent=String(msg);
+    if(popup) popup.classList.add("show");
 }
 
 function closeSuccess() {
-    document
-        .getElementById("popupSuccess")
-        .classList.remove("show");
+    document.getElementById("popupSuccess")?.classList.remove("show");
 }
 
 /* ========================================
@@ -755,9 +856,6 @@ document.querySelectorAll(".popup").forEach((popup) => {
 
     popup.addEventListener("click", function (e) {
 
-        // Popup konfirmasi broadcast wajib ditutup lewat tombol Batal/Konfirmasi.
-        if (popup.id === "popupBroadcastConfirm") return;
-
         if (e.target === popup) {
             popup.classList.remove("show");
         }
@@ -767,20 +865,57 @@ document.querySelectorAll(".popup").forEach((popup) => {
 });
 
 /* ==========================================================
+   POPUP SCROLL LOCK
+   Covers both static popups and dynamically injected feature popups.
+========================================================== */
+(function(){
+  let frame=0;
+  const sync=()=>{
+    frame=0;
+    document.body.classList.toggle('popup-open',!!document.querySelector('.popup.show'));
+  };
+  const schedule=()=>{if(!frame)frame=requestAnimationFrame(sync);};
+  const observer=new MutationObserver(schedule);
+  observer.observe(document.body,{subtree:true,attributes:true,attributeFilter:['class'],childList:true});
+  sync();
+})();
+
+/* ==========================================================
    JYYR ACCOUNT / USER / ADMIN SYSTEM — SUPABASE EDITION
    Supabase Auth + PostgreSQL + RLS are the source of truth.
    localStorage is used only as a short-lived UI cache.
 ========================================================== */
 (async function(){
-  const KEYS={products:'jyyr_products',orders:'jyyr_orders',levels:'jyyr_levels',broadcasts:'jyyr_broadcasts',payments:'jyyr_payments'};
+  const KEYS={products:'jyyr_cache_products',orders:'jyyr_cache_orders',levels:'jyyr_cache_levels',broadcasts:'jyyr_cache_broadcasts',payments:'jyyr_cache_payments'};
+  const JYYR_CACHE_VERSION='4.9.4';
+  const JYYR_LEGACY_KEYS=[
+    'saldo','user','riwayat','history','jyyr_session',
+    'jyyr_products','jyyr_orders','jyyr_levels','jyyr_broadcasts','jyyr_payments','jyyr_users'
+  ];
+  const JYYR_CACHE_KEYS=[...Object.values(KEYS),'jyyr_cache_users',...JYYR_LEGACY_KEYS];
+  const purgeStaleJyyRCache=()=>{
+    try{
+      const current=localStorage.getItem('jyyr_cache_version');
+      if(current!==JYYR_CACHE_VERSION){
+        JYYR_CACHE_KEYS.forEach(k=>localStorage.removeItem(k));
+        localStorage.setItem('jyyr_cache_version',JYYR_CACHE_VERSION);
+      }
+    }catch(_){/* private/restricted storage: database remains source of truth */}
+  };
+  purgeStaleJyyRCache();
   const { createClient } = window.supabase;
   const supabaseClient = createClient(window.JYYR_SUPABASE_URL, window.JYYR_SUPABASE_PUBLISHABLE_KEY);
   window.jyyrSupabase=supabaseClient;
   window.jyyrDBReady=false;
   window._jyyrAccount=null;
+  window.JYYRState={
+    session:null, account:null, role:'user',
+    products:[], orders:[], payments:[], levels:[], broadcasts:[], users:[],
+    ui:{popup:null,loading:false,activeAdminTab:null}
+  };
 
   const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch(e){return d}};
-  const set=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+  const set=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));return true}catch(_){return false}};
   const mapProduct=p=>({id:p.id,name:p.name,category:p.category,price:Number(p.price),max:Number(p.max_quantity),min:Number(p.min_quantity),icon:p.icon,active:p.active,sortOrder:Number(p.sort_order??0)});
   const mapLevel=l=>({id:l.id,name:l.name,minPoint:Number(l.min_point),reward:Number(l.reward)});
   const mapBroadcast=b=>({id:b.id,title:b.title,message:b.message,time:b.created_at});
@@ -794,26 +929,35 @@ document.querySelectorAll(".popup").forEach((popup) => {
     const uid=session.user.id;
     const {data:profile,error:profileError}=await supabaseClient.from('profiles').select('*').eq('id',uid).single();
     if(profileError) throw profileError;
-    window._jyyrAccount={id:profile.id,name:profile.full_name,username:profile.username,role:profile.role,saldo:Number(profile.saldo),point:Number(profile.point),createdAt:profile.created_at};
+    window._jyyrAccount={id:profile.id,name:profile.full_name,username:profile.username,role:profile.role,admin_level:profile.admin_level||null,saldo:Number(profile.saldo),point:Number(profile.point),createdAt:profile.created_at};
+    window.JYYRState.session=session;
+    window.JYYRState.account=window._jyyrAccount;
+    window.JYYRState.role=window.jyyrRoleLabel(window._jyyrAccount);
 
     const [prodRes,levelRes,broadcastRes,orderRes,allProfilesRes,paymentRes]=await Promise.all([
       supabaseClient.from('products').select('*').order('category',{ascending:true}).order('sort_order',{ascending:true}).order('created_at',{ascending:true}),
       supabaseClient.from('levels').select('*').order('min_point',{ascending:true}),
       supabaseClient.from('broadcasts').select('*').order('created_at',{ascending:false}),
       supabaseClient.from('orders').select('*,profiles(username)').order('created_at',{ascending:false}),
-      window._jyyrAccount.role==='admin' ? supabaseClient.from('profiles').select('*').order('created_at',{ascending:false}) : Promise.resolve({data:null,error:null}),
-      window._jyyrAccount.role==='admin' ? supabaseClient.from('payments').select('*,orders(id,user_id,product_name,target,quantity,total,payment_method,status,profiles(username))').order('created_at',{ascending:false}) : Promise.resolve({data:null,error:null})
+      window.jyyrHasAdminAccess(window._jyyrAccount) ? supabaseClient.from('profiles').select('*').order('created_at',{ascending:false}) : Promise.resolve({data:null,error:null}),
+      window.jyyrHasAdminAccess(window._jyyrAccount) ? supabaseClient.from('payments').select('*,orders(id,user_id,product_name,target,quantity,total,payment_method,status,profiles(username))').order('created_at',{ascending:false}) : Promise.resolve({data:null,error:null})
     ]);
     for(const r of [prodRes,levelRes,broadcastRes,orderRes,allProfilesRes,paymentRes]) if(r.error) throw r.error;
     const products=(prodRes.data||[]).map(mapProduct);
     const levels=(levelRes.data||[]).map(mapLevel);
     const broadcasts=(broadcastRes.data||[]).map(mapBroadcast);
     const allOrders=(orderRes.data||[]).map(mapOrder);
-    const visibleOrders=window._jyyrAccount.role==='admin'?allOrders:allOrders.filter(o=>o.userId===uid);
+    const visibleOrders=window.jyyrHasAdminAccess(window._jyyrAccount)?allOrders:allOrders.filter(o=>o.userId===uid);
     const users=(allProfilesRes.data||[]).map(u=>({id:u.id,name:u.full_name,username:u.username,role:u.role,saldo:Number(u.saldo),point:Number(u.point),createdAt:u.created_at}));
     set(KEYS.products,products); set(KEYS.levels,levels); set(KEYS.broadcasts,broadcasts); set(KEYS.orders,visibleOrders);
-    if(window._jyyrAccount.role==='admin') set(KEYS.payments,(paymentRes.data||[]).map(mapPayment));
-    if(window._jyyrAccount.role==='admin') set('jyyr_users',users);
+    if(window.jyyrHasAdminAccess(window._jyyrAccount)) set(KEYS.payments,(paymentRes.data||[]).map(mapPayment));
+    if(window.jyyrHasAdminAccess(window._jyyrAccount)) set('jyyr_cache_users',users);
+    window.JYYRState.products=products;
+    window.JYYRState.levels=levels;
+    window.JYYRState.broadcasts=broadcasts;
+    window.JYYRState.orders=visibleOrders;
+    window.JYYRState.payments=(paymentRes.data||[]).map(mapPayment);
+    window.JYYRState.users=users;
     historyData=visibleOrders.filter(o=>o.userId===uid).map(o=>buildHistoryItem(o,products));
     localStorage.removeItem('jyyr_session');
     localStorage.removeItem('history');
@@ -829,18 +973,43 @@ document.querySelectorAll(".popup").forEach((popup) => {
   function dbError(e){ console.error(e); showError(e?.message||'Gagal menyimpan ke database.'); }
 
   window.currentAccount=()=>window._jyyrAccount;
+  window.jyyrRoleLabel=u=>{
+    if(!u)return 'user';
+    const rawRole=String(u.role||'user').toLowerCase();
+    const level=String(u.admin_level||'').toLowerCase();
+    if(rawRole==='user')return 'user';
+    if(level==='super_admin'||level==='owner'||rawRole==='super_admin')return 'owner';
+    if(level==='readonly'||rawRole==='readonly')return 'readonly';
+    return rawRole==='admin'?'admin':'user';
+  };
+  window.jyyrHasAdminAccess=u=>{
+    const label=window.jyyrRoleLabel(u);
+    return label==='owner'||label==='admin'||label==='readonly';
+  };
+  window.jyyrCanWriteAdmin=u=>{
+    const label=window.jyyrRoleLabel(u);
+    return label==='owner'||label==='admin';
+  };
   window.openAuth=(mode='login')=>{ window.location.href='login.html'+(mode==='register'?'?mode=register':''); };
   window.closeAuth=()=>{};
-  window.logoutUser=async()=>{await supabaseClient.auth.signOut();window.location.href='login.html';};
+  window.logoutUser=async()=>{
+    try{await supabaseClient.auth.signOut();}
+    catch(e){console.warn('logout',e);}
+    finally{window.location.href='login.html';}
+  };
   function updateAccountUI(){
     const u=currentAccount();
     const status=document.getElementById('accountStatus'); const adminBtn=document.getElementById('adminPanelBtn');
-    if(status) status.textContent=u?`👤 ${u.username}`:'👤 User';
-    if(adminBtn) adminBtn.style.display=(u&&u.role==='admin')?'inline-flex':'none';
+    if(status){
+      const username=String(u?.username||'User').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c]));
+      status.innerHTML=u?`👤 <span class="account-username">${username}</span> <span class="account-role-sep">•</span> <span class="account-role">${jyyrRoleLabel(u)}</span>`:'👤 User • user';
+    }
+    if(adminBtn) adminBtn.style.display=(u&&window.jyyrHasAdminAccess(u))?'inline-flex':'none';
   }
+  window.updateAccountUI=updateAccountUI;
 
-  window.openDashboard=()=>{const u=currentAccount();if(!u)return openAuth('login');renderDashboard(u);document.getElementById('popupDashboard').classList.add('show');};
-  window.closeDashboard=()=>document.getElementById('popupDashboard').classList.remove('show');
+  window.openDashboard=()=>{const u=currentAccount();if(!u)return openAuth('login');renderDashboard(u);document.getElementById('popupDashboard')?.classList.add('show');};
+  window.closeDashboard=()=>document.getElementById('popupDashboard')?.classList.remove('show');
   function renderDashboard(u){
     const orders=get(KEYS.orders,[]).filter(o=>o.userId===u.id);
     const level=get(KEYS.levels,[]).slice().reverse().find(l=>u.point>=l.minPoint)||{name:'Basic'};
@@ -853,109 +1022,31 @@ document.querySelectorAll(".popup").forEach((popup) => {
     document.getElementById('userOrders').innerHTML=orders.length?orders.slice().reverse().map(o=>`<div class="order-item"><div class="order-id">${escapeHtml(o.id)}</div><div class="order-service">${escapeHtml(o.layanan)} <span class="order-qty">• ${Number(o.jumlah).toLocaleString('id-ID')}</span></div><div class="order-bottom"><span>Rp ${Number(o.total).toLocaleString('id-ID')}</span><span>•</span><span class="badge">${escapeHtml(o.status||'pending')}</span></div></div>`).join(''):'Belum ada pesanan.';
   }
 
-  window.openAdminPanel=()=>{const u=currentAccount();if(!u||u.role!=='admin')return openAuth('login');if(!/admin\.html(?:$|[?#])/.test(location.pathname+location.search)){location.href='admin.html';return;}const welcome=document.getElementById('adminWelcome');if(welcome)welcome.textContent='Login sebagai '+u.username;const popup=document.getElementById('popupAdmin');if(popup)popup.classList.add('show');adminTab('overview');};
+  window.openAdminPanel=()=>{
+    const u=currentAccount();
+    if(!u||!window.jyyrHasAdminAccess(u))return openAuth('login');
+    if(!/admin\.html(?:$|[?#])/.test(location.pathname+location.search)){
+      location.href='admin.html?tab=overview'; return;
+    }
+    const welcome=document.getElementById('adminWelcome');
+    if(welcome)welcome.textContent='Login sebagai '+u.username+' • '+jyyrRoleLabel(u);
+    const popup=document.getElementById('popupAdmin');
+    if(popup)popup.classList.add('show');
+    const requested=new URLSearchParams(location.search).get('tab');
+    const allowed=['overview','products','users','orders','payments','levels','broadcast','notifications','reports','security','system','support'];
+    const tab=allowed.includes(requested)?requested:'overview';
+    if(typeof window.adminTab==='function') window.adminTab(tab);
+  };
   window.closeAdminPanel=()=>{const popup=document.getElementById('popupAdmin');if(popup)popup.classList.remove('show');};
-  window.adminTab=(tab)=>{document.querySelectorAll('.admin-tab').forEach(x=>x.classList.remove('active'));const b=[...document.querySelectorAll('.admin-tab')].find(x=>x.getAttribute('onclick')?.includes("'"+tab+"'"));if(b)b.classList.add('active');const map={overview:renderOverview,products:renderProducts,users:renderUsers,orders:renderOrders,payments:renderPayments,levels:renderLevels,broadcast:renderBroadcast};map[tab]?.();};
 
-  function renderOverview(){
-    const ps=get(KEYS.products,[]),us=get('jyyr_users',[]),os=get(KEYS.orders,[]),revenue=os.filter(o=>o.status==='success').reduce((s,o)=>s+Number(o.total||0),0),pendingPayments=get(KEYS.payments,[]).filter(p=>p.status==='pending').length;
-    document.getElementById('adminContent').innerHTML=`<div class="admin-note">🟢 Database Supabase aktif. Data utama sekarang tersimpan online.</div><div class="admin-content-grid" style="margin-top:10px"><div class="stat-card"><span>Produk aktif</span><b>${ps.filter(p=>p.active).length}</b></div><div class="stat-card"><span>Total user</span><b>${us.filter(u=>u.role==='user').length}</b></div><div class="stat-card"><span>Total transaksi</span><b>${os.length}</b></div><div class="stat-card"><span>Omzet sukses</span><b>Rp ${revenue.toLocaleString('id-ID')}</b></div><div class="stat-card"><span>Pembayaran pending</span><b>${pendingPayments}</b></div></div><div class="dashboard-section"><h4>⚡ Sistem</h4><p style="font-size:12px">Auth, produk, user, transaksi, level, point, dan broadcast terhubung ke Supabase. Fulfillment saat ini MANUAL: admin mengubah Processing → Sukses setelah layanan benar-benar selesai.</p></div>`;
-  }
-  function renderProducts(){const ps=get(KEYS.products,[]).slice().sort((a,b)=>{const c=String(a.category||'').localeCompare(String(b.category||''));return c||((a.sortOrder??0)-(b.sortOrder??0))});const renderRows=arr=>arr.map((p,i)=>`<div class="admin-product-row"><button class="product-move-up" title="Naikkan posisi" aria-label="Naikkan posisi ${escapeHtml(p.name)}" onclick="moveProductUp('${p.id}')" ${i===0?'disabled':''}>↑</button><div class="admin-product-main"><img src="${escapeHtml(safeImageUrl(p.icon))}" width="30" height="30" style="object-fit:contain"><div><b>${escapeHtml(p.name)}</b><small>${escapeHtml(p.category)} • Min ${p.min} • Max ${p.max}</small></div></div><div class="admin-product-price">Rp ${Number(p.price).toLocaleString('id-ID')} / 1</div><div class="admin-actions"><button onclick="openEditProduct('${p.id}')">✏️ Edit</button><button onclick="toggleProduct('${p.id}')">${p.active?'Nonaktifkan':'Aktifkan'}</button><button class="danger-btn" onclick="deleteProduct('${p.id}')">Hapus</button></div></div>`).join('');const groups={TikTok:[],Instagram:[],Lainnya:[]};ps.forEach(p=>{const c=String(p.category||'').trim().toLowerCase();if(c==='tiktok')groups.TikTok.push(p);else if(c==='instagram'||c==='ig')groups.Instagram.push(p);else groups.Lainnya.push(p);});const section=(title,icon,arr)=>arr.length?`<div class="dashboard-section" style="margin-top:10px"><h4>${icon} ${title}</h4><div class="admin-product-list">${renderRows(arr)}</div></div>`:'';document.getElementById('adminContent').innerHTML=`<h4>➕ Tambah Produk</h4><div class="admin-form"><input class="input" id="pName" placeholder="Nama produk"><div class="admin-custom-select" id="pCategorySelect"><input type="hidden" id="pCategory" value="TikTok"><button type="button" class="admin-select-trigger" onclick="toggleAdminSelect('pCategorySelect')"><span class="admin-select-value">TikTok</span><span class="admin-select-arrow">⌄</span></button><div class="admin-select-options"><button type="button" class="admin-select-option active" data-value="TikTok" onclick="chooseAdminSelect('pCategorySelect','TikTok','TikTok')">TikTok</button><button type="button" class="admin-select-option" data-value="Instagram" onclick="chooseAdminSelect('pCategorySelect','Instagram','Instagram')">Instagram</button></div></div><input class="input" id="pPrice" type="number" step="0.01" placeholder="Harga / 1"><input class="input" id="pMin" type="number" placeholder="Min"><input class="input" id="pMax" type="number" placeholder="Max"><div class="admin-custom-select" id="pIconSelect"><input type="hidden" id="pIcon" value="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png"><button type="button" class="admin-select-trigger admin-icon-trigger" onclick="toggleAdminSelect('pIconSelect')"><span class="admin-select-icon"><img src="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png" alt=""><span>👥 Followers</span></span><span class="admin-select-arrow">⌄</span></button><div class="admin-select-options"><button type="button" class="admin-select-option admin-icon-option active" data-value="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png" onclick="chooseAdminIcon('Followers','https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png','👥')"><img src="https://i.ibb.co.com/PZg1TdRR/FOLLOWERS-Jyy-R.png" alt=""> <span>Followers</span></button><button type="button" class="admin-select-option admin-icon-option" data-value="https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png" onclick="chooseAdminIcon('Like','https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png','❤️')"><img src="https://i.ibb.co.com/d0qDjYGh/LIKE-S-Jyy-R.png" alt=""> <span>Like</span></button><button type="button" class="admin-select-option admin-icon-option" data-value="https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png" onclick="chooseAdminIcon('View','https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png','👁️')"><img src="https://i.ibb.co.com/pjhQ07gT/VIEW-S-Jyy-R.png" alt=""> <span>View</span></button><button type="button" class="admin-select-option admin-icon-option" data-value="https://i.ibb.co.com/67sjz4nf/KOMENTAR-Jyy-R.png" onclick="chooseAdminIcon('Komentar','https://i.ibb.co.com/67sjz4nf/KOMENTAR-Jyy-R.png','💬')"><img src="https://i.ibb.co.com/67sjz4nf/KOMENTAR-Jyy-R.png" alt=""> <span>Komentar</span></button><button type="button" class="admin-select-option admin-icon-option" data-value="https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png" onclick="chooseAdminIcon('Share','https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png','🔗')"><img src="https://i.ibb.co.com/twDVyVD3/SHARE-S-Jyy-R.png" alt=""> <span>Share</span></button><button type="button" class="admin-select-option admin-icon-option" data-value="https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png" onclick="chooseAdminIcon('Save','https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png','🔖')"><img src="https://i.ibb.co.com/Cs6QyT48/SAVE-S-Jyy-R.png" alt=""> <span>Save</span></button></div></div><button class="success-btn full" onclick="addProduct()">Tambah Produk</button></div><div class="dashboard-section"><h4>📦 Daftar Produk</h4></div>${section('TikTok','🎵',groups.TikTok)}${section('Instagram','📸',groups.Instagram)}${section('Lainnya','📦',groups.Lainnya)}`;}
-  window.moveProductUp=async id=>{try{const p=get(KEYS.products,[]).find(x=>x.id===id);if(!p)return;const {error}=await supabaseClient.rpc('move_product_up',{p_product_id:id});if(error)throw error;const {data,error:reloadError}=await supabaseClient.from('products').select('*').order('category',{ascending:true}).order('sort_order',{ascending:true}).order('created_at',{ascending:true});if(reloadError)throw reloadError;set(KEYS.products,(data||[]).map(mapProduct));renderServiceDropdown();renderProducts();showSuccess('Posisi produk dinaikkan.');}catch(e){dbError(e);}};
-  let editingProductId=null;
-  window.openEditProduct=id=>{const p=get(KEYS.products,[]).find(x=>x.id===id);if(!p)return;editingProductId=id;document.getElementById('editProductName').textContent=`${p.name} • ${p.category}`;document.getElementById('editProductPrice').value=p.price??'';document.getElementById('editProductMin').value=p.min??'';document.getElementById('editProductMax').value=p.max??'';document.getElementById('popupEditProduct').classList.add('show');setTimeout(()=>document.getElementById('editProductPrice')?.focus(),80);};
-  window.closeEditProduct=()=>{editingProductId=null;document.getElementById('popupEditProduct')?.classList.remove('show');};
-  window.saveEditProduct=async()=>{if(!editingProductId)return;const price=Number(document.getElementById('editProductPrice').value),min=Number(document.getElementById('editProductMin').value),max=Number(document.getElementById('editProductMax').value);if(!Number.isFinite(price)||price<=0)return showError('Harga harus lebih dari 0.');if(!Number.isInteger(min)||min<1)return showError('Min harus berupa angka bulat minimal 1.');if(!Number.isInteger(max)||max<1)return showError('Max harus berupa angka bulat minimal 1.');if(max<min)return showError('Max tidak boleh lebih kecil dari Min.');try{await dbUpdate('products',{price,min_quantity:min,max_quantity:max,updated_at:new Date().toISOString()},{id:editingProductId});const ps=get(KEYS.products,[]);const p=ps.find(x=>x.id===editingProductId);if(p){p.price=price;p.min=min;p.max=max;}set(KEYS.products,ps);renderServiceDropdown();renderProducts();closeEditProduct();showSuccess('Harga, Min, dan Max produk berhasil diperbarui.');}catch(e){dbError(e);}};
-  window.toggleAdminSelect=id=>{document.querySelectorAll('.admin-custom-select.open').forEach(x=>{if(x.id!==id)x.classList.remove('open');});document.getElementById(id)?.classList.toggle('open');};
-  window.chooseAdminSelect=(id,value,label)=>{const box=document.getElementById(id);if(!box)return;const hidden=box.querySelector('input[type=hidden]');if(hidden)hidden.value=value;const valueEl=box.querySelector('.admin-select-value');if(valueEl)valueEl.textContent=label;box.querySelectorAll('.admin-select-option').forEach(o=>o.classList.toggle('active',o.dataset.value===value));box.classList.remove('open');};
-  window.chooseAdminIcon=(label,url,emoji)=>{const box=document.getElementById('pIconSelect');if(!box)return;const hidden=document.getElementById('pIcon');if(hidden)hidden.value=url;const value=box.querySelector('.admin-icon-trigger .admin-select-icon');if(value)value.innerHTML=`<img src="${url}" alt=""><span>${emoji} ${label}</span>`;box.querySelectorAll('.admin-select-option').forEach(o=>o.classList.toggle('active',o.dataset.value===url));const img=document.getElementById('pIconPreview');const text=document.getElementById('pIconPreviewText');if(img)img.src=url;if(text)text.textContent=label;box.classList.remove('open');};
-  window.previewAdminIcon=sel=>{const img=document.getElementById('pIconPreview');if(img&&sel?.value)img.src=sel.value;};
-  window.addProduct=async()=>{const p={name:document.getElementById('pName').value.trim(),category:document.getElementById('pCategory').value||'Lainnya',price:+document.getElementById('pPrice').value,min:+document.getElementById('pMin').value,max:+document.getElementById('pMax').value,icon:document.getElementById('pIcon').value||'https://cdn-icons-png.flaticon.com/512/1828/1828640.png',active:true};if(!p.name||!p.price||!p.min||!p.max)return showError('Lengkapi data produk.');if(p.max<p.min)return showError('Max tidak boleh lebih kecil dari Min.');try{const sameCategory=get(KEYS.products,[]).filter(x=>String(x.category||'').trim().toLowerCase()===p.category.toLowerCase());const nextSort=sameCategory.length?Math.max(...sameCategory.map(x=>Number(x.sortOrder??0)))+1:0;const {data,error}=await supabaseClient.from('products').insert({name:p.name,category:p.category,price:p.price,min_quantity:p.min,max_quantity:p.max,icon:p.icon,active:true,sort_order:nextSort}).select().single();if(error)throw error;get(KEYS.products,[]).push(mapProduct(data));set(KEYS.products,get(KEYS.products,[]));renderServiceDropdown();renderProducts();showSuccess('Produk berhasil ditambahkan.');}catch(e){dbError(e);}};
-  window.toggleProduct=async id=>{const ps=get(KEYS.products,[]),p=ps.find(x=>x.id===id);if(!p)return;try{await dbUpdate('products',{active:!p.active},{id});p.active=!p.active;set(KEYS.products,ps);renderServiceDropdown();renderProducts();}catch(e){dbError(e);}};
-  window.deleteProduct=id=>{const p=get(KEYS.products,[]).find(x=>x.id===id);if(!p)return;openAdminConfirm('deleteProduct',id,'🗑️','Hapus Produk?','Produk ini akan dihapus dari daftar toko.',''+p.name,'🗑️ Hapus Produk','danger');};
-  async function executeDeleteProduct(id){try{const {error}=await supabaseClient.from('products').delete().eq('id',id);if(error)throw error;set(KEYS.products,get(KEYS.products,[]).filter(x=>x.id!==id));renderServiceDropdown();renderProducts();showSuccess('Produk berhasil dihapus.');}catch(e){dbError(e);}}
 
-  function renderUsers(){const us=get('jyyr_users',[]);document.getElementById('adminContent').innerHTML=`<div class="dashboard-section"><h4>👥 Kelola User</h4><div class="admin-table-wrap"><table class="admin-table"><tr><th>User</th><th>Saldo</th><th>Point</th><th>Level</th><th>Aksi</th></tr>${us.map(u=>{const l=get(KEYS.levels,[]).slice().reverse().find(x=>u.point>=x.minPoint)||{name:'Basic'};return `<tr><td><b>${escapeHtml(u.name)}</b><br>@${escapeHtml(u.username)} ${u.role==='admin'?'<span class="badge">ADMIN</span>':''}</td><td>Rp ${Number(u.saldo||0).toLocaleString('id-ID')}</td><td>${u.point||0}</td><td>${escapeHtml(l.name)}</td><td>${u.role==='user'?`<div class="admin-actions"><button onclick="addUserPoint('${u.id}')">+ Point</button><button onclick="addUserSaldo('${u.id}')">+ Saldo</button><button class="danger-btn" onclick="deleteUser('${u.id}')">🗑️ Hapus</button></div>`:'<span class="badge">Admin dilindungi</span>'}</td></tr>`}).join('')}</table></div></div>`;}
-  window.deleteUser=id=>{const u=get('jyyr_users',[]).find(x=>x.id===id);if(!u||u.role==='admin')return showError('Akun admin tidak dapat dihapus dari panel ini.');if(u.id===currentAccount()?.id)return showError('Akun admin yang sedang login tidak dapat dihapus.');openAdminConfirm('deleteUser',id,'👤','Hapus Akun User?','Akun user dan sesi Auth-nya akan dihapus secara permanen.','@'+u.username,'🗑️ Hapus Akun','danger');};
-  async function executeDeleteUser(id){try{const {error}=await supabaseClient.rpc('admin_delete_user',{p_user_id:id});if(error)throw error;set('jyyr_users',get('jyyr_users',[]).filter(x=>x.id!==id));showSuccess('Akun user berhasil dihapus.');renderUsers();}catch(e){dbError(e);}};
-  window.addUserPoint=async id=>{const n=Number(prompt('Tambah point:',100));if(!Number.isInteger(n)||n<=0)return;try{const {data,error}=await supabaseClient.rpc('admin_adjust_point',{p_user_id:id,p_delta:n,p_reason:'Manual admin adjustment'});if(error)throw error;const u=get('jyyr_users',[]).find(x=>x.id===id);if(u){u.point=Number(data?.new_point??u.point+n);set('jyyr_users',get('jyyr_users',[]));}renderUsers();showSuccess('Point berhasil ditambahkan dan dicatat ke ledger.');}catch(e){dbError(e);}};
-  window.addUserSaldo=async id=>{const n=Number(prompt('Tambah saldo:',1000));if(!Number.isFinite(n)||n<=0)return;try{const {data,error}=await supabaseClient.rpc('admin_adjust_balance',{p_user_id:id,p_delta:n,p_reason:'Manual admin balance adjustment'});if(error)throw error;const u=get('jyyr_users',[]).find(x=>x.id===id);if(u){u.saldo=Number(data?.new_saldo??u.saldo+n);set('jyyr_users',get('jyyr_users',[]));}if(currentAccount()?.id===id)window._jyyrAccount.saldo=Number(data?.new_saldo??window._jyyrAccount.saldo+n);renderUsers();showSuccess('Saldo berhasil ditambahkan dan dicatat ke ledger.');}catch(e){dbError(e);}};
-
-  async function renderPayments(){
-    const box=document.getElementById('adminContent');
-    box.innerHTML='<div class="admin-note">⏳ Memuat pembayaran...</div>';
-    try{
-      const {data,error}=await supabaseClient.from('payments').select('*,orders(id,user_id,product_name,target,quantity,total,payment_method,status,profiles(username))').order('created_at',{ascending:false});
-      if(error)throw error;
-      const payments=(data||[]).map(mapPayment);
-      set(KEYS.payments,payments);
-      const pending=payments.filter(p=>p.status==='pending');
-      const history=payments.filter(p=>p.status!=='pending').slice(0,30);
-      const pendingHtml=pending.length?pending.map(p=>{const o=p.order||{};return `<div class="payment-admin-card"><div class="payment-admin-main"><b>${escapeHtml(o.id||p.orderId)}</b><small>👤 ${escapeHtml(o.profiles?.username||'-')} • ${escapeHtml(o.product_name||'-')}</small><small>🎯 ${escapeHtml(o.target||'-')} • Qty ${Number(o.quantity||0).toLocaleString('id-ID')}</small><strong>Rp ${Number(o.total||0).toLocaleString('id-ID')} • ${String(p.method||'').toUpperCase()}</strong><small>${new Date(p.createdAt).toLocaleString('id-ID')}</small></div><div class="payment-admin-proof">${p.proofPath?'<button class="admin-actions-btn" onclick="viewPaymentProof(\''+escapeHtml(p.id)+'\')">🖼️ Lihat Bukti</button>':'<span class="badge">Tanpa bukti</span>'}</div><div class="admin-actions"><button class="success-btn" onclick="reviewPayment('${escapeHtml(p.id)}','verified')">✅ Verifikasi</button><button class="danger-btn" onclick="reviewPayment('${escapeHtml(p.id)}','rejected')">❌ Tolak</button></div></div>`}).join(''):'<div class="dashboard-section">Tidak ada pembayaran pending.</div>';
-      const historyHtml=history.length?history.map(p=>{const o=p.order||{};return `<div class="payment-history-card"><div><small>Order</small><b>${escapeHtml(o.id||p.orderId)}</b></div><div><small>User</small><b>@${escapeHtml(o.profiles?.username||'-')}</b></div><div><small>Metode</small><b>${escapeHtml(String(p.method||'').toUpperCase())}</b></div><div><small>Status</small><span class="badge payment-status-${escapeHtml(p.status)}">${escapeHtml(p.status)}</span></div><div><small>Review</small><b>${p.reviewedAt?new Date(p.reviewedAt).toLocaleString('id-ID'):'-'}</b></div></div>`}).join(''):'<div class="dashboard-section">Belum ada riwayat review.</div>';
-      box.innerHTML=`<div class="dashboard-section"><h4>💳 Verifikasi Pembayaran</h4><p style="font-size:12px;color:#c4b5fd">Verifikasi bukti QRIS atau pembayaran DANA terlebih dahulu. Point user baru diberikan setelah pembayaran <b>verified</b>.</p></div><div class="payment-admin-list">${pendingHtml}</div><div class="dashboard-section"><h4>🗂️ Riwayat Pembayaran</h4><div class="payment-history-list">${historyHtml}</div></div>`;
-    }catch(e){dbError(e);box.innerHTML='<div class="dashboard-section">Gagal memuat pembayaran.</div>';}
-  }
-
-  window.viewPaymentProof=async id=>{
-    const p=get(KEYS.payments,[]).find(x=>x.id===id);if(!p?.proofPath)return;
-    try{
-      const {data,error}=await supabaseClient.storage.from('payment-proofs').createSignedUrl(p.proofPath,300);
-      if(error)throw error;
-      if(data?.signedUrl)window.open(data.signedUrl,'_blank');
-    }catch(e){dbError(e);}
-  };
-
-  window.reviewPayment=(id,status)=>{
-    const p=get(KEYS.payments,[]).find(x=>x.id===id);const o=p?.order||{};const isVerify=status==='verified';
-    openAdminConfirm(isVerify?'verifyPayment':'rejectPayment',id,isVerify?'✅':'❌',isVerify?'Konfirmasi Pembayaran?':'Tolak Pembayaran?','Periksa kembali detail pembayaran sebelum melanjutkan.',`${o.id||p?.orderId||'-'} • ${o.profiles?.username||'-'} • Rp ${Number(o.total||0).toLocaleString('id-ID')}`,isVerify?'✅ Verifikasi':'❌ Tolak',isVerify?'ok':'danger');
-  };
-  async function executeReviewPayment(id,status){
-    try{
-      const {error}=await supabaseClient.rpc('admin_review_payment',{p_payment_id:id,p_status:status});
-      if(error)throw error;
-      await loadFromDatabase();
-      renderPayments();
-      if(status==='verified')showSuccess('Pembayaran berhasil diverifikasi. Point user diproses otomatis.');
-      else showSuccess('Pembayaran ditolak dan order dibatalkan.');
-    }catch(e){dbError(e);}
-  };
-
-  function renderOrders(){const os=get(KEYS.orders,[]).slice().reverse();document.getElementById('adminContent').innerHTML=`<div class="dashboard-section"><h4>🧾 Semua Transaksi</h4><div class="admin-order-list">${os.length?os.map(o=>`<div class="admin-order-card"><div class="admin-order-grid"><div class="admin-order-field"><small>ID Pesanan</small><b>${escapeHtml(o.id)}</b></div><div class="admin-order-field"><small>User</small><b>${escapeHtml(o.buyer||o.user||'-')}</b></div><div class="admin-order-field"><small>Produk</small><b>${escapeHtml(o.layanan)}</b></div><div class="admin-order-field"><small>Jumlah</small><b>${Number(o.jumlah||0).toLocaleString('id-ID')}</b></div><div class="admin-order-field"><small>Total</small><b>Rp ${Number(o.total||0).toLocaleString('id-ID')}</b></div><div class="admin-order-field"><small>Status</small><b><span class="badge">${escapeHtml(o.status||'pending')}</span></b></div></div><div class="admin-actions"><button onclick="setOrderStatus('${o.id}','processing')">⚙️ Proses</button><button class="success-btn" onclick="setOrderStatus('${o.id}','success')">✅ Sukses</button><button class="danger-btn" onclick="setOrderStatus('${o.id}','cancelled')">❌ Batal</button></div></div>`).join(''):'<div class="dashboard-section">Belum ada transaksi.</div>'}</div></div>`;}
-  window.setOrderStatus=async(id,status)=>{try{const os=get(KEYS.orders,[]),o=os.find(x=>x.id===id);if(!o)return showError('Order tidak ditemukan.');const payment=get(KEYS.payments,[]).find(p=>p.orderId===id);if((status==='processing'||status==='success')&&payment?.status!=='verified')return showError('Verifikasi pembayaran terlebih dahulu.');if(status==='success'&&o.status!=='processing')return showError('Order harus berstatus Processing sebelum dinyatakan Sukses.');if(status==='processing'&&o.status!=='pending'&&o.status!=='processing')return showError('Order hanya dapat masuk Processing dari status Pending.');await dbUpdate('orders',{status,updated_at:new Date().toISOString()},{id});o.status=status;set(KEYS.orders,os);renderOrders();showSuccess(status==='success'?'Order ditandai Sukses.':'Order masuk Processing.');}catch(e){dbError(e);}};
-
-  function renderLevels(){const ls=get(KEYS.levels,[]);document.getElementById('adminContent').innerHTML=`<h4>➕ Tambah Level</h4><div class="admin-form"><input class="input" id="lName" placeholder="Nama level"><input class="input" id="lPoint" type="number" placeholder="Minimal point"><input class="input" id="lReward" type="number" placeholder="Reward saldo"><button class="success-btn full" onclick="addLevel()">Tambah Level</button></div><div class="level-admin-list">${ls.length?ls.map(l=>`<div class="level-admin-card">
-  <div class="level-info level-name"><small>Level</small><b>${escapeHtml(l.name)}</b></div>
-  <div class="level-info level-point"><small>Minimal Point</small><b>${Number(l.minPoint||0).toLocaleString('id-ID')}</b></div>
-  <div class="level-info level-reward"><small>Reward</small><b>Rp ${Number(l.reward||0).toLocaleString('id-ID')}</b></div>
-  <button type="button" class="danger-btn level-delete-btn" aria-label="Hapus level ${escapeHtml(l.name)}" title="Hapus level" onclick="deleteLevel('${escapeHtml(l.name)}')">🗑️ Hapus</button>
-</div>`).join(''):'<div class="dashboard-section">Belum ada level.</div>'}</div>`;}
-  window.addLevel=async()=>{const l={name:document.getElementById('lName').value.trim(),minPoint:+document.getElementById('lPoint').value,reward:+document.getElementById('lReward').value||0};if(!l.name)return showError('Nama level wajib diisi.');if(l.minPoint<0)return showError('Minimal point tidak boleh negatif.');try{const {data,error}=await supabaseClient.from('levels').insert({name:l.name,min_point:l.minPoint,reward:l.reward}).select().single();if(error)throw error;const ls=get(KEYS.levels,[]);ls.push(mapLevel(data));ls.sort((a,b)=>a.minPoint-b.minPoint);set(KEYS.levels,ls);renderLevels();}catch(e){dbError(e);}};
-  window.deleteLevel=async name=>{try{const {error}=await supabaseClient.from('levels').delete().eq('name',name);if(error)throw error;set(KEYS.levels,get(KEYS.levels,[]).filter(x=>x.name!==name));renderLevels();}catch(e){dbError(e);}};
-
-  let pendingAdminConfirm=null;
-  window.openAdminConfirm=(action,id,icon,title,message,target,confirmText,variant='ok')=>{pendingAdminConfirm={action,id};const root=document.getElementById('popupAdminConfirm');if(!root)return;document.getElementById('adminConfirmIcon').textContent=icon;document.getElementById('adminConfirmTitle').textContent=title;document.getElementById('adminConfirmMessage').textContent=message;document.getElementById('adminConfirmTarget').textContent=target;const btn=document.getElementById('adminConfirmOk');btn.textContent=confirmText;btn.className='admin-confirm-ok'+(variant==='danger'?' admin-confirm-danger':'');root.classList.add('show');};
-  window.closeAdminConfirm=()=>{pendingAdminConfirm=null;document.getElementById('popupAdminConfirm')?.classList.remove('show');};
-  window.confirmAdminAction=async()=>{const pending=pendingAdminConfirm;if(!pending)return closeAdminConfirm();closeAdminConfirm();if(pending.action==='deleteProduct')return executeDeleteProduct(pending.id);if(pending.action==='deleteUser')return executeDeleteUser(pending.id);if(pending.action==='verifyPayment')return executeReviewPayment(pending.id,'verified');if(pending.action==='rejectPayment')return executeReviewPayment(pending.id,'rejected');};
-
-  function renderBroadcast(){const bs=get(KEYS.broadcasts,[]);document.getElementById('adminContent').innerHTML=`<h4>📢 Kirim Broadcast</h4><div class="admin-form"><input class="input" id="bTitle" placeholder="Judul"><textarea class="input full" id="bMessage" placeholder="Pesan"></textarea><button class="success-btn full" onclick="sendBroadcast()">Kirim ke Semua User</button></div><div class="broadcast-list">${bs.slice().reverse().map(b=>`<div class="broadcast-item"><div class="broadcast-content"><b>${escapeHtml(b.title)}</b><br>${escapeHtml(b.message)}<br><small>${new Date(b.time).toLocaleString('id-ID')}</small></div><button type="button" class="danger-btn broadcast-delete-btn" onclick="deleteBroadcast('${escapeHtml(b.id)}')">🗑️ Hapus</button></div>`).join('')}</div>`;}
-  window.sendBroadcast=async()=>{const title=document.getElementById('bTitle').value.trim(),message=document.getElementById('bMessage').value.trim();if(!title||!message)return showError('Judul dan pesan wajib diisi.');try{const {data,error}=await supabaseClient.from('broadcasts').insert({title,message,created_by:currentAccount().id}).select().single();if(error)throw error;const bs=get(KEYS.broadcasts,[]);bs.unshift(mapBroadcast(data));set(KEYS.broadcasts,bs);renderBroadcast();showSuccess('Broadcast berhasil dikirim ke semua user.');}catch(e){dbError(e);}};
-  let pendingBroadcastDeleteId=null;
-  window.deleteBroadcast=id=>{const item=get(KEYS.broadcasts,[]).find(b=>b.id===id);if(!item)return;pendingBroadcastDeleteId=id;const name=document.getElementById('broadcastConfirmName');if(name)name.textContent=item.title||'Broadcast tanpa judul';document.getElementById('popupBroadcastConfirm')?.classList.add('show');};
-  window.closeBroadcastConfirm=()=>{pendingBroadcastDeleteId=null;document.getElementById('popupBroadcastConfirm')?.classList.remove('show');};
-  window.confirmDeleteBroadcast=async()=>{if(!pendingBroadcastDeleteId)return closeBroadcastConfirm();const id=pendingBroadcastDeleteId;try{const {error}=await supabaseClient.from('broadcasts').delete().eq('id',id);if(error)throw error;set(KEYS.broadcasts,get(KEYS.broadcasts,[]).filter(b=>b.id!==id));closeBroadcastConfirm();renderBroadcast();showSuccess('Broadcast berhasil dihapus.');}catch(e){dbError(e);}};
 
   function renderServiceDropdown(){const box=document.getElementById('serviceList');if(!box)return;const ps=get(KEYS.products,[]).filter(p=>p.active).slice().sort((a,b)=>{const rank={tiktok:0,instagram:1};const ac=String(a.category||'').trim().toLowerCase(),bc=String(b.category||'').trim().toLowerCase();return (rank[ac]??2)-(rank[bc]??2)||((a.sortOrder??0)-(b.sortOrder??0));});if(!ps.length){box.innerHTML='<div class="dropdown-item">Tidak ada produk aktif</div>';return;}const groups={};ps.forEach(p=>(groups[p.category]??=[]).push(p));box.innerHTML=Object.entries(groups).map(([cat,arr])=>`<div class="dropdown-item" style="pointer-events:none;opacity:.6"><b>${escapeHtml(cat)}</b></div>${arr.map(p=>`<div class="dropdown-item" data-id="${p.id}" data-icon="${escapeHtml(safeImageUrl(p.icon))}" data-text="${escapeHtml(p.name)} — Rp${p.price} / 1 (Min ${p.min})" data-value="${p.price}|${p.max}|${p.min}" onclick="selectItem(this,event)"><img src="${escapeHtml(safeImageUrl(p.icon))}" width="18" style="vertical-align:middle;margin-right:6px">${escapeHtml(p.name)} : Rp${p.price}</div>`).join('')}`).join('');const first=ps[0];document.getElementById('layanan').value=`${first.price}|${first.max}|${first.min}`;document.getElementById('layanan').dataset.productId=first.id||'';document.getElementById('selectedText').innerHTML=`<img src="${escapeHtml(safeImageUrl(first.icon))}" width="18" style="vertical-align:middle;margin-right:6px">${escapeHtml(first.name)} — Rp${first.price} / 1 (Min ${first.min})`;updateHarga();}
   function escapeHtml(s){return String(s??'').replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
   function safeImageUrl(value){try{const u=new URL(String(value||''),location.href);return ['http:','https:'].includes(u.protocol)?u.href:'';}catch(_){return '';}}
   window.escapeHtml=escapeHtml;
 
-  // Keep the existing order/payment UI, but write the actual order to Supabase.
-  const oldConfirm=window.confirmBayar;
-  window.confirmBayar=function(){const u=currentAccount();if(!u){openAuth('login');showError('Silakan login atau daftar terlebih dahulu.');return;}oldConfirm();};
-  const oldOpenPayment=window.bukaPembayaran;
-  window.bukaPembayaran=function(){const u=currentAccount();if(!u){openAuth('login');showError('Silakan login atau daftar terlebih dahulu untuk memesan.');return;}oldOpenPayment();};
+  // Order/payment entry points remain defined once in app.js.
 
   window.simpanRiwayat=async function(user,layanan,jumlah,total,id,value){
     const u=currentAccount();
@@ -1040,12 +1131,9 @@ document.querySelectorAll(".popup").forEach((popup) => {
     const ok=await loadFromDatabase();
     if(!ok)return;
     renderServiceDropdown(); updateAccountUI();
-    if(currentAccount().role==='admin' && /admin\.html(?:$|[?#])/.test(location.pathname+location.search)) setTimeout(()=>openAdminPanel(),80);
   }catch(e){
     console.error(e);
     showError('Gagal memuat database Supabase: '+(e?.message||'periksa konfigurasi/RLS.'));
     setTimeout(()=>window.location.replace('login.html'),2500);
   }
 })();
-
-  document.addEventListener('click', e => { if (!e.target.closest('.admin-custom-select')) document.querySelectorAll('.admin-custom-select.open').forEach(x=>x.classList.remove('open')); });

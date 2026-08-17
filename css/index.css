@@ -603,8 +603,7 @@
     border-color:var(--theme-purple-2) !important;
     box-shadow:0 0 12px rgba(139,92,246,.14) !important;
 }.popup-box .btn-bayar,
-.popup-box button[onclick="confirmBayar()"],
-.save-edit-btn{
+.popup-box button[onclick="confirmBayar()"]{
     background:linear-gradient(135deg,#6d28d9,#7c3aed,#8b5cf6) !important;
     box-shadow:0 7px 20px rgba(124,58,237,.22) !important;
 }.btn-riwayat{
@@ -735,3 +734,171 @@
     .btn-deskripsi{
         transition:none !important;
     }}
+
+
+/* ==========================================================
+   V4.5 LAYOUT HARDENING
+   Visual/layout only. No database or order logic changes.
+========================================================== */
+
+.container{
+    width:min(100%, 1000px);
+    padding-inline:20px;
+}
+
+.important-notice{
+    width:min(100%, 620px);
+    margin:70px auto 20px;
+    padding:10px 12px;
+    border:1px solid #9333ea;
+    border-radius:14px;
+    background:rgba(20,0,40,.7);
+    color:#f0abfc;
+    font-weight:700;
+    text-align:center;
+    overflow:hidden;
+}
+
+.important-notice-title{
+    width:100%;
+    padding-bottom:5px;
+    margin-bottom:5px;
+    border-bottom:2px solid #f472b6;
+    color:#ef4444;
+    font-family:'Poppins',sans-serif;
+    font-weight:900;
+    letter-spacing:1px;
+}
+
+.important-notice-track{
+    display:inline-block;
+    white-space:nowrap;
+    animation:jalan 17s linear infinite;
+}
+
+.payment{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+}
+
+.pay-item{
+    min-width:0;
+    min-height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+}
+
+.payment-logo{
+    width:auto;
+    height:20px;
+    max-width:100%;
+    object-fit:contain;
+}
+
+.history-box,
+.description-box{
+    max-height:80vh;
+    overflow:auto;
+    text-align:left;
+}
+
+.qris-image{
+    display:block;
+    width:100%;
+    max-height:55vh;
+    object-fit:contain;
+    border-radius:12px;
+    margin:10px 0;
+}
+
+.dana-number{
+    margin:0;
+    font-size:18px;
+    color:#f472b6;
+    text-align:center;
+    overflow-wrap:anywhere;
+}
+
+.description-text{
+    margin:0;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+    font-family:inherit;
+    line-height:1.45;
+}
+
+@media (min-width:769px) and (max-width:1199px){
+    .container{
+        padding-inline:18px;
+    }
+
+    .card{
+        max-width:440px;
+    }
+
+    .account-bar{
+        width:min(calc(100% - 36px),1000px);
+    }
+}
+
+@media (max-width:700px){
+    .container{
+        padding-inline:12px;
+    }
+
+    .important-notice{
+        width:min(100%,620px);
+        margin-top:64px;
+    }
+
+    .card{
+        max-width:none;
+        padding:17px;
+    }
+
+    .payment{
+        gap:8px;
+    }
+}
+
+@media (max-width:430px){
+    .container{
+        padding-inline:10px;
+    }
+
+    .important-notice{
+        margin-top:60px;
+        margin-bottom:16px;
+        padding:9px 10px;
+    }
+
+    .payment-logo{
+        height:18px;
+    }
+}
+
+@media (max-width:360px){
+    .card{
+        padding:14px;
+        border-radius:16px;
+    }
+
+    .payment{
+        grid-template-columns:1fr 1fr;
+        gap:6px;
+    }
+
+    .pay-item{
+        min-height:44px;
+        padding:9px 6px;
+    }
+}
+
+/* V4.9 account identity */
+.account-status{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.account-role{color:#c4b5fd;font-weight:900;text-transform:lowercase;}
+.account-role-sep{color:#8b5cf6;font-weight:900;}
+@media(max-width:430px){.account-status{font-size:12px;gap:4px;}}
