@@ -210,15 +210,9 @@ body{
    CONTAINER
 ===================================================== */
 
-
-
 /* ==================================================
    BANNER
 ===================================================== */
-
-
-
-
 
 .video-lock{
     position:absolute;
@@ -227,7 +221,6 @@ body{
     z-index:10;
     background:transparent;
 }
-
 
 /* ==================================================
    BANNER GLOW — SEDANG
@@ -258,10 +251,6 @@ body{
    PROFILE
 ===================================================== */
 
-
-
-
-
 @keyframes profileGlow{
 
     0%{
@@ -290,12 +279,6 @@ body{
    MARQUEE
 ===================================================== */
 
-
-
-
-
-
-
 @keyframes jalan{
 
     0%{
@@ -311,25 +294,13 @@ body{
    GRID
 ===================================================== */
 
-
-
 /* ==================================================
    CARD
 ===================================================== */
 
-
-
-
-
-
-
 /* ==================================================
    FORM
 ===================================================== */
-
-
-
-
 
 /* ==================================================
    INPUT
@@ -444,13 +415,7 @@ button:active{
    DROPDOWN
 ===================================================== */
 
-
-
 /* Selected */
-
-
-
-
 
 /* Arrow */
 
@@ -458,27 +423,13 @@ button:active{
     transition:transform .3s ease;
 }
 
-
-
 /* List */
 
-
-
-
-
 /* Item */
-
-
-
-
-
-
 
 /* ==================================================
    RIPPLE
 ===================================================== */
-
-
 
 @keyframes rippleAnim{
 
@@ -699,30 +650,14 @@ button:active{
    PAYMENT
 ===================================================== */
 
-
-
-
-
-
-
-
-
 /* ==================================================
    UPLOAD
 ===================================================== */
-
-
-
-
-
-
 
 #uploadText{
     font-size:13px;
     opacity:.8;
 }
-
-
 
 #previewImg{
     display:none;
@@ -737,55 +672,21 @@ button:active{
     border-radius:10px;
 }
 
-
-
 /* ==================================================
    FLOAT BUTTON
 ===================================================== */
-
-
-
-
-
-
 
 /* ==================================================
    FOOTER
 ===================================================== */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* ==================================================
    SOCIAL
 ===================================================== */
 
-
-
-
-
-
-
-
-
 /* ==================================================
    COPYRIGHT
 ===================================================== */
-
-
 
 /* ==========================================================
    ACCOUNT + DASHBOARD + ADMIN PANEL
@@ -795,8 +696,6 @@ button:active{
 .broadcast-item{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.broadcast-content{min-width:0;flex:1}.broadcast-delete-btn{flex:0 0 auto;padding:7px 10px;font-size:11px}.broadcast-delete-btn:hover{filter:brightness(1.08)}
 @media(max-width:480px){.broadcast-item{flex-direction:column}.broadcast-delete-btn{width:100%}}
 @media(max-width:700px){.admin-form{grid-template-columns:1fr}}
-
-
 
 /* ==========================================================
    USER DASHBOARD - PESANAN SAYA COMPACT
@@ -814,11 +713,6 @@ button:active{
   gap:2px;
 }
 
-
-
-
-
-
 @media(max-width:480px){
   .dashboard-section:has(#userOrders){
     padding:9px;
@@ -826,9 +720,7 @@ button:active{
   #userOrders{
     gap:1px;
   }
-  
-  
-  
+
   
 }
 
@@ -838,8 +730,7 @@ button:active{
 ===================================================== */
 @media (max-width:768px){
   html{scroll-behavior:auto;}
-  
-  
+
   .blue-fog{filter:none;opacity:.35;}
   .hex-layer::before{animation:none;}
   .particle{box-shadow:0 0 4px rgba(79,216,255,.4);}
@@ -857,21 +748,6 @@ button:active{
 
 /* LOGIN PAGE */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Admin shortcut - hanya terlihat untuk akun admin */
 .admin-mini{
   display:none;
@@ -882,7 +758,6 @@ button:active{
   border-color:rgba(0,170,255,.8);
   background:rgba(0,120,255,.12);
 }
-
 
 /* ==================================================
    ERROR POPUP - GLOBAL TOP LAYER
@@ -897,31 +772,14 @@ button:active{
     z-index:2147483647 !important;
 }
 
-
 /* ==================================================
    FOOTER VISIBILITY FIX
 ===================================================== */
-
-
-
-
-
-
-
-
-
 
 /* ==========================================================
    QRIS / DANA CONFIRM BUTTON FIX
    Keep confirmation buttons full-width and visually consistent.
 ========================================================== */
-
-
-
-
-
-
-
 
 /* ==========================================================
    ADMIN PANEL / TAMBAH PRODUK - SOLID & MOBILE STABLE
@@ -1079,7 +937,6 @@ button:active{
     }
 }
 
-
 /* ==========================================================
    ADMIN PANEL HEADER + EDIT PRODUCT POPUP
    ========================================================== */
@@ -1119,24 +976,11 @@ button:active{
     margin:0 !important;
 }
 
-
-
 /* ==========================================================
    ADMIN PAYMENT VERIFICATION — FINAL
 ========================================================== */
 
-
-
-
-
-
-
 .admin-actions-btn{border:1px solid rgba(34,211,238,.35);background:rgba(34,211,238,.08);color:#a5f3fc;border-radius:9px;padding:8px 10px;font-weight:700;cursor:pointer}
-
-
-
-
-
 
 /* ==========================================================
    DARK TRANSPARENT + BLURRED POPUPS
@@ -1158,41 +1002,12 @@ button:active{
    ADMIN PAGE
 ========================================================== */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Generic admin confirmation popup */
 #popupAdminConfirm{z-index:2147483647!important;}
 #popupAdminConfirm .popup-box{width:min(92vw,430px);text-align:center;align-items:stretch;padding:24px 20px 20px;}
 
-
-
-
 @media(max-width:700px){
-  
-  
-  
-  
-  
+
   
   
   #popupAdminConfirm .popup-box{width:calc(100vw - 30px);padding:22px 16px 17px;}
@@ -1258,14 +1073,8 @@ button:active{
 
 /* Transaksi: Proses | Sukses | Batal */
 
-
-
-
 @media(max-width:700px){
     /* Tetap 3 kolom di HP — tidak ditumpuk vertikal */
-    
-
-    
 
     /* User table memang dapat discroll horizontal, tetapi 3 tombol
        aksi tetap berada dalam satu baris. */
@@ -1279,10 +1088,6 @@ button:active{
    User / Produk / Transaksi
 ========================================================== */
 
-
-
-
-
 /* ==========================================================
    PRODUCT POSITION CONTROL
    Circular ↑ button in the top-right corner of each product.
@@ -1294,7 +1099,6 @@ button:active{
 .product-move-up:disabled{opacity:.28;cursor:not-allowed;transform:none;}
 .admin-product-row .admin-product-price{padding-right:38px;}
 @media(max-width:700px){.admin-product-row{padding-top:42px;}.product-move-up{top:8px;right:8px;}.admin-product-row .admin-product-price{padding-right:38px;}}
-
 
 /* ==========================================================
    ADMIN PRODUK - PILIHAN KATEGORI & ICON
@@ -1333,7 +1137,6 @@ button:active{
     object-fit:contain;
     flex:0 0 30px;
 }
-
 
 /* ==========================================================
    ADMIN PRODUK - CUSTOM DROPDOWN MOBILE FRIENDLY
@@ -1697,7 +1500,6 @@ button:active{
 
 /* Keep inner sections neutral like the reference design */
 
-
 /* Admin custom dropdowns stay dark and compact */
 .popup-box.admin-box .admin-custom-select .admin-select-trigger,
 .popup-box.admin-box .admin-custom-select .admin-select-options,
@@ -1709,7 +1511,6 @@ button:active{
 .popup-box.admin-box .admin-custom-select .admin-select-options {
     background: #1f1e2c !important;
 }
-
 
 /* ==========================================================
    POPUP THEME — MATCH REFERENSI WARGAKEPO
@@ -1755,7 +1556,6 @@ button:active{
     border-color:#3f3e4d !important;
 }
 
-
 /* ==========================================================
    FINAL MAIN BACKGROUND — MATCH WARGAKEPO REFERENCE
    Dark neutral gray/purple-black, clean and soft.
@@ -1790,9 +1590,7 @@ body{
 
 /* Admin page */
 
-
 /* Login page */
-
 
 /* Keep the same neutral tone behind standalone sections */
 body:has(.login-page),
@@ -1849,22 +1647,7 @@ html,body{
         linear-gradient(145deg,#0b0a12,#11101b 70%,#0c0b14) !important;
 }
 
-
-
-
-
-
-
-
-
-
-
 /* Main store cards */
-
-
-
-
-
 
 /* Inputs */
 .input,
@@ -1905,20 +1688,12 @@ button:hover,
 
 /* Do not override semantic danger/success buttons */
 
-
 .success-btn,
 .popup-box.admin-box .success-btn.full{
     background:linear-gradient(135deg,#059669,#10b981) !important;
 }
 
 /* Dropdown */
-
-
-
-
-
-
-
 
 /* Popups — same graphite panel as reference */
 .popup{
@@ -1948,7 +1723,6 @@ button:hover,
 
 /* Dashboard */
 
-
 .stat-card{
     background:#171622 !important;
     border-color:rgba(124,58,237,.34) !important;
@@ -1973,25 +1747,7 @@ button:hover,
 
 /* Payment / upload */
 
-
-
-
-
-
-
-
-
-
-
-
 /* History / account buttons */
-
-
-
-
-
-
-
 
 /* Admin panel */
 .popup-box.admin-box,
@@ -2029,25 +1785,11 @@ button:hover,
     color:#c4b5fd !important;
 }
 
-
-
-
-
-
-
 /* Broadcast / order cards */
-
 
 /* Keep special status colors semantic, but reduce glow */
 
-
-
 /* Footer */
-
-
-
-
-
 
 /* Reduce the old neon/cyan feel */
 .admin-mini{
@@ -2059,8 +1801,6 @@ button:hover,
     border-color:rgba(139,92,246,.75) !important;
     background:rgba(124,58,237,.10) !important;
 }
-
-
 
 /* ==========================================================
    CLEAN + RESPONSIVE + LIGHTWEIGHT FINAL PATCH
@@ -2083,9 +1823,6 @@ button:hover,
 
 /* Riwayat Pesanan: glow tipis hijau seperti WhatsApp */
 
-
-
-
 /* Section Pesanan Saya juga mendapat halo yang sangat tipis */
 .dashboard-section:has(#userOrders){
     border-color:rgba(37,211,102,.13) !important;
@@ -2098,19 +1835,11 @@ button:hover,
 
 /* Pesanan dibuat lebih clean, tidak terlalu bercahaya */
 
-
 /* Semua card utama: clean, tetap punya depth tanpa glow berat */
-
 
 /* Tombol utama konsisten */
 
-
 /* Login mengikuti tema ungu/graphite, bukan biru neon */
-
-
-
-
-
 
 /* Mobile: hilangkan efek mahal yang tidak diperlukan */
 @media (max-width:768px){
@@ -2121,23 +1850,9 @@ button:hover,
 
     
 
-    
-
-    
-
-    
-
     .popup-box{
         animation:popupAnim .18s ease !important;
     }
-
-    
-
-    
-
-    
-
-    
 
     
 
@@ -2154,20 +1869,11 @@ button:hover,
     }
 
     
-
-    
-    
 }
 
 /* Extra-small phones */
 @media (max-width:380px){
     body{font-size:13px;}
-
-    
-
-    
-
-    
 
     .stat-card{
         padding:10px;
@@ -2178,8 +1884,6 @@ button:hover,
 }
 
 /* Respect device motion preference and keep rendering cheap */
-
-
 
 /* ==========================================================
    FINAL SOFT WHATSAPP GLOW
@@ -2194,9 +1898,6 @@ button:hover,
 
 /* Riwayat: ikon tetap ungu, hanya mendapat halo hijau tipis */
 
-
-
-
 /* Tombol Lihat Deskripsi: glow sangat tipis agar menyatu dengan UI */
 .btn-deskripsi{
     box-shadow:
@@ -2207,9 +1908,7 @@ button:hover,
 
 /* WhatsApp: samakan intensitas dengan elemen lain, tidak menyilaukan */
 
-
 /* Jangan animasikan glow terus-menerus di HP */
-
 
 /* ==========================================================
    FINAL THEME GLOW — PURPLE / LAVENDER
@@ -2225,9 +1924,6 @@ button:hover,
 }
 
 /* Riwayat Pesanan — glow mengikuti warna tombolnya */
-
-
-
 
 /* Lihat Deskripsi — tetap ungu, glow sangat tipis */
 .btn-deskripsi{
@@ -2247,11 +1943,7 @@ button:hover,
    BANNER — SOFT PURPLE GLOW
 ========================================================== */
 
-
-
-
 /* Tetap ringan di HP: tidak ada animasi/filter tambahan */
-
 
 /* ==========================================================
    V4.5 GLOBAL VIEWPORT / TOUCH SAFETY
@@ -2301,10 +1993,20 @@ button:hover,
     }
 }
 
-
 /* JYYR UI ICONS — single shared sizing/alignment authority */
 .ui-icon{display:inline-block;width:1.15em;height:1.15em;flex:0 0 auto;vertical-align:-0.2em;stroke:currentColor;fill:none;pointer-events:none;}
 button .ui-icon,.mini-btn .ui-icon,.admin-tab .ui-icon,.feature-btn .ui-icon{width:18px;height:18px;vertical-align:middle;}
 .btn-close .ui-icon{width:20px;height:20px;vertical-align:middle;}
 
 .ui-icon-wrap{display:inline-flex;align-items:center;justify-content:center;line-height:1;vertical-align:middle;}
+
+.popup{z-index:10000 !important;}
+.jyyr-feature-popup{z-index:11000 !important;}
+#jyyrAdminDialog{z-index:12000 !important;}
+#popupSuccess,
+#popupError,
+.jyyr-fallback-toast{z-index:13000 !important;}
+#loading{z-index:14000 !important;}
+#popupSuccess .popup-box,
+#popupError .popup-box,
+#jyyrAdminDialog .popup-box{z-index:1 !important;}

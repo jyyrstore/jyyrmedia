@@ -277,7 +277,6 @@
     .recent-side{text-align:left;}
 }
 
-/* V4.7 dashboard final readability */
 .dashboard-head-actions{gap:10px !important;}
 .dashboard-head-actions button{min-height:42px !important;padding:9px 13px !important;}
 .quick-grid{gap:10px !important;}

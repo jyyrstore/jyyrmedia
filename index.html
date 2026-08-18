@@ -424,11 +424,14 @@ dengan harga terjangkau, proses cepat, dan terpercaya.
     <img alt="WA" src="https://cdn-icons-png.flaticon.com/512/733/733585.png"/>
    </a>
    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.111.0"></script>
-  <script src="js/supabase-config.js"></script>
-  <script src="js/app.js"></script>
+    <script src="js/supabase-config.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/overlay.js"></script>
+  <script src="js/popup.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/main.js"></script>
   <script src="js/jyyr-features.js"></script>
- <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}</script>
+  <script src="js/load.js"></script>
 
-<script>document.addEventListener('DOMContentLoaded',()=>{if(!window.jyyrIcon)return;document.querySelectorAll('[data-icon]').forEach(n=>{const name=n.dataset.icon;const holder=document.createElement('span');holder.innerHTML=window.jyyrIcon(name);const el=holder.firstElementChild;if(el)n.replaceWith(el);});});</script>
 </body>
 </html>

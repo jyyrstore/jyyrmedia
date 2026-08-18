@@ -382,7 +382,6 @@
     }
 }
 
-
 /* ==========================================================
    V4.5 TABLET / TOUCH LAYOUT HARDENING
 ========================================================== */
@@ -515,7 +514,6 @@
  .admin-page-shell{width:calc(100% - 10px)}
  .admin-page-main{padding:10px}
 }
-
 
 /* ==========================================================
    V4.6 ADMIN UI — CONSISTENT SIZE SYSTEM
@@ -688,11 +686,6 @@
     }
 }
 
-/* ==========================================================
-   V4.7 — ADMIN PANEL SPACING / CONTROL POLISH
-   Scoped only to admin.html. No JS/data/RPC behavior changed.
-   Design rule: text size stays stable; controls get enough room.
-========================================================== */
 .admin-page{
   --adm-gap:10px;
   --adm-control-h:42px;
@@ -1011,10 +1004,6 @@
   .admin-page #orderFeatureList .feature-user-card .admin-actions button{font-size:9px !important;padding-inline:3px !important}
 }
 
-/* =========================================================
-   V4.7 ADMIN UI FINAL POLISH
-   Spacing, readable labels, touch targets and popup content.
-========================================================= */
 .admin-page-main .admin-actions,
 .admin-page-main .feature-form-inline,
 .admin-page-main .feature-toolbar,
@@ -1129,11 +1118,6 @@
 .admin-dialog-actions button{width:100% !important;min-height:44px !important;}
 @media(max-width:360px){.admin-dialog-actions{grid-template-columns:1fr !important;}}
 
-
-/* =========================================================
-   V4.7.2 — DASHBOARD & STATISTICS HORIZONTAL STRIP
-   Satu baris, compact, bisa swipe horizontal di HP.
-========================================================= */
 .admin-page #adminContent .admin-stats-wrap{
     position:relative;
     width:100%;
@@ -1257,21 +1241,7 @@
     }
 }
 
-
-/* =========================================================
-   JYYR ADMIN — DASHBOARD STATISTIK HORIZONTAL
-   FINAL OVERRIDE — existing admin CSS preserved
-========================================================= */
 .dashboard-stats{display:flex!important;flex-wrap:nowrap!important;gap:10px!important;width:100%;overflow-x:auto!important;overflow-y:hidden!important;margin-top:12px;padding:2px 2px 10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}.dashboard-stats::-webkit-scrollbar{display:none}.dashboard-stat{flex:0 0 125px!important;width:125px!important;min-width:125px!important;min-height:78px;padding:12px!important;border-radius:13px;box-sizing:border-box;scroll-snap-align:start}.dashboard-stat span,.dashboard-stat small{display:block;margin:0;font-size:9px;font-weight:700;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dashboard-stat strong{display:block;margin-top:8px;font-size:17px;font-weight:900;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dashboard-stats::after{content:"Geser →";flex:0 0 auto;display:flex;align-items:center;justify-content:center;min-width:70px;height:78px;padding:0 10px;border:1px dashed rgba(167,139,250,.35);border-radius:13px;color:#a78bfa;font-size:9px;font-weight:800;white-space:nowrap;box-sizing:border-box}@media(max-width:600px){.dashboard-stats{gap:8px!important;margin-top:10px;padding-left:1px;padding-right:1px;padding-bottom:9px}.dashboard-stat{flex-basis:118px!important;width:118px!important;min-width:118px!important;min-height:74px;padding:11px!important}.dashboard-stat strong{font-size:16px;margin-top:7px}.dashboard-stats::after{min-width:64px;height:74px;font-size:8px}}@media(max-width:380px){.dashboard-stats{gap:7px!important}.dashboard-stat{flex-basis:112px!important;width:112px!important;min-width:112px!important;min-height:70px;padding:10px!important}.dashboard-stat span,.dashboard-stat small{font-size:8px}.dashboard-stat strong{font-size:15px}.dashboard-stats::after{min-width:60px;height:70px}}
-
-
-/* =========================================================
-   V4.7.3 — FINAL ACTUAL DASHBOARD STATISTICS OVERRIDE
-   Targets the real V4.7 structure:
-   .admin-stats-wrap
-   .admin-stats-strip
-   .admin-stat-item
-========================================================= */
 
 .admin-page #adminContent .admin-stats-wrap{
     width:100% !important;
@@ -1394,12 +1364,6 @@
     }
 }
 
-/* =========================================================
-   JYYR ADMIN — MOBILE UI REPAIR / ACTUAL COMPONENT OVERRIDE
-   - No horizontal swipe except tabs + dashboard statistics.
-   - Long text must wrap by word, never one character per line.
-   - Action buttons stay separated and centered.
-========================================================= */
 .admin-page #adminContent,
 .admin-page #adminContent *{box-sizing:border-box;}
 
@@ -1632,11 +1596,6 @@
 
 }
 
-
-/* =========================================================
-   V4.7.1 — PRODUCT / CATEGORY MOBILE CORRECTION
-   Fixes category names collapsing into one character per line.
-========================================================= */
 .admin-page #adminContent .dashboard-section .feature-list .feature-row,
 .admin-page #adminContent .feature-list > .feature-row{
   display:grid !important;
@@ -1817,15 +1776,6 @@
     }
 }
 
-
-/* =========================================================
-   V4.7.4 — FINAL MOBILE ADMIN UI AUTHORITY
-   - Level cards become compact horizontal cards.
-   - Level edit is a round icon in the top-right corner.
-   - Product actions stay in ONE horizontal strip on phones.
-   - Icon/text sizing follows the actual button dimensions.
-   - Never force crowded controls into a long vertical stack.
-========================================================= */
 .admin-page #adminContent .levels-list{
   display:flex !important;
   flex-wrap:nowrap !important;
@@ -2045,12 +1995,6 @@
   .admin-page #adminContent .levels-list > .level-feature-card{flex-basis:78vw !important;min-width:78vw !important}
 }
 
-
-/* =========================================================
-   V4.8 CLEAN ADMIN CONTROLS — FINAL AUTHORITY
-   Product controls are attached to each product card and remain
-   separated on mobile. Security actions never touch each other.
-========================================================= */
 .admin-page #adminContent .security-action-stack{
   display:grid !important;
   gap:9px !important;
@@ -2206,16 +2150,10 @@
 .admin-page .broadcast-compose-grid .input{width:100%;} 
 .admin-page .broadcast-send-btn{flex:0 0 180px !important;min-height:44px;}
 .admin-role-badge{color:#c4b5fd;font-weight:900;font-size:10px;}
-.jyyr-fallback-toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:2147483647;padding:11px 15px;border-radius:12px;background:#171221;color:#fff;border:1px solid rgba(168,85,247,.45);box-shadow:0 10px 35px rgba(0,0,0,.4);font-weight:800;font-size:12px;max-width:min(92vw,480px);text-align:center;}
+.jyyr-fallback-toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:13000;padding:11px 15px;border-radius:12px;background:#171221;color:#fff;border:1px solid rgba(168,85,247,.45);box-shadow:0 10px 35px rgba(0,0,0,.4);font-weight:800;font-size:12px;max-width:min(92vw,480px);text-align:center;}
 .jyyr-fallback-toast.err{border-color:rgba(239,68,68,.5);}
 @media(max-width:700px){.admin-page #productFeatureList .product-action-strip{gap:8px !important;}.admin-page .broadcast-feature-row{align-items:stretch;flex-direction:column;}.admin-page .broadcast-feature-delete{width:100%;min-width:0;}.admin-page .broadcast-send-btn{width:100%;flex:1 1 auto !important;}}
 
-
-/* =========================================================
-   V4.9.1 — CLEAN ADMIN TAB LAYOUT
-   Single source of truth for admin tab navigation.
-   No horizontal scrolling / no nowrap.
-========================================================= */
 .admin-page-main .admin-tabs{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(118px,1fr));
@@ -2288,7 +2226,6 @@
     }
 }
 
-/* V4.9.1 — ADMIN ACTION SPACING */
 .admin-page-main .admin-actions{
     gap:10px !important;}
 .admin-page-main .admin-actions > button{
@@ -2301,12 +2238,6 @@
     }
 }
 
-
-/* =========================================================
-   V4.9.2 — ADMIN UI POLISH
-   Action buttons use text-only labels, equal sizing and safe gaps.
-   The admin header intentionally keeps only Store + Log Out.
-========================================================= */
 .admin-page .admin-page-actions{
     display:grid !important;
     grid-template-columns:repeat(2,minmax(120px,1fr));
@@ -2421,8 +2352,6 @@
     }
 }
 
-
-/* V4.9.2 — custom admin option menus; no native browser dropdown styling. */
 .admin-page-main .jyyr-custom-select{
     position:relative;
     flex:1 1 150px;
@@ -2491,8 +2420,6 @@
     .admin-page-main .jyyr-custom-select-button{min-height:44px !important;}
 }
 
-
-/* v4.9.4 final admin layout normalization */
 .admin-tabs{
   min-width:0;
   max-width:100%;
@@ -2540,11 +2467,6 @@
   }
 }
 
-
-/* =========================================================
-   V4.9.5 — MOBILE LAYOUT POLISH
-   Presentation only: no data/RPC/business logic changes.
-========================================================= */
 .admin-page .admin-subsection-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:16px 0 9px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.055)}
 .admin-page .admin-subsection-head h4{display:flex;align-items:center;gap:7px;margin:0;color:#e9ddff;font-size:13px;line-height:1.25}
 .admin-page .admin-subsection-head small{margin:0;color:#8f899d;font-size:10px;line-height:1.4;text-align:right}

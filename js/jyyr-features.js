@@ -2,7 +2,7 @@
 /* =========================================================
    JYYR STORE V4 FEATURE PACK
    No external API. Supabase/Auth/Storage only.
-   Loaded after app.js.
+   Loaded after main.js and popup.js.
 ========================================================= */
 (function(){
   const wait=ms=>new Promise(r=>setTimeout(r,ms));
@@ -35,36 +35,8 @@
     const u=account();
     return !!u && ['owner','admin'].includes(window.jyyrRoleLabel?.(u));
   }
-  function adminDialog(mode, title, message='', value='', options={}){
-    return new Promise(resolve=>{
-      const id='jyyrAdminDialog'; document.getElementById(id)?.remove();
-      const box=document.createElement('div'); box.id=id; box.className='popup show jyyr-feature-popup';
-      const multiline=options.multiline===true;
-      const input=mode==='prompt' ? (multiline
-        ? `<textarea id="jyyrAdminDialogInput" class="input admin-dialog-input" rows="5" placeholder="${esc(options.placeholder||'')}">${esc(value??'')}</textarea>`
-        : `<input id="jyyrAdminDialogInput" class="input admin-dialog-input" value="${esc(value??'')}" placeholder="${esc(options.placeholder||'')}" ${options.type==='number'?'inputmode="decimal"':''} ${options.type==='password'?'type="password"':''}>`) : '';
-      const okLabel=options.okLabel||'Lanjutkan', cancelLabel=options.cancelLabel||'Batal';
-      box.innerHTML=`<div class="popup-box feature-box admin-dialog-box"><div class="feature-head"><div><h3>${esc(title)}</h3>${message?`<p class="admin-dialog-message">${esc(message)}</p>`:''}</div><button type="button" class="btn-close" aria-label="Tutup">${jyyrIcon('close')}</button></div>${input}<div class="popup-actions admin-dialog-actions"><button type="button" class="admin-confirm-cancel" id="jyyrAdminDialogCancel">${esc(cancelLabel)}</button><button type="button" class="admin-confirm-ok${options.danger?' admin-confirm-danger':''}" id="jyyrAdminDialogOk">${esc(okLabel)}</button></div></div>`;
-      document.body.appendChild(box);
-      const close=result=>{box.remove();resolve(result);};
-      box.querySelector('.btn-close').onclick=()=>close(null);
-      box.querySelector('#jyyrAdminDialogCancel').onclick=()=>close(null);
-      box.querySelector('#jyyrAdminDialogOk').onclick=()=>{
-        if(mode==='confirm') return close(true);
-        const el=box.querySelector('#jyyrAdminDialogInput'); let v=el?.value??'';
-        if(options.trim!==false) v=v.trim();
-        if(options.required && !v){el?.focus();return;}
-        if(options.type==='number'){const n=Number(v);if(!Number.isFinite(n)){el?.focus();return;}v=n;}
-        close(v);
-      };
-      if(mode==='prompt') setTimeout(()=>box.querySelector('#jyyrAdminDialogInput')?.focus(),30);
-      box.addEventListener('keydown',e=>{if(e.key==='Escape')close(null);if(e.key==='Enter'&&!multiline&&e.target?.id==='jyyrAdminDialogInput')box.querySelector('#jyyrAdminDialogOk')?.click();});
-    });
-  }
-  const adminPrompt=(title,value='',options={})=>adminDialog('prompt',title,'',value,options);
-  const adminConfirm=(title,message='',options={})=>adminDialog('confirm',title,message,'',options);
-  window.jyyrAdminPrompt=adminPrompt;
-  window.jyyrAdminConfirm=adminConfirm;
+  const adminPrompt=(...args)=>window.jyyrAdminPrompt(...args);
+  const adminConfirm=(...args)=>window.jyyrAdminConfirm(...args);
 
   async function getProfile(){
     const u=account(); if(!u||!client()) return null;
@@ -152,7 +124,18 @@
     </div>`;
     document.body.appendChild(box);
   };
-  window.jyyrBalanceHistory=()=>jyyrWallet();
+  window.jyyrBalanceHistory=async function(){
+    const u=account(); if(!u)return;
+    const led=await q(client().from('balance_ledger').select('*').eq('user_id',u.id).order('created_at',{ascending:false}).limit(100));
+    document.getElementById('jyyrFeaturePopup')?.remove();
+    document.getElementById('jyyrBalanceHistoryPopup')?.remove();
+    const box=document.createElement('div');box.className='popup show jyyr-feature-popup';box.id='jyyrBalanceHistoryPopup';
+    box.innerHTML=`<div class="popup-box feature-box">
+      <div class="feature-head"><h3>${jyyrIcon('receipt')} Riwayat Saldo</h3><button class="btn-close" onclick="document.getElementById('jyyrBalanceHistoryPopup')?.remove()" aria-label="Tutup">${jyyrIcon('close')}</button></div>
+      <div class="feature-list">${led.length?led.map(x=>`<div class="feature-row"><div><b>${esc(x.reason||'Perubahan saldo')}</b><small>${fmt(x.created_at)}</small></div><strong class="${Number(x.delta)>=0?'positive':'negative'}">${Number(x.delta)>=0?'+':''}${rup(x.delta)}</strong></div>`).join(''):'Belum ada transaksi saldo.'}</div>
+    </div>`;
+    document.body.appendChild(box);
+  };
   window.jyyrCloseFeature=()=>document.getElementById('jyyrFeaturePopup')?.remove();
 
   window.jyyrDeposit=async function(){
@@ -563,7 +546,7 @@
   window.jyyrReviewDeposit=async(id,status)=>{const reason=status==='rejected'?await adminPrompt('Alasan Penolakan Deposit','',{multiline:true,required:true}):null;if(status==='rejected'&&reason===null)return;try{await q(client().rpc('admin_review_deposit',{p_id:id,p_status:status,p_reason:reason}));toast('Deposit diperbarui.');renderPayments();}catch(e){toast(e.message,'err');}};
   window.jyyrPaymentDetail=async id=>{const p=adminCache.payments.find(x=>x.id===id);if(!p)return;let proofUrl='';if(p.proof_path){try{const r=await client().storage.from('payment-proofs').createSignedUrl(p.proof_path,600);if(!r.error)proofUrl=r.data?.signedUrl||'';}catch(_){} }const box=document.createElement('div');box.className='popup show jyyr-feature-popup';box.innerHTML=`<div class="popup-box feature-box"><div class="feature-head"><h3>${jyyrIcon('card')} Bukti Pembayaran</h3><button class="btn-close" onclick="this.closest('.popup').remove()" aria-label="Tutup">${jyyrIcon('close')}</button></div><div style="display:grid;gap:12px"><div style="font-size:12px;line-height:1.7"><b>ID:</b> ${esc(p.id)}<br><b>Order:</b> ${esc(p.orders?.id||'—')}<br><b>User:</b> ${esc(p.orders?.profiles?.username||'—')}<br><b>Method:</b> ${esc(p.method)}<br><b>Amount:</b> ${rup(p.orders?.total)}<br><b>Status:</b> ${esc(p.status)}<br><b>Dibuat:</b> ${fmt(p.created_at)}</div>${proofUrl?`<div><div style="font-weight:700;margin-bottom:7px">Foto Bukti Transfer</div><img src="${esc(proofUrl)}" alt="Bukti pembayaran" style="display:block;width:100%;max-height:70vh;object-fit:contain;border-radius:12px;background:#111;border:1px solid rgba(255,255,255,.12)" onclick="window.open(this.src,'_blank')"></div>`:`<div class="feature-empty">Foto bukti pembayaran tidak tersedia.</div>`}</div></div>`;document.body.appendChild(box);};
 
-  window.jyyrPaymentReceipt=async id=>{const p=adminCache.payments.find(x=>x.id===id);if(!p)return;let proofUrl='';if(p.proof_path){try{const r=await client().storage.from('payment-proofs').createSignedUrl(p.proof_path,600);if(!r.error)proofUrl=r.data?.signedUrl||'';}catch(_){} }const w=open('','_blank');if(!w)return;w.document.write(`<html><head><title>Bukti Pembayaran</title><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{font-family:Arial,sans-serif;background:#f6f7fb;color:#111;margin:0;padding:20px}main{max-width:700px;margin:auto;background:#fff;padding:18px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.08)}h1{margin:0 0 4px;font-size:22px}h2{margin:0 0 18px;font-size:16px;color:#555}.meta{font-size:13px;line-height:1.8;margin-bottom:18px}.proof-title{font-weight:700;margin-bottom:8px}.proof{display:block;width:100%;max-height:75vh;object-fit:contain;border-radius:12px;background:#eee;border:1px solid #ddd}.empty{padding:18px;border-radius:10px;background:#f1f1f1;color:#666}</style></head><body><main><h1>JYYR STORE</h1><h2>Bukti Pembayaran</h2><div class="meta"><b>Payment ID:</b> ${esc(p.id)}<br><b>Order:</b> ${esc(p.orders?.id||'—')}<br><b>User:</b> ${esc(p.orders?.profiles?.username||'—')}<br><b>Method:</b> ${esc(p.method)}<br><b>Amount:</b> ${rup(p.orders?.total)}<br><b>Status:</b> ${esc(p.status)}<br><b>Created:</b> ${fmt(p.created_at)}</div><div class="proof-title">Foto Bukti Transfer</div>${proofUrl?`<img class="proof" src="${esc(proofUrl)}" alt="Bukti pembayaran">`:`<div class="empty">Foto bukti pembayaran tidak tersedia.</div>`}</main></body></html>`);w.document.close();};
+  window.jyyrPaymentReceipt=async id=>{const p=adminCache.payments.find(x=>x.id===id);if(!p)return;let proofUrl='';if(p.proof_path){try{const r=await client().storage.from('payment-proofs').createSignedUrl(p.proof_path,600);if(!r.error)proofUrl=r.data?.signedUrl||'';}catch(_){} }const w=open('','_blank');if(!w)return;w.document.write(`<html><head><title>Bukti Pembayaran</title><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="css/receipt.css"></head><body><main><h1>JYYR STORE</h1><h2>Bukti Pembayaran</h2><div class="meta"><b>Payment ID:</b> ${esc(p.id)}<br><b>Order:</b> ${esc(p.orders?.id||'—')}<br><b>User:</b> ${esc(p.orders?.profiles?.username||'—')}<br><b>Method:</b> ${esc(p.method)}<br><b>Amount:</b> ${rup(p.orders?.total)}<br><b>Status:</b> ${esc(p.status)}<br><b>Created:</b> ${fmt(p.created_at)}</div><div class="proof-title">Foto Bukti Transfer</div>${proofUrl?`<img class="proof" src="${esc(proofUrl)}" alt="Bukti pembayaran">`:`<div class="empty">Foto bukti pembayaran tidak tersedia.</div>`}</main></body></html>`);w.document.close();};
 
   /* ---------------- Loyalty ---------------- */
   async function renderLevels(){
@@ -755,7 +738,7 @@
     add('support','Support','message');
   }
 
-  // Checkout helpers consumed by the single app.js updateHarga()/bukaPembayaran()
+  // Checkout helpers consumed by the single index.js updateHarga()/bukaPembayaran()
   // implementations. No wrapper replaces the global functions.
   window.jyyrGetCheckoutDiscount=async function(){
     let discount=0;
